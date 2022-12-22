@@ -6,8 +6,8 @@ Primarily a learning project, but also intended to provide a usable minimal Linu
 
 ## Usage
 
-Running the version check script can be done as follows:
-    docker run -v $(pwd)/prebuild-lfs:/lfs ronhatch/prebuild-lfs /lfs/version-check.sh
+Running the version check script can be done as follows:  
+`docker run -v $(pwd)/prebuild-lfs:/lfs ronhatch/prebuild-lfs /lfs/version-check.sh`
 
 On Windows, unless you are using a Linux-style command line such as WSL, you will need to replace `$(pwd)` as follows:
 - In PowerShell, use `${PWD}`
