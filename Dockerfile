@@ -12,11 +12,8 @@ RUN rm -f /bin/sh; \
     ln -sv /usr/bin/bash /bin/sh; \
     groupadd --gid 1000 lfs; \
     useradd --uid 1000 -s /bin/bash -g lfs -m -k /dev/null lfs; \
-    mkdir -pv $LFS/etc $LFS/lib64 $LFS/tools $LFS/var \
-              $LFS/usr/bin $LFS/usr/lib $LFS/usr/sbin; \
-    ln -sv usr/bin $LFS/bin; \
-    ln -sv usr/lib $LFS/lib; \
-    ln -sv usr/sbin $LFS/sbin; \
+    mkdir -pv $LFS/{etc,lib64,tools,var} $LFS/usr/{bin,lib,sbin}; \
+    for i in bin lib sbin; do ln -sv usr/$i $LFS/$i; done; \
     mkdir -pv $LFS_SRC; \
     chown lfs:lfs -R $LFS $LFS_SRC; \
     chmod a+wt $LFS_SRC; \
