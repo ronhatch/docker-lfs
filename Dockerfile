@@ -24,15 +24,13 @@ WORKDIR /home/lfs
 
 # --- Binutils 1st pass: Chapter 5.2 ---
 FROM prebuild AS binutils-1
-MAINTAINER Ron Hatch <ronhatch@earthlink.net>
 ADD --chown=lfs https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS/sources
-RUN pushd $LFS/sources; \
+RUN cd $LFS/sources; \
     tar xf binutils-2.39.tar.xz; \
-    mkdir -v binutils-2.39/build; \
-    cd binutils-2.39/build; \
+    mkdir -v binutils-2.39/build
+RUN cd $LFS/sources/binutils-2.39/build; \
     ../configure --prefix=$LFS/tools --with-sysroot=$LFS \
         --target=$LFS_TGT --disable-nls \
         --enable-gprofng=no --disable-werror && \
-    make && make install; \
-    popd; \
-    rm -rf $LFS/sources/binutils-2.39*
+    make && make install
+
