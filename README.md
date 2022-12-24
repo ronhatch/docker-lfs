@@ -12,10 +12,6 @@ Running the version check script can be done as follows:
 Running an interactive shell in the pre-build environment can be done using:  
 `docker run -it ronhatch/linuxfromscratch-prebuild`
 
-On Windows, unless you are using a Linux-style command line such as WSL, you will need to replace `$(pwd)` as follows:
-- In PowerShell, use `${PWD}`
-- In Command Shell (Cmd.exe), use `%cd%`
-
 ## Building
 
 Images were built using:  
