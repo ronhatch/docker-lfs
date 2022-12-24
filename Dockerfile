@@ -1,6 +1,6 @@
 # --- Prebuild environment: Chapters 1-4 ---
 FROM ubuntu:22.04 AS prebuild
-MAINTAINER Ron Hatch <ronhatch@earthlink.net>
+LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
 ENV LFS=/lfs
 ENV LFS_SRC=/home/lfs/sources
 ENV LC_ALL=POSIX
