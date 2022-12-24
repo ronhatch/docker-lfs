@@ -7,10 +7,10 @@ Primarily a learning project, but also intended to provide a usable minimal Linu
 ## Usage
 
 Running the version check script can be done as follows:  
-`docker run -v $(pwd)/prebuild-lfs:/home/lfs ronhatch/prebuild-lfs /home/lfs/version-check.sh`
+`docker run ronhatch/linuxfromscratch-prebuild /home/lfs/version-check.sh`
 
 Running an interactive shell in the pre-build environment can be done using:  
-`docker run -it -v $(pwd)/prebuild-lfs:/home/lfs ronhatch/prebuild-lfs /bin/bash`
+`docker run -it ronhatch/linuxfromscratch-prebuild`
 
 On Windows, unless you are using a Linux-style command line such as WSL, you will need to replace `$(pwd)` as follows:
 - In PowerShell, use `${PWD}`
@@ -19,4 +19,4 @@ On Windows, unless you are using a Linux-style command line such as WSL, you wil
 ## Building
 
 Images were built using:  
-`docker build -t ronhatch/[image-name] . 2>&1 | tee image-build.log`
+`docker build --target=[stage] -t ronhatch/linuxfromscratch-[stage] . 2>&1 | tee build-logs/[stage].log`
