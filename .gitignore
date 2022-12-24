@@ -1,2 +1,5 @@
 # Ignore any bash history files left over from interactive containers
 **/.bash_history
+
+# Ignore log files
+build-logs
