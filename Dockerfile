@@ -1,3 +1,4 @@
+# --- Prebuild environment: Chapters 1-4 ---
 FROM ubuntu:22.04 AS prebuild
 MAINTAINER Ron Hatch <ronhatch@earthlink.net>
 ENV LFS=/lfs
@@ -21,6 +22,7 @@ RUN rm -f /bin/sh; \
 USER lfs
 WORKDIR /home/lfs
 
+# --- Binutils 1st pass: Chapter 5.2 ---
 FROM prebuild AS binutils-1
 MAINTAINER Ron Hatch <ronhatch@earthlink.net>
 ADD --chown=lfs https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS/sources
