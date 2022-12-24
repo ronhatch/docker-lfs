@@ -16,4 +16,7 @@ On Windows, unless you are using a Linux-style command line such as WSL, you wil
 - In PowerShell, use `${PWD}`
 - In Command Shell (Cmd.exe), use `%cd%`
 
-No additional options are needed when building the image other than setting desired tags. This won't be needed when using the published image from Docker Hub.
+## Building
+
+The image was built using:  
+`docker build -t ronhatch/prebuild-lfs . 2>&1 | tee image-build.log`
