@@ -18,5 +18,5 @@ On Windows, unless you are using a Linux-style command line such as WSL, you wil
 
 ## Building
 
-The image was built using:  
-`docker build -t ronhatch/prebuild-lfs . 2>&1 | tee image-build.log`
+Images were built using:  
+`docker build -t ronhatch/[image-name] . 2>&1 | tee image-build.log`

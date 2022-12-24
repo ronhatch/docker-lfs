@@ -1,0 +1,2816 @@
+#1 [internal] load build definition from Dockerfile
+#1 sha256:ddaf3dd51f95df5c344c19930089092985543b31e2d90c0810215ef429b279be
+#1 transferring dockerfile: 38B done
+#1 DONE 0.0s
+
+#2 [internal] load .dockerignore
+#2 sha256:c99b0ca7e38dca54894fb42c348a5e050d22b34c46b1e674de1a1cf27733f13d
+#2 transferring context: 2B done
+#2 DONE 0.0s
+
+#3 [internal] load metadata for docker.io/ronhatch/prebuild-lfs:11.2
+#3 sha256:b9d3d01fb53036effb19f58f4442e2022d04d806582b8cc528b2860196a8de95
+#3 DONE 0.0s
+
+#4 [1/3] FROM docker.io/ronhatch/prebuild-lfs:11.2
+#4 sha256:7bb799bc1149b7c4387a56df2521c5cb43bd2c580c7e3290892e4e66a4747604
+#4 CACHED
+
+#5 https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz
+#5 sha256:04a7f331cf603b33212358e9d0e5f649e46d20df37aad731dedd6bcb3c512099
+#5 DONE 0.4s
+
+#5 https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz
+#5 sha256:04a7f331cf603b33212358e9d0e5f649e46d20df37aad731dedd6bcb3c512099
+#5 CACHED
+
+#6 [2/3] ADD --chown=lfs https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz /lfs/sources
+#6 sha256:a8f7cfbcad8dc4b0400efcb6019dd30d9fc90eb6d89d911dd30ffb5fc229377a
+#6 DONE 0.1s
+
+#7 [3/3] RUN pushd /lfs/sources;     tar xf binutils-2.39.tar.xz;     mkdir -v binutils-2.39/build;     cd binutils-2.39/build;     ../configure --prefix=/lfs/tools --with-sysroot=/lfs         --target=x86_64-lfs-linux-gnu --disable-nls         --enable-gprofng=no --disable-werror &&     make && make install;     popd;     rm -rf /lfs/sources/binutils-2.39*
+#7 sha256:60eb63614189aac6f3b121fa0306f0554d1f3faa55ebcf8661c22bef2458d98e
+#7 0.383 /lfs/sources ~
+#7 4.485 mkdir: created directory 'binutils-2.39/build'
+#7 4.592 checking build system type... x86_64-pc-linux-gnu
+#7 4.640 checking host system type... x86_64-pc-linux-gnu
+#7 4.640 checking target system type... x86_64-lfs-linux-gnu
+#7 4.649 checking for a BSD-compatible install... /usr/bin/install -c
+#7 4.657 checking whether ln works... yes
+#7 4.660 checking whether ln -s works... yes
+#7 4.660 checking for a sed that does not truncate output... /usr/bin/sed
+#7 4.666 checking for gawk... gawk
+#7 4.673 checking for gcc... gcc
+#7 4.695 checking whether the C compiler works... yes
+#7 4.735 checking for C compiler default output file name... a.out
+#7 4.736 checking for suffix of executables... 
+#7 4.775 checking whether we are cross compiling... no
+#7 4.818 checking for suffix of object files... o
+#7 4.838 checking whether we are using the GNU C compiler... yes
+#7 4.858 checking whether gcc accepts -g... yes
+#7 4.879 checking for gcc option to accept ISO C89... none needed
+#7 4.917 checking for gcc option to accept ISO C99... none needed
+#7 4.977 checking for g++... g++
+#7 4.999 checking whether we are using the GNU C++ compiler... yes
+#7 5.020 checking whether g++ accepts -g... yes
+#7 5.042 checking whether g++ accepts -static-libstdc++ -static-libgcc... yes
+#7 5.087 checking for gnatbind... no
+#7 5.088 checking for gnatmake... no
+#7 5.088 checking whether compiler driver understands Ada... no
+#7 5.093 checking how to compare bootstrapped objects... cmp --ignore-initial=16 $$f1 $$f2
+#7 5.100 checking for objdir... .libs
+#7 5.106 checking for isl 0.15 or later... no
+#7 5.123 required isl version is 0.15 or later
+#7 5.741 checking for default BUILD_CONFIG... 
+#7 5.741 checking for --enable-vtable-verify... no
+#7 5.771 checking for bison... bison -y
+#7 5.771 checking for bison... bison
+#7 5.772 checking for gm4... no
+#7 5.772 checking for gnum4... no
+#7 5.772 checking for m4... m4
+#7 5.773 checking for flex... no
+#7 5.774 checking for lex... no
+#7 5.774 checking for flex... no
+#7 5.775 checking for makeinfo... makeinfo
+#7 5.895 checking for expect... no
+#7 5.896 checking for runtest... no
+#7 5.896 checking for ar... ar
+#7 5.897 checking for as... as
+#7 5.898 checking for dlltool... no
+#7 5.898 checking for ld... ld
+#7 5.899 checking for lipo... no
+#7 5.900 checking for nm... nm
+#7 5.900 checking for ranlib... ranlib
+#7 5.901 checking for strip... strip
+#7 5.902 checking for windres... no
+#7 5.902 checking for windmc... no
+#7 5.903 checking for objcopy... objcopy
+#7 5.904 checking for objdump... objdump
+#7 5.905 checking for readelf... readelf
+#7 5.906 checking for -plugin option... --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 5.918 checking for x86_64-lfs-linux-gnu-cc... no
+#7 5.918 checking for x86_64-lfs-linux-gnu-gcc... no
+#7 5.919 checking for x86_64-lfs-linux-gnu-c++... no
+#7 5.919 checking for x86_64-lfs-linux-gnu-g++... no
+#7 5.920 checking for x86_64-lfs-linux-gnu-cxx... no
+#7 5.920 checking for x86_64-lfs-linux-gnu-gxx... no
+#7 5.921 checking for x86_64-lfs-linux-gnu-gcc... no
+#7 5.922 checking for x86_64-lfs-linux-gnu-gfortran... no
+#7 5.923 checking for x86_64-lfs-linux-gnu-gccgo... no
+#7 5.928 checking for x86_64-lfs-linux-gnu-ar... no
+#7 5.929 checking for x86_64-lfs-linux-gnu-as... no
+#7 5.929 checking for x86_64-lfs-linux-gnu-dlltool... no
+#7 5.930 checking for x86_64-lfs-linux-gnu-ld... no
+#7 5.931 checking for x86_64-lfs-linux-gnu-lipo... no
+#7 5.932 checking for x86_64-lfs-linux-gnu-nm... no
+#7 5.933 checking for x86_64-lfs-linux-gnu-objcopy... no
+#7 5.934 checking for x86_64-lfs-linux-gnu-objdump... no
+#7 5.937 checking for x86_64-lfs-linux-gnu-ranlib... no
+#7 5.938 checking for x86_64-lfs-linux-gnu-readelf... no
+#7 5.939 checking for x86_64-lfs-linux-gnu-strip... no
+#7 5.940 checking for x86_64-lfs-linux-gnu-windres... no
+#7 5.941 checking for x86_64-lfs-linux-gnu-windmc... no
+#7 5.941 checking where to find the target ar... just compiled
+#7 5.942 checking where to find the target as... just compiled
+#7 5.942 checking where to find the target cc... pre-installed
+#7 5.944 checking where to find the target c++... pre-installed
+#7 5.945 checking where to find the target c++ for libstdc++... pre-installed
+#7 5.947 checking where to find the target dlltool... just compiled
+#7 5.947 checking where to find the target gcc... pre-installed
+#7 5.949 checking where to find the target gfortran... pre-installed
+#7 5.950 checking where to find the target gccgo... pre-installed
+#7 5.952 checking where to find the target ld... just compiled
+#7 5.953 checking where to find the target lipo... pre-installed
+#7 5.955 checking where to find the target nm... just compiled
+#7 5.955 checking where to find the target objcopy... just compiled
+#7 5.955 checking where to find the target objdump... just compiled
+#7 5.956 checking where to find the target ranlib... just compiled
+#7 5.956 checking where to find the target readelf... just compiled
+#7 5.956 checking where to find the target strip... just compiled
+#7 5.956 checking where to find the target windres... just compiled
+#7 5.957 checking where to find the target windmc... just compiled
+#7 5.957 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 5.982 configure: creating ./config.status
+#7 6.067 config.status: creating Makefile
+#7 6.768 make[1]: Entering directory '/lfs/sources/binutils-2.39/build'
+#7 6.773 mkdir -p -- ./libiberty
+#7 6.777 Configuring in ./libiberty
+#7 6.899 configure: creating cache ./config.cache
+#7 6.900 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 6.901 checking for makeinfo... makeinfo --split-size=5000000
+#7 7.021 checking for perl... perl
+#7 7.028 checking build system type... x86_64-pc-linux-gnu
+#7 7.034 checking host system type... x86_64-pc-linux-gnu
+#7 7.041 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 7.042 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 7.042 checking for -plugin option... checking for x86_64-pc-linux-gnu-ar... (cached) ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 7.051 --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 7.055 checking whether to install libiberty headers and static library... no
+#7 7.055 configure: target_header_dir = 
+#7 7.056 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 7.129 checking whether the C compiler works... yes
+#7 7.171 checking for C compiler default output file name... a.out
+#7 7.172 checking for suffix of executables... 
+#7 7.213 checking whether we are cross compiling... no
+#7 7.263 checking for suffix of object files... o
+#7 7.287 checking whether we are using the GNU C compiler... yes
+#7 7.309 checking whether gcc accepts -g... yes
+#7 7.334 checking for gcc option to accept ISO C89... none needed
+#7 7.374 checking how to run the C preprocessor... gcc -E
+#7 7.435 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 7.437 checking for egrep... /usr/bin/grep -E
+#7 7.440 checking for ANSI C header files... yes
+#7 7.577 checking for sys/types.h... yes
+#7 7.613 checking for sys/stat.h... yes
+#7 7.651 checking for stdlib.h... yes
+#7 7.687 checking for string.h... yes
+#7 7.726 checking for memory.h... yes
+#7 7.765 checking for strings.h... yes
+#7 7.804 checking for inttypes.h... yes
+#7 7.843 checking for stdint.h... yes
+#7 7.883 checking for unistd.h... yes
+#7 7.927 checking minix/config.h usability... no
+#7 7.968 checking minix/config.h presence... no
+#7 7.982 checking for minix/config.h... no
+#7 7.983 checking whether it is safe to define __EXTENSIONS__... yes
+#7 8.028 checking for special C compiler options needed for large files... no
+#7 8.028 checking for _FILE_OFFSET_BITS value needed for large files... no
+#7 8.057 checking whether gcc supports -W... yes
+#7 8.081 checking whether gcc supports -Wall... yes
+#7 8.105 checking whether gcc supports -Wwrite-strings... yes
+#7 8.129 checking whether gcc supports -Wc++-compat... yes
+#7 8.152 checking whether gcc supports -Wstrict-prototypes... yes
+#7 8.180 checking whether gcc supports -Wshadow=local... yes
+#7 8.200 checking whether gcc supports -pedantic ... yes
+#7 8.220 checking whether gcc and cc understand -c and -o together... yes
+#7 8.308 checking for an ANSI C-conforming const... yes
+#7 8.330 checking for inline... inline
+#7 8.346 checking whether byte ordering is bigendian... no
+#7 8.433 checking for a BSD-compatible install... /usr/bin/install -c
+#7 8.434 checking for CET support... yes
+#7 8.602 checking for sys/file.h... yes
+#7 8.624 checking for sys/param.h... yes
+#7 8.656 checking for limits.h... yes
+#7 8.677 checking for stdlib.h... (cached) yes
+#7 8.687 checking for malloc.h... yes
+#7 8.710 checking for string.h... (cached) yes
+#7 8.718 checking for unistd.h... (cached) yes
+#7 8.726 checking for strings.h... (cached) yes
+#7 8.734 checking for sys/time.h... yes
+#7 8.761 checking for time.h... yes
+#7 8.799 checking for sys/resource.h... yes
+#7 8.820 checking for sys/stat.h... (cached) yes
+#7 8.827 checking for sys/mman.h... yes
+#7 8.851 checking for fcntl.h... yes
+#7 8.871 checking for alloca.h... yes
+#7 8.889 checking for sys/pstat.h... no
+#7 8.920 checking for sys/sysmp.h... no
+#7 8.938 checking for sys/sysinfo.h... yes
+#7 8.958 checking for machine/hal_sysinfo.h... no
+#7 8.976 checking for sys/table.h... no
+#7 8.994 checking for sys/sysctl.h... no
+#7 9.012 checking for sys/systemcfg.h... no
+#7 9.030 checking for stdint.h... (cached) yes
+#7 9.037 checking for stdio_ext.h... yes
+#7 9.058 checking for process.h... no
+#7 9.076 checking for sys/prctl.h... yes
+#7 9.092 checking for sys/wait.h that is POSIX.1 compatible... yes
+#7 9.131 checking whether time.h and sys/time.h may both be included... yes
+#7 9.159 checking whether errno must be declared... no
+#7 9.182 checking size of int... 4
+#7 9.259 checking size of long... 8
+#7 9.337 checking size of size_t... 8
+#7 9.415 checking for long long... yes
+#7 9.509 checking size of long long... 8
+#7 9.588 checking for a 64-bit type... uint64_t
+#7 9.614 checking for intptr_t... yes
+#7 9.710 checking for uintptr_t... yes
+#7 9.806 checking for ssize_t... yes
+#7 9.903 checking for pid_t... yes
+#7 9.999 checking for library containing strerror... none required
+#7 10.04 checking for asprintf... yes
+#7 10.10 checking for atexit... yes
+#7 10.15 checking for basename... yes
+#7 10.20 checking for bcmp... yes
+#7 10.26 checking for bcopy... yes
+#7 10.31 checking for bsearch... yes
+#7 10.37 checking for bzero... yes
+#7 10.42 checking for calloc... yes
+#7 10.48 checking for clock... yes
+#7 10.53 checking for ffs... yes
+#7 10.58 checking for getcwd... yes
+#7 10.63 checking for getpagesize... yes
+#7 10.68 checking for gettimeofday... yes
+#7 10.74 checking for index... yes
+#7 10.79 checking for insque... yes
+#7 10.84 checking for memchr... yes
+#7 10.90 checking for memcmp... yes
+#7 10.95 checking for memcpy... yes
+#7 11.01 checking for memmem... yes
+#7 11.06 checking for memmove... yes
+#7 11.12 checking for mempcpy... yes
+#7 11.18 checking for memset... yes
+#7 11.23 checking for mkstemps... yes
+#7 11.29 checking for putenv... yes
+#7 11.34 checking for random... yes
+#7 11.39 checking for rename... yes
+#7 11.44 checking for rindex... yes
+#7 11.50 checking for setenv... yes
+#7 11.55 checking for snprintf... yes
+#7 11.60 checking for sigsetmask... yes
+#7 11.65 checking for stpcpy... yes
+#7 11.71 checking for stpncpy... yes
+#7 11.76 checking for strcasecmp... yes
+#7 11.82 checking for strchr... yes
+#7 11.87 checking for strdup... yes
+#7 11.93 checking for strncasecmp... yes
+#7 11.99 checking for strndup... yes
+#7 12.04 checking for strnlen... yes
+#7 12.10 checking for strrchr... yes
+#7 12.15 checking for strstr... yes
+#7 12.21 checking for strtod... yes
+#7 12.26 checking for strtol... yes
+#7 12.32 checking for strtoul... yes
+#7 12.38 checking for strtoll... yes
+#7 12.44 checking for strtoull... yes
+#7 12.49 checking for strverscmp... yes
+#7 12.55 checking for tmpnam... yes
+#7 12.61 checking for vasprintf... yes
+#7 12.66 checking for vfprintf... yes
+#7 12.71 checking for vprintf... yes
+#7 12.77 checking for vsnprintf... yes
+#7 12.82 checking for vsprintf... yes
+#7 12.88 checking for waitpid... yes
+#7 12.93 checking for setproctitle... no
+#7 12.98 checking whether alloca needs Cray hooks... no
+#7 12.99 checking stack direction for C alloca... 1
+#7 13.04 checking for vfork.h... no
+#7 13.06 checking for fork... yes
+#7 13.11 checking for vfork... yes
+#7 13.16 checking for working fork... yes
+#7 13.24 checking for working vfork... (cached) yes
+#7 13.24 checking for _doprnt... no
+#7 13.29 checking for sys_errlist... no
+#7 13.34 checking for sys_nerr... no
+#7 13.39 checking for sys_siglist... no
+#7 13.44 checking for external symbol _system_configuration... no
+#7 13.46 checking for __fsetlocking... yes
+#7 13.51 checking for canonicalize_file_name... yes
+#7 13.56 checking for dup3... yes
+#7 13.61 checking for getrlimit... yes
+#7 13.67 checking for getrusage... yes
+#7 13.73 checking for getsysinfo... no
+#7 13.79 checking for gettimeofday... (cached) yes
+#7 13.80 checking for on_exit... yes
+#7 13.85 checking for pipe2... yes
+#7 13.90 checking for psignal... yes
+#7 13.95 checking for pstat_getdynamic... no
+#7 14.01 checking for pstat_getstatic... no
+#7 14.06 checking for realpath... yes
+#7 14.11 checking for setrlimit... yes
+#7 14.16 checking for spawnve... no
+#7 14.22 checking for spawnvpe... no
+#7 14.27 checking for strerror... yes
+#7 14.32 checking for strsignal... yes
+#7 14.37 checking for sysconf... yes
+#7 14.42 checking for sysctl... no
+#7 14.48 checking for sysmp... no
+#7 14.53 checking for table... no
+#7 14.58 checking for times... yes
+#7 14.63 checking for wait3... yes
+#7 14.69 checking for wait4... yes
+#7 14.74 checking for sbrk... yes
+#7 14.79 checking whether basename is declared... yes
+#7 14.85 checking whether ffs is declared... yes
+#7 14.90 checking whether asprintf is declared... yes
+#7 14.96 checking whether vasprintf is declared... yes
+#7 15.01 checking whether snprintf is declared... yes
+#7 15.07 checking whether vsnprintf is declared... yes
+#7 15.12 checking whether calloc is declared... yes
+#7 15.18 checking whether getenv is declared... yes
+#7 15.23 checking whether getopt is declared... yes
+#7 15.29 checking whether malloc is declared... yes
+#7 15.34 checking whether realloc is declared... yes
+#7 15.40 checking whether sbrk is declared... yes
+#7 15.45 checking whether strtol is declared... yes
+#7 15.51 checking whether strtoul is declared... yes
+#7 15.56 checking whether strtoll is declared... yes
+#7 15.62 checking whether strtoull is declared... yes
+#7 15.68 checking whether strverscmp is declared... yes
+#7 15.73 checking whether strnlen is declared... yes
+#7 15.78 checking whether canonicalize_file_name must be declared... no
+#7 15.83 checking for stdlib.h... (cached) yes
+#7 15.84 checking for unistd.h... (cached) yes
+#7 15.85 checking for sys/param.h... (cached) yes
+#7 15.85 checking for getpagesize... (cached) yes
+#7 15.86 checking for working mmap... yes
+#7 15.96 checking for working strncmp... yes
+#7 16.04 configure: updating cache ./config.cache
+#7 16.05 configure: creating ./config.status
+#7 16.15 config.status: creating Makefile
+#7 16.17 config.status: creating testsuite/Makefile
+#7 16.19 config.status: creating config.h
+#7 16.20 config.status: executing default commands
+#7 16.23 mkdir -p -- ./intl
+#7 16.23 Configuring in ./intl
+#7 16.36 configure: creating cache ./config.cache
+#7 16.36 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 16.38 checking whether the C compiler works... yes
+#7 16.43 checking for C compiler default output file name... a.out
+#7 16.43 checking for suffix of executables... 
+#7 16.47 checking whether we are cross compiling... no
+#7 16.52 checking for suffix of object files... o
+#7 16.54 checking whether we are using the GNU C compiler... yes
+#7 16.56 checking whether gcc accepts -g... yes
+#7 16.58 checking for gcc option to accept ISO C89... none needed
+#7 16.62 checking how to run the C preprocessor... gcc -E
+#7 16.67 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 16.67 checking for egrep... /usr/bin/grep -E
+#7 16.68 checking for ANSI C header files... yes
+#7 16.80 checking for sys/types.h... yes
+#7 16.84 checking for sys/stat.h... yes
+#7 16.87 checking for stdlib.h... yes
+#7 16.91 checking for string.h... yes
+#7 16.95 checking for memory.h... yes
+#7 16.99 checking for strings.h... yes
+#7 17.03 checking for inttypes.h... yes
+#7 17.07 checking for stdint.h... yes
+#7 17.11 checking for unistd.h... yes
+#7 17.15 checking minix/config.h usability... no
+#7 17.19 checking minix/config.h presence... no
+#7 17.20 checking for minix/config.h... no
+#7 17.20 checking whether it is safe to define __EXTENSIONS__... yes
+#7 17.25 checking whether make sets $(MAKE)... yes
+#7 17.26 checking for a BSD-compatible install... /usr/bin/install -c
+#7 17.26 checking whether NLS is requested... no
+#7 17.27 checking for msgfmt... no
+#7 17.27 checking for gmsgfmt... :
+#7 17.27 checking for xgettext... no
+#7 17.28 checking for msgmerge... no
+#7 17.29 checking build system type... x86_64-pc-linux-gnu
+#7 17.29 checking host system type... x86_64-pc-linux-gnu
+#7 17.30 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 17.30 checking for library containing strerror... none required
+#7 17.35 checking for an ANSI C-conforming const... yes
+#7 17.38 checking for inline... inline
+#7 17.39 checking for off_t... yes
+#7 17.50 checking for size_t... yes
+#7 17.60 checking for working alloca.h... yes
+#7 17.64 checking for alloca... yes
+#7 17.69 checking for stdlib.h... (cached) yes
+#7 17.69 checking for unistd.h... (cached) yes
+#7 17.70 checking for sys/param.h... yes
+#7 17.75 checking for getpagesize... yes
+#7 17.80 checking for working mmap... yes
+#7 17.90 checking whether we are using the GNU C Library 2.1 or newer... yes
+#7 17.91 checking whether integer division by zero raises SIGFPE... yes
+#7 17.98 checking for inttypes.h... yes
+#7 18.01 checking for stdint.h... yes
+#7 18.04 checking for unsigned long long... yes
+#7 18.08 checking for inttypes.h... yes
+#7 18.11 checking whether the inttypes.h PRIxNN macros are broken... no
+#7 18.13 checking for ld used by GCC... ld
+#7 18.13 checking if the linker (ld) is GNU ld... yes
+#7 18.14 checking for shared library run path origin... done
+#7 18.17 checking argz.h usability... yes
+#7 18.21 checking argz.h presence... yes
+#7 18.22 checking for argz.h... yes
+#7 18.23 checking limits.h usability... yes
+#7 18.27 checking limits.h presence... yes
+#7 18.29 checking for limits.h... yes
+#7 18.29 checking locale.h usability... yes
+#7 18.34 checking locale.h presence... yes
+#7 18.35 checking for locale.h... yes
+#7 18.36 checking nl_types.h usability... yes
+#7 18.40 checking nl_types.h presence... yes
+#7 18.41 checking for nl_types.h... yes
+#7 18.42 checking malloc.h usability... yes
+#7 18.46 checking malloc.h presence... yes
+#7 18.48 checking for malloc.h... yes
+#7 18.48 checking stddef.h usability... yes
+#7 18.53 checking stddef.h presence... yes
+#7 18.54 checking for stddef.h... yes
+#7 18.54 checking for stdlib.h... (cached) yes
+#7 18.55 checking for string.h... (cached) yes
+#7 18.56 checking for unistd.h... (cached) yes
+#7 18.57 checking for sys/param.h... (cached) yes
+#7 18.58 checking for feof_unlocked... yes
+#7 18.63 checking for fgets_unlocked... yes
+#7 18.69 checking for getc_unlocked... yes
+#7 18.75 checking for getcwd... yes
+#7 18.80 checking for getegid... yes
+#7 18.86 checking for geteuid... yes
+#7 18.91 checking for getgid... yes
+#7 18.96 checking for getuid... yes
+#7 19.01 checking for mempcpy... yes
+#7 19.07 checking for munmap... yes
+#7 19.12 checking for putenv... yes
+#7 19.17 checking for setenv... yes
+#7 19.23 checking for setlocale... yes
+#7 19.28 checking for stpcpy... yes
+#7 19.34 checking for strcasecmp... yes
+#7 19.39 checking for strdup... yes
+#7 19.45 checking for strtoul... yes
+#7 19.50 checking for tsearch... yes
+#7 19.55 checking for __argz_count... yes
+#7 19.60 checking for __argz_stringify... yes
+#7 19.65 checking for __argz_next... yes
+#7 19.71 checking for __fsetlocking... yes
+#7 19.76 checking for iconv... yes
+#7 19.81 checking for iconv declaration... 
+#7 19.84          extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
+#7 19.84 checking for nl_langinfo and CODESET... yes
+#7 19.89 checking for LC_MESSAGES... yes
+#7 19.94 checking for bison... bison
+#7 19.94 checking version of bison... 3.8.2, ok
+#7 19.94 checking whether NLS is requested... no
+#7 19.94 checking whether to use NLS... no
+#7 19.94 checking for aclocal... no
+#7 19.94 checking for autoconf... no
+#7 19.94 checking for autoheader... no
+#7 19.94 checking bison 3 or later... 3.8.2, bison3
+#7 19.97 configure: updating cache ./config.cache
+#7 19.97 configure: creating ./config.status
+#7 20.06 config.status: creating Makefile
+#7 20.07 config.status: creating config.intl
+#7 20.09 config.status: creating config.h
+#7 20.10 config.status: executing default-1 commands
+#7 20.13 mkdir -p -- ./bfd
+#7 20.13 Configuring in ./bfd
+#7 20.25 configure: creating cache ./config.cache
+#7 20.26 checking build system type... x86_64-pc-linux-gnu
+#7 20.27 checking host system type... x86_64-pc-linux-gnu
+#7 20.27 checking target system type... x86_64-lfs-linux-gnu
+#7 20.28 checking for a BSD-compatible install... /usr/bin/install -c
+#7 20.28 checking whether build environment is sane... yes
+#7 20.29 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 20.30 checking for gawk... gawk
+#7 20.30 checking whether make sets $(MAKE)... yes
+#7 20.31 checking whether make supports nested variables... yes
+#7 20.32 checking whether make supports nested variables... (cached) yes
+#7 20.32 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 20.32 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 20.32 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 20.35 checking whether the C compiler works... yes
+#7 20.39 checking for C compiler default output file name... a.out
+#7 20.39 checking for suffix of executables... 
+#7 20.43 checking whether we are cross compiling... no
+#7 20.48 checking for suffix of object files... o
+#7 20.50 checking whether we are using the GNU C compiler... yes
+#7 20.53 checking whether gcc accepts -g... yes
+#7 20.55 checking for gcc option to accept ISO C89... none needed
+#7 20.58 checking whether gcc understands -c and -o together... yes
+#7 20.62 checking for style of include used by make... GNU
+#7 20.63 checking dependency style of gcc... gcc3
+#7 20.66 checking how to run the C preprocessor... gcc -E
+#7 20.71 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 20.72 checking for egrep... /usr/bin/grep -E
+#7 20.72 checking for ANSI C header files... yes
+#7 20.85 checking for sys/types.h... yes
+#7 20.88 checking for sys/stat.h... yes
+#7 20.92 checking for stdlib.h... yes
+#7 20.96 checking for string.h... yes
+#7 21.00 checking for memory.h... yes
+#7 21.04 checking for strings.h... yes
+#7 21.08 checking for inttypes.h... yes
+#7 21.12 checking for stdint.h... yes
+#7 21.16 checking for unistd.h... yes
+#7 21.21 checking minix/config.h usability... no
+#7 21.25 checking minix/config.h presence... no
+#7 21.26 checking for minix/config.h... no
+#7 21.26 checking whether it is safe to define __EXTENSIONS__... yes
+#7 21.31 checking how to print strings... printf
+#7 21.31 checking for a sed that does not truncate output... /usr/bin/sed
+#7 21.32 checking for fgrep... /usr/bin/grep -F
+#7 21.32 checking for ld used by gcc... ld
+#7 21.32 checking if the linker (ld) is GNU ld... yes
+#7 21.32 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 21.34 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 21.37 checking whether ln -s works... yes
+#7 21.37 checking the maximum length of command line arguments... 1572864
+#7 21.37 checking whether the shell understands some XSI constructs... yes
+#7 21.37 checking whether the shell understands "+="... yes
+#7 21.38 checking for ld option to reload object files... -r
+#7 21.38 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 21.38 checking how to recognize dependent libraries... pass_all
+#7 21.38 checking for x86_64-pc-linux-gnu-ar... (cached) ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 21.39 checking for x86_64-pc-linux-gnu-strip... no
+#7 21.39 checking for strip... strip
+#7 21.39 checking for x86_64-pc-linux-gnu-ranlib... (cached) ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 21.39 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 21.48 /lfs/sources/binutils-2.39/bfd/configure: line 6894: /usr/bin/file: No such file or directory
+#7 21.48 checking for dlfcn.h... yes
+#7 21.53 checking for objdir... .libs
+#7 21.59 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 21.62 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 21.62 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 21.64 checking if gcc static flag -static works... yes
+#7 21.74 checking if gcc supports -c -o file.o... yes
+#7 21.77 checking if gcc supports -c -o file.o... (cached) yes
+#7 21.77 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 21.78 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 21.84 checking how to hardcode library paths into programs... immediate
+#7 21.84 checking for shl_load... no
+#7 21.90 checking for shl_load in -ldld... no
+#7 21.93 checking for dlopen... yes
+#7 21.97 checking whether a program can dlopen itself... yes
+#7 22.03 checking whether a statically linked program can dlopen itself... no
+#7 22.15 checking whether stripping libraries is possible... yes
+#7 22.15 checking if libtool supports shared libraries... yes
+#7 22.15 checking whether to build shared libraries... no
+#7 22.15 checking whether to build static libraries... yes
+#7 22.15 checking for dlfcn.h... (cached) yes
+#7 22.15 checking for windows.h... no
+#7 22.20 checking for library containing dlsym... none required
+#7 22.24 checking for special C compiler options needed for large files... no
+#7 22.24 checking for _FILE_OFFSET_BITS value needed for large files... no
+#7 22.27 checking size of void *... 8
+#7 22.42 Setting warning flags = -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow -Wstack-usage=262144
+#7 22.42 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 22.42 checking whether to install libbfd... no
+#7 22.42 checking whether NLS is requested... no
+#7 22.42 checking whether NLS is requested... no
+#7 22.42 checking for msgfmt... no
+#7 22.43 checking for gmsgfmt... :
+#7 22.43 checking for xgettext... no
+#7 22.44 checking for msgmerge... no
+#7 22.44 checking size of long long... 8
+#7 22.52 checking size of void *... (cached) 8
+#7 22.53 checking size of long... 8
+#7 22.61 checking size of int... 4
+#7 22.69 checking fcntl.h usability... yes
+#7 22.73 checking fcntl.h presence... yes
+#7 22.75 checking for fcntl.h... yes
+#7 22.76 checking sys/file.h usability... yes
+#7 22.80 checking sys/file.h presence... yes
+#7 22.81 checking for sys/file.h... yes
+#7 22.82 checking sys/resource.h usability... yes
+#7 22.87 checking sys/resource.h presence... yes
+#7 22.88 checking for sys/resource.h... yes
+#7 22.89 checking for sys/stat.h... (cached) yes
+#7 22.90 checking for sys/types.h... (cached) yes
+#7 22.90 checking for unistd.h... (cached) yes
+#7 22.91 checking for fcntl... yes
+#7 22.96 checking for fdopen... yes
+#7 23.02 checking for fileno... yes
+#7 23.07 checking for fls... no
+#7 23.12 checking for getgid... yes
+#7 23.18 checking for getpagesize... yes
+#7 23.23 checking for getrlimit... yes
+#7 23.28 checking for getuid... yes
+#7 23.34 checking for sysconf... yes
+#7 23.39 checking whether basename is declared... yes
+#7 23.45 checking whether ffs is declared... yes
+#7 23.50 checking whether stpcpy is declared... yes
+#7 23.56 checking whether asprintf is declared... yes
+#7 23.63 checking whether vasprintf is declared... yes
+#7 23.69 checking whether strnlen is declared... yes
+#7 23.75 checking compiler support for hidden visibility... yes
+#7 23.77 checking printf int64_t format... l
+#7 23.86 checking linker --as-needed support... yes
+#7 23.86 checking for cos in -lm... yes
+#7 23.93 checking for gcc version with buggy 64-bit support... no
+#7 23.95 checking for ftello... yes
+#7 24.00 checking for ftello64... yes
+#7 24.05 checking for fseeko... yes
+#7 24.11 checking for fseeko64... yes
+#7 24.16 checking for fopen64... yes
+#7 24.22 checking whether ftello is declared... yes
+#7 24.27 checking whether ftello64 is declared... yes
+#7 24.33 checking whether fseeko is declared... yes
+#7 24.39 checking whether fseeko64 is declared... yes
+#7 24.44 checking whether fopen64 is declared... yes
+#7 24.49 checking size of off_t... 8
+#7 24.57 checking file_ptr type... int64_t
+#7 24.57 checking for stdlib.h... (cached) yes
+#7 24.58 checking for unistd.h... (cached) yes
+#7 24.59 checking for sys/param.h... yes
+#7 24.64 checking for getpagesize... (cached) yes
+#7 24.65 checking for working mmap... yes
+#7 24.75 checking for madvise... yes
+#7 24.81 checking for mprotect... yes
+#7 24.88 configure: updating cache ./config.cache
+#7 24.89 checking that generated files are newer than configure... done
+#7 24.89 configure: creating ./config.status
+#7 25.39 config.status: creating Makefile
+#7 25.41 config.status: creating bfd-in3.h
+#7 25.44 config.status: creating po/Makefile.in
+#7 25.45 config.status: creating config.h
+#7 25.47 config.status: executing depfiles commands
+#7 25.98 config.status: executing libtool commands
+#7 26.00 config.status: executing default-1 commands
+#7 26.01 config.status: executing default commands
+#7 26.08 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/libiberty'
+#7 26.08 if [ x"" != x ] && [ ! -d pic ]; then \
+#7 26.08   mkdir pic; \
+#7 26.08 else true; fi
+#7 26.08 touch stamp-picdir
+#7 26.08 if [ x"" != x ] && [ ! -d noasan ]; then \
+#7 26.08   mkdir noasan; \
+#7 26.08 else true; fi
+#7 26.08 touch stamp-noasandir
+#7 26.09 if [ x"" != x ]; then \
+#7 26.09   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/regex.c -o pic/regex.o; \
+#7 26.09 else true; fi
+#7 26.09 if [ x"" != x ]; then \
+#7 26.09   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/regex.c -o noasan/regex.o; \
+#7 26.09 else true; fi
+#7 26.09 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/regex.c -o regex.o
+#7 27.87 if [ x"" != x ]; then \
+#7 27.87   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/cplus-dem.c -o pic/cplus-dem.o; \
+#7 27.87 else true; fi
+#7 27.87 if [ x"" != x ]; then \
+#7 27.87   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/cplus-dem.c -o noasan/cplus-dem.o; \
+#7 27.87 else true; fi
+#7 27.88 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/cplus-dem.c -o cplus-dem.o
+#7 28.01 if [ x"" != x ]; then \
+#7 28.01   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/cp-demangle.c -o pic/cp-demangle.o; \
+#7 28.01 else true; fi
+#7 28.01 if [ x"" != x ]; then \
+#7 28.01   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/cp-demangle.c -o noasan/cp-demangle.o; \
+#7 28.01 else true; fi
+#7 28.01 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/cp-demangle.c -o cp-demangle.o
+#7 29.86 if [ x"" != x ]; then \
+#7 29.86   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/md5.c -o pic/md5.o; \
+#7 29.86 else true; fi
+#7 29.86 if [ x"" != x ]; then \
+#7 29.86   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/md5.c -o noasan/md5.o; \
+#7 29.86 else true; fi
+#7 29.86 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/md5.c -o md5.o
+#7 30.05 if [ x"" != x ]; then \
+#7 30.05   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/sha1.c -o pic/sha1.o; \
+#7 30.05 else true; fi
+#7 30.05 if [ x"" != x ]; then \
+#7 30.05   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/sha1.c -o noasan/sha1.o; \
+#7 30.05 else true; fi
+#7 30.05 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/sha1.c -o sha1.o
+#7 30.36 if [ x"" != x ]; then \
+#7 30.36   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/alloca.c -o pic/alloca.o; \
+#7 30.36 else true; fi
+#7 30.36 if [ x"" != x ]; then \
+#7 30.36   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/alloca.c -o noasan/alloca.o; \
+#7 30.36 else true; fi
+#7 30.37 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/alloca.c -o alloca.o
+#7 30.41 if [ x"" != x ]; then \
+#7 30.41   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/argv.c -o pic/argv.o; \
+#7 30.41 else true; fi
+#7 30.41 if [ x"" != x ]; then \
+#7 30.41   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/argv.c -o noasan/argv.o; \
+#7 30.41 else true; fi
+#7 30.41 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/argv.c -o argv.o
+#7 30.57 if [ x"" != x ]; then \
+#7 30.57   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/bsearch_r.c -o pic/bsearch_r.o; \
+#7 30.57 else true; fi
+#7 30.57 if [ x"" != x ]; then \
+#7 30.57   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/bsearch_r.c -o noasan/bsearch_r.o; \
+#7 30.57 else true; fi
+#7 30.57 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/bsearch_r.c -o bsearch_r.o
+#7 30.61 if [ x"" != x ]; then \
+#7 30.61   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/choose-temp.c -o pic/choose-temp.o; \
+#7 30.61 else true; fi
+#7 30.61 if [ x"" != x ]; then \
+#7 30.61   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/choose-temp.c -o noasan/choose-temp.o; \
+#7 30.61 else true; fi
+#7 30.61 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/choose-temp.c -o choose-temp.o
+#7 30.66 if [ x"" != x ]; then \
+#7 30.66   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/concat.c -o pic/concat.o; \
+#7 30.66 else true; fi
+#7 30.66 if [ x"" != x ]; then \
+#7 30.66   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/concat.c -o noasan/concat.o; \
+#7 30.66 else true; fi
+#7 30.66 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/concat.c -o concat.o
+#7 30.75 if [ x"" != x ]; then \
+#7 30.75   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/cp-demint.c -o pic/cp-demint.o; \
+#7 30.75 else true; fi
+#7 30.75 if [ x"" != x ]; then \
+#7 30.75   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/cp-demint.c -o noasan/cp-demint.o; \
+#7 30.75 else true; fi
+#7 30.75 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/cp-demint.c -o cp-demint.o
+#7 30.83 if [ x"" != x ]; then \
+#7 30.83   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/crc32.c -o pic/crc32.o; \
+#7 30.83 else true; fi
+#7 30.83 if [ x"" != x ]; then \
+#7 30.83   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/crc32.c -o noasan/crc32.o; \
+#7 30.83 else true; fi
+#7 30.83 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/crc32.c -o crc32.o
+#7 30.87 if [ x"" != x ]; then \
+#7 30.87   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/d-demangle.c -o pic/d-demangle.o; \
+#7 30.87 else true; fi
+#7 30.87 if [ x"" != x ]; then \
+#7 30.87   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/d-demangle.c -o noasan/d-demangle.o; \
+#7 30.87 else true; fi
+#7 30.87 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/d-demangle.c -o d-demangle.o
+#7 31.47 if [ x"" != x ]; then \
+#7 31.47   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/dwarfnames.c -o pic/dwarfnames.o; \
+#7 31.47 else true; fi
+#7 31.47 if [ x"" != x ]; then \
+#7 31.47   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/dwarfnames.c -o noasan/dwarfnames.o; \
+#7 31.47 else true; fi
+#7 31.47 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/dwarfnames.c -o dwarfnames.o
+#7 31.61 if [ x"" != x ]; then \
+#7 31.61   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/dyn-string.c -o pic/dyn-string.o; \
+#7 31.61 else true; fi
+#7 31.61 if [ x"" != x ]; then \
+#7 31.61   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/dyn-string.c -o noasan/dyn-string.o; \
+#7 31.61 else true; fi
+#7 31.62 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/dyn-string.c -o dyn-string.o
+#7 31.76 if [ x"" != x ]; then \
+#7 31.76   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/fdmatch.c -o pic/fdmatch.o; \
+#7 31.76 else true; fi
+#7 31.76 if [ x"" != x ]; then \
+#7 31.76   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/fdmatch.c -o noasan/fdmatch.o; \
+#7 31.76 else true; fi
+#7 31.76 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/fdmatch.c -o fdmatch.o
+#7 31.79 if [ x"" != x ]; then \
+#7 31.79   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/fibheap.c -o pic/fibheap.o; \
+#7 31.79 else true; fi
+#7 31.80 if [ x"" != x ]; then \
+#7 31.80   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/fibheap.c -o noasan/fibheap.o; \
+#7 31.80 else true; fi
+#7 31.80 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/fibheap.c -o fibheap.o
+#7 31.94 if [ x"" != x ]; then \
+#7 31.94   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/filedescriptor.c -o pic/filedescriptor.o; \
+#7 31.94 else true; fi
+#7 31.94 if [ x"" != x ]; then \
+#7 31.94   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/filedescriptor.c -o noasan/filedescriptor.o; \
+#7 31.94 else true; fi
+#7 31.94 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/filedescriptor.c -o filedescriptor.o
+#7 31.98 if [ x"" != x ]; then \
+#7 31.98   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/filename_cmp.c -o pic/filename_cmp.o; \
+#7 31.98 else true; fi
+#7 31.98 if [ x"" != x ]; then \
+#7 31.98   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/filename_cmp.c -o noasan/filename_cmp.o; \
+#7 31.98 else true; fi
+#7 31.98 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/filename_cmp.c -o filename_cmp.o
+#7 32.03 if [ x"" != x ]; then \
+#7 32.03   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/floatformat.c -o pic/floatformat.o; \
+#7 32.03 else true; fi
+#7 32.03 if [ x"" != x ]; then \
+#7 32.03   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/floatformat.c -o noasan/floatformat.o; \
+#7 32.03 else true; fi
+#7 32.03 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/floatformat.c -o floatformat.o
+#7 32.20 if [ x"" != x ]; then \
+#7 32.20   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/fnmatch.c -o pic/fnmatch.o; \
+#7 32.20 else true; fi
+#7 32.20 if [ x"" != x ]; then \
+#7 32.20   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/fnmatch.c -o noasan/fnmatch.o; \
+#7 32.20 else true; fi
+#7 32.20 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/fnmatch.c -o fnmatch.o
+#7 32.21 if [ x"" != x ]; then \
+#7 32.21   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/fopen_unlocked.c -o pic/fopen_unlocked.o; \
+#7 32.21 else true; fi
+#7 32.22 if [ x"" != x ]; then \
+#7 32.22   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/fopen_unlocked.c -o noasan/fopen_unlocked.o; \
+#7 32.22 else true; fi
+#7 32.22 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/fopen_unlocked.c -o fopen_unlocked.o
+#7 32.26 if [ x"" != x ]; then \
+#7 32.26   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/getopt.c -o pic/getopt.o; \
+#7 32.26 else true; fi
+#7 32.26 if [ x"" != x ]; then \
+#7 32.26   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/getopt.c -o noasan/getopt.o; \
+#7 32.26 else true; fi
+#7 32.26 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/getopt.c -o getopt.o
+#7 32.29 if [ x"" != x ]; then \
+#7 32.29   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/getopt1.c -o pic/getopt1.o; \
+#7 32.29 else true; fi
+#7 32.29 if [ x"" != x ]; then \
+#7 32.29   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/getopt1.c -o noasan/getopt1.o; \
+#7 32.29 else true; fi
+#7 32.29 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/getopt1.c -o getopt1.o
+#7 32.31 if [ x"" != x ]; then \
+#7 32.31   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/getpwd.c -o pic/getpwd.o; \
+#7 32.31 else true; fi
+#7 32.31 if [ x"" != x ]; then \
+#7 32.31   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/getpwd.c -o noasan/getpwd.o; \
+#7 32.31 else true; fi
+#7 32.31 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/getpwd.c -o getpwd.o
+#7 32.39 if [ x"" != x ]; then \
+#7 32.39   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/getruntime.c -o pic/getruntime.o; \
+#7 32.39 else true; fi
+#7 32.39 if [ x"" != x ]; then \
+#7 32.39   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/getruntime.c -o noasan/getruntime.o; \
+#7 32.39 else true; fi
+#7 32.39 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/getruntime.c -o getruntime.o
+#7 32.45 if [ x"" != x ]; then \
+#7 32.45   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/hashtab.c -o pic/hashtab.o; \
+#7 32.45 else true; fi
+#7 32.45 if [ x"" != x ]; then \
+#7 32.45   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/hashtab.c -o noasan/hashtab.o; \
+#7 32.45 else true; fi
+#7 32.45 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/hashtab.c -o hashtab.o
+#7 32.71 if [ x"" != x ]; then \
+#7 32.71   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/hex.c -o pic/hex.o; \
+#7 32.71 else true; fi
+#7 32.72 if [ x"" != x ]; then \
+#7 32.72   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/hex.c -o noasan/hex.o; \
+#7 32.72 else true; fi
+#7 32.72 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/hex.c -o hex.o
+#7 32.75 if [ x"" != x ]; then \
+#7 32.75   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/lbasename.c -o pic/lbasename.o; \
+#7 32.75 else true; fi
+#7 32.75 if [ x"" != x ]; then \
+#7 32.75   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/lbasename.c -o noasan/lbasename.o; \
+#7 32.75 else true; fi
+#7 32.75 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/lbasename.c -o lbasename.o
+#7 32.79 if [ x"" != x ]; then \
+#7 32.79   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/lrealpath.c -o pic/lrealpath.o; \
+#7 32.79 else true; fi
+#7 32.79 if [ x"" != x ]; then \
+#7 32.79   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/lrealpath.c -o noasan/lrealpath.o; \
+#7 32.79 else true; fi
+#7 32.79 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/lrealpath.c -o lrealpath.o
+#7 32.84 if [ x"" != x ]; then \
+#7 32.84   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/make-relative-prefix.c -o pic/make-relative-prefix.o; \
+#7 32.84 else true; fi
+#7 32.85 if [ x"" != x ]; then \
+#7 32.85   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/make-relative-prefix.c -o noasan/make-relative-prefix.o; \
+#7 32.85 else true; fi
+#7 32.85 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/make-relative-prefix.c -o make-relative-prefix.o
+#7 33.01 if [ x"" != x ]; then \
+#7 33.01   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/make-temp-file.c -o pic/make-temp-file.o; \
+#7 33.01 else true; fi
+#7 33.01 if [ x"" != x ]; then \
+#7 33.01   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/make-temp-file.c -o noasan/make-temp-file.o; \
+#7 33.01 else true; fi
+#7 33.01 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/make-temp-file.c -o make-temp-file.o
+#7 33.10 if [ x"" != x ]; then \
+#7 33.10   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/objalloc.c -o pic/objalloc.o; \
+#7 33.10 else true; fi
+#7 33.10 if [ x"" != x ]; then \
+#7 33.10   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/objalloc.c -o noasan/objalloc.o; \
+#7 33.10 else true; fi
+#7 33.11 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/objalloc.c -o objalloc.o
+#7 33.18 if [ x"" != x ]; then \
+#7 33.18   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/obstack.c -o pic/obstack.o; \
+#7 33.18 else true; fi
+#7 33.18 if [ x"" != x ]; then \
+#7 33.18   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/obstack.c -o noasan/obstack.o; \
+#7 33.18 else true; fi
+#7 33.18 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/obstack.c -o obstack.o
+#7 33.27 if [ x"" != x ]; then \
+#7 33.27   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/partition.c -o pic/partition.o; \
+#7 33.27 else true; fi
+#7 33.27 if [ x"" != x ]; then \
+#7 33.27   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/partition.c -o noasan/partition.o; \
+#7 33.27 else true; fi
+#7 33.28 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/partition.c -o partition.o
+#7 33.36 if [ x"" != x ]; then \
+#7 33.36   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/pexecute.c -o pic/pexecute.o; \
+#7 33.36 else true; fi
+#7 33.36 if [ x"" != x ]; then \
+#7 33.36   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/pexecute.c -o noasan/pexecute.o; \
+#7 33.36 else true; fi
+#7 33.36 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/pexecute.c -o pexecute.o
+#7 33.42 if [ x"" != x ]; then \
+#7 33.42   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/physmem.c -o pic/physmem.o; \
+#7 33.42 else true; fi
+#7 33.42 if [ x"" != x ]; then \
+#7 33.42   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/physmem.c -o noasan/physmem.o; \
+#7 33.42 else true; fi
+#7 33.42 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/physmem.c -o physmem.o
+#7 33.48 if [ x"" != x ]; then \
+#7 33.48   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/pex-common.c -o pic/pex-common.o; \
+#7 33.48 else true; fi
+#7 33.48 if [ x"" != x ]; then \
+#7 33.48   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/pex-common.c -o noasan/pex-common.o; \
+#7 33.48 else true; fi
+#7 33.48 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/pex-common.c -o pex-common.o
+#7 33.71 if [ x"" != x ]; then \
+#7 33.71   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/pex-one.c -o pic/pex-one.o; \
+#7 33.71 else true; fi
+#7 33.71 if [ x"" != x ]; then \
+#7 33.71   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/pex-one.c -o noasan/pex-one.o; \
+#7 33.71 else true; fi
+#7 33.71 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/pex-one.c -o pex-one.o
+#7 33.75 if [ x"" != x ]; then \
+#7 33.75   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/pex-unix.c -o pic/pex-unix.o; \
+#7 33.75 else true; fi
+#7 33.75 if [ x"" != x ]; then \
+#7 33.75   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/pex-unix.c -o noasan/pex-unix.o; \
+#7 33.75 else true; fi
+#7 33.75 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/pex-unix.c -o pex-unix.o
+#7 33.89 if [ x"" != x ]; then \
+#7 33.89   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/vprintf-support.c -o pic/vprintf-support.o; \
+#7 33.89 else true; fi
+#7 33.89 if [ x"" != x ]; then \
+#7 33.89   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/vprintf-support.c -o noasan/vprintf-support.o; \
+#7 33.89 else true; fi
+#7 33.89 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/vprintf-support.c -o vprintf-support.o
+#7 33.96 if [ x"" != x ]; then \
+#7 33.96   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/rust-demangle.c -o pic/rust-demangle.o; \
+#7 33.96 else true; fi
+#7 33.96 if [ x"" != x ]; then \
+#7 33.96   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/rust-demangle.c -o noasan/rust-demangle.o; \
+#7 33.96 else true; fi
+#7 33.96 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/rust-demangle.c -o rust-demangle.o
+#7 34.52 if [ x"" != x ]; then \
+#7 34.52   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/safe-ctype.c -o pic/safe-ctype.o; \
+#7 34.52 else true; fi
+#7 34.52 if [ x"" != x ]; then \
+#7 34.52   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/safe-ctype.c -o noasan/safe-ctype.o; \
+#7 34.52 else true; fi
+#7 34.52 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/safe-ctype.c -o safe-ctype.o
+#7 34.54 if [ x"" != x ]; then \
+#7 34.54   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/simple-object.c -o pic/simple-object.o; \
+#7 34.54 else true; fi
+#7 34.54 if [ x"" != x ]; then \
+#7 34.54   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/simple-object.c -o noasan/simple-object.o; \
+#7 34.54 else true; fi
+#7 34.55 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/simple-object.c -o simple-object.o
+#7 34.72 if [ x"" != x ]; then \
+#7 34.72   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/simple-object-coff.c -o pic/simple-object-coff.o; \
+#7 34.72 else true; fi
+#7 34.72 if [ x"" != x ]; then \
+#7 34.72   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/simple-object-coff.c -o noasan/simple-object-coff.o; \
+#7 34.72 else true; fi
+#7 34.72 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/simple-object-coff.c -o simple-object-coff.o
+#7 34.91 if [ x"" != x ]; then \
+#7 34.91   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/simple-object-elf.c -o pic/simple-object-elf.o; \
+#7 34.91 else true; fi
+#7 34.91 if [ x"" != x ]; then \
+#7 34.91   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/simple-object-elf.c -o noasan/simple-object-elf.o; \
+#7 34.91 else true; fi
+#7 34.91 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/simple-object-elf.c -o simple-object-elf.o
+#7 35.38 if [ x"" != x ]; then \
+#7 35.38   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/simple-object-mach-o.c -o pic/simple-object-mach-o.o; \
+#7 35.38 else true; fi
+#7 35.38 if [ x"" != x ]; then \
+#7 35.38   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/simple-object-mach-o.c -o noasan/simple-object-mach-o.o; \
+#7 35.38 else true; fi
+#7 35.38 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/simple-object-mach-o.c -o simple-object-mach-o.o
+#7 35.70 if [ x"" != x ]; then \
+#7 35.70   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/simple-object-xcoff.c -o pic/simple-object-xcoff.o; \
+#7 35.70 else true; fi
+#7 35.70 if [ x"" != x ]; then \
+#7 35.70   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/simple-object-xcoff.c -o noasan/simple-object-xcoff.o; \
+#7 35.70 else true; fi
+#7 35.71 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/simple-object-xcoff.c -o simple-object-xcoff.o
+#7 35.96 if [ x"" != x ]; then \
+#7 35.96   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/sort.c -o pic/sort.o; \
+#7 35.96 else true; fi
+#7 35.96 if [ x"" != x ]; then \
+#7 35.96   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/sort.c -o noasan/sort.o; \
+#7 35.96 else true; fi
+#7 35.96 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/sort.c -o sort.o
+#7 36.05 if [ x"" != x ]; then \
+#7 36.05   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/spaces.c -o pic/spaces.o; \
+#7 36.05 else true; fi
+#7 36.05 if [ x"" != x ]; then \
+#7 36.05   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/spaces.c -o noasan/spaces.o; \
+#7 36.05 else true; fi
+#7 36.06 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/spaces.c -o spaces.o
+#7 36.09 if [ x"" != x ]; then \
+#7 36.09   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/splay-tree.c -o pic/splay-tree.o; \
+#7 36.09 else true; fi
+#7 36.09 if [ x"" != x ]; then \
+#7 36.09   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/splay-tree.c -o noasan/splay-tree.o; \
+#7 36.09 else true; fi
+#7 36.10 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/splay-tree.c -o splay-tree.o
+#7 36.26 if [ x"" != x ]; then \
+#7 36.26   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/stack-limit.c -o pic/stack-limit.o; \
+#7 36.26 else true; fi
+#7 36.26 if [ x"" != x ]; then \
+#7 36.26   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/stack-limit.c -o noasan/stack-limit.o; \
+#7 36.26 else true; fi
+#7 36.26 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/stack-limit.c -o stack-limit.o
+#7 36.29 if [ x"" != x ]; then \
+#7 36.29   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/strerror.c -o pic/strerror.o; \
+#7 36.29 else true; fi
+#7 36.29 if [ x"" != x ]; then \
+#7 36.29   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/strerror.c -o noasan/strerror.o; \
+#7 36.29 else true; fi
+#7 36.29 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/strerror.c -o strerror.o
+#7 36.38 if [ x"" != x ]; then \
+#7 36.38   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/strsignal.c -o pic/strsignal.o; \
+#7 36.38 else true; fi
+#7 36.38 if [ x"" != x ]; then \
+#7 36.38   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/strsignal.c -o noasan/strsignal.o; \
+#7 36.38 else true; fi
+#7 36.38 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/strsignal.c -o strsignal.o
+#7 36.48 if [ x"" != x ]; then \
+#7 36.48   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/timeval-utils.c -o pic/timeval-utils.o; \
+#7 36.48 else true; fi
+#7 36.48 if [ x"" != x ]; then \
+#7 36.48   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/timeval-utils.c -o noasan/timeval-utils.o; \
+#7 36.48 else true; fi
+#7 36.48 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/timeval-utils.c -o timeval-utils.o
+#7 36.53 if [ x"" != x ]; then \
+#7 36.53   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/unlink-if-ordinary.c -o pic/unlink-if-ordinary.o; \
+#7 36.53 else true; fi
+#7 36.53 if [ x"" != x ]; then \
+#7 36.53   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/unlink-if-ordinary.c -o noasan/unlink-if-ordinary.o; \
+#7 36.53 else true; fi
+#7 36.53 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/unlink-if-ordinary.c -o unlink-if-ordinary.o
+#7 36.59 if [ x"" != x ]; then \
+#7 36.59   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xasprintf.c -o pic/xasprintf.o; \
+#7 36.59 else true; fi
+#7 36.59 if [ x"" != x ]; then \
+#7 36.59   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xasprintf.c -o noasan/xasprintf.o; \
+#7 36.59 else true; fi
+#7 36.59 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xasprintf.c -o xasprintf.o
+#7 36.63 if [ x"" != x ]; then \
+#7 36.63   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xatexit.c -o pic/xatexit.o; \
+#7 36.63 else true; fi
+#7 36.63 if [ x"" != x ]; then \
+#7 36.63   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xatexit.c -o noasan/xatexit.o; \
+#7 36.63 else true; fi
+#7 36.63 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xatexit.c -o xatexit.o
+#7 36.67 if [ x"" != x ]; then \
+#7 36.67   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xexit.c -o pic/xexit.o; \
+#7 36.67 else true; fi
+#7 36.67 if [ x"" != x ]; then \
+#7 36.67   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xexit.c -o noasan/xexit.o; \
+#7 36.67 else true; fi
+#7 36.67 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xexit.c -o xexit.o
+#7 36.71 if [ x"" != x ]; then \
+#7 36.71   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xmalloc.c -o pic/xmalloc.o; \
+#7 36.71 else true; fi
+#7 36.71 if [ x"" != x ]; then \
+#7 36.71   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xmalloc.c -o noasan/xmalloc.o; \
+#7 36.71 else true; fi
+#7 36.71 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xmalloc.c -o xmalloc.o
+#7 36.78 if [ x"" != x ]; then \
+#7 36.78   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xmemdup.c -o pic/xmemdup.o; \
+#7 36.78 else true; fi
+#7 36.78 if [ x"" != x ]; then \
+#7 36.78   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xmemdup.c -o noasan/xmemdup.o; \
+#7 36.78 else true; fi
+#7 36.78 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xmemdup.c -o xmemdup.o
+#7 36.82 if [ x"" != x ]; then \
+#7 36.82   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xstrdup.c -o pic/xstrdup.o; \
+#7 36.82 else true; fi
+#7 36.82 if [ x"" != x ]; then \
+#7 36.82   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xstrdup.c -o noasan/xstrdup.o; \
+#7 36.82 else true; fi
+#7 36.82 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xstrdup.c -o xstrdup.o
+#7 36.86 if [ x"" != x ]; then \
+#7 36.86   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xstrerror.c -o pic/xstrerror.o; \
+#7 36.86 else true; fi
+#7 36.86 if [ x"" != x ]; then \
+#7 36.86   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xstrerror.c -o noasan/xstrerror.o; \
+#7 36.86 else true; fi
+#7 36.86 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xstrerror.c -o xstrerror.o
+#7 36.89 if [ x"" != x ]; then \
+#7 36.89   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xstrndup.c -o pic/xstrndup.o; \
+#7 36.89 else true; fi
+#7 36.89 if [ x"" != x ]; then \
+#7 36.89   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xstrndup.c -o noasan/xstrndup.o; \
+#7 36.89 else true; fi
+#7 36.90 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xstrndup.c -o xstrndup.o
+#7 36.93 if [ x"" != x ]; then \
+#7 36.93   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/xvasprintf.c -o pic/xvasprintf.o; \
+#7 36.93 else true; fi
+#7 36.93 if [ x"" != x ]; then \
+#7 36.93   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/xvasprintf.c -o noasan/xvasprintf.o; \
+#7 36.93 else true; fi
+#7 36.93 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/xvasprintf.c -o xvasprintf.o
+#7 36.97 if [ x"" != x ]; then \
+#7 36.97   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection  ../../libiberty/setproctitle.c -o pic/setproctitle.o; \
+#7 36.97 else true; fi
+#7 36.97 if [ x"" != x ]; then \
+#7 36.97   gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection   ../../libiberty/setproctitle.c -o noasan/setproctitle.o; \
+#7 36.97 else true; fi
+#7 36.97 gcc -c -DHAVE_CONFIG_H -g -O2      -I. -I../../libiberty/../include  -W -Wall -Wwrite-strings -Wc++-compat -Wstrict-prototypes -Wshadow=local -pedantic  -D_GNU_SOURCE -fcf-protection ../../libiberty/setproctitle.c -o setproctitle.o
+#7 37.00 rm -f ./libiberty.a pic/./libiberty.a noasan/./libiberty.a
+#7 37.00 ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so rc ./libiberty.a \
+#7 37.00   ./regex.o ./cplus-dem.o ./cp-demangle.o ./md5.o ./sha1.o ./alloca.o ./argv.o ./bsearch_r.o ./choose-temp.o ./concat.o ./cp-demint.o ./crc32.o ./d-demangle.o ./dwarfnames.o ./dyn-string.o ./fdmatch.o ./fibheap.o ./filedescriptor.o ./filename_cmp.o ./floatformat.o ./fnmatch.o ./fopen_unlocked.o ./getopt.o ./getopt1.o ./getpwd.o ./getruntime.o ./hashtab.o ./hex.o ./lbasename.o ./lrealpath.o ./make-relative-prefix.o ./make-temp-file.o ./objalloc.o ./obstack.o ./partition.o ./pexecute.o ./physmem.o ./pex-common.o ./pex-one.o ./pex-unix.o ./vprintf-support.o ./rust-demangle.o ./safe-ctype.o ./simple-object.o ./simple-object-coff.o ./simple-object-elf.o ./simple-object-mach-o.o ./simple-object-xcoff.o ./sort.o ./spaces.o ./splay-tree.o ./stack-limit.o ./strerror.o ./strsignal.o ./timeval-utils.o ./unlink-if-ordinary.o ./xasprintf.o ./xatexit.o ./xexit.o ./xmalloc.o ./xmemdup.o ./xstrdup.o ./xstrerror.o ./xstrndup.o ./xvasprintf.o  ./setproctitle.o
+#7 37.02 ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so ./libiberty.a
+#7 37.04 if [ x"" != x ]; then \
+#7 37.04   cd pic; \
+#7 37.04   ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so rc ./libiberty.a \
+#7 37.04     ./regex.o ./cplus-dem.o ./cp-demangle.o ./md5.o ./sha1.o ./alloca.o ./argv.o ./bsearch_r.o ./choose-temp.o ./concat.o ./cp-demint.o ./crc32.o ./d-demangle.o ./dwarfnames.o ./dyn-string.o ./fdmatch.o ./fibheap.o ./filedescriptor.o ./filename_cmp.o ./floatformat.o ./fnmatch.o ./fopen_unlocked.o ./getopt.o ./getopt1.o ./getpwd.o ./getruntime.o ./hashtab.o ./hex.o ./lbasename.o ./lrealpath.o ./make-relative-prefix.o ./make-temp-file.o ./objalloc.o ./obstack.o ./partition.o ./pexecute.o ./physmem.o ./pex-common.o ./pex-one.o ./pex-unix.o ./vprintf-support.o ./rust-demangle.o ./safe-ctype.o ./simple-object.o ./simple-object-coff.o ./simple-object-elf.o ./simple-object-mach-o.o ./simple-object-xcoff.o ./sort.o ./spaces.o ./splay-tree.o ./stack-limit.o ./strerror.o ./strsignal.o ./timeval-utils.o ./unlink-if-ordinary.o ./xasprintf.o ./xatexit.o ./xexit.o ./xmalloc.o ./xmemdup.o ./xstrdup.o ./xstrerror.o ./xstrndup.o ./xvasprintf.o  ./setproctitle.o; \
+#7 37.04   ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so ./libiberty.a; \
+#7 37.04   cd ..; \
+#7 37.04 else true; fi; \
+#7 37.04 if [ x"" != x ]; then \
+#7 37.04   cd noasan; \
+#7 37.04   ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so rc ./libiberty.a \
+#7 37.04     ./regex.o ./cplus-dem.o ./cp-demangle.o ./md5.o ./sha1.o ./alloca.o ./argv.o ./bsearch_r.o ./choose-temp.o ./concat.o ./cp-demint.o ./crc32.o ./d-demangle.o ./dwarfnames.o ./dyn-string.o ./fdmatch.o ./fibheap.o ./filedescriptor.o ./filename_cmp.o ./floatformat.o ./fnmatch.o ./fopen_unlocked.o ./getopt.o ./getopt1.o ./getpwd.o ./getruntime.o ./hashtab.o ./hex.o ./lbasename.o ./lrealpath.o ./make-relative-prefix.o ./make-temp-file.o ./objalloc.o ./obstack.o ./partition.o ./pexecute.o ./physmem.o ./pex-common.o ./pex-one.o ./pex-unix.o ./vprintf-support.o ./rust-demangle.o ./safe-ctype.o ./simple-object.o ./simple-object-coff.o ./simple-object-elf.o ./simple-object-mach-o.o ./simple-object-xcoff.o ./sort.o ./spaces.o ./splay-tree.o ./stack-limit.o ./strerror.o ./strsignal.o ./timeval-utils.o ./unlink-if-ordinary.o ./xasprintf.o ./xatexit.o ./xexit.o ./xmalloc.o ./xmemdup.o ./xstrdup.o ./xstrerror.o ./xstrndup.o ./xvasprintf.o  ./setproctitle.o; \
+#7 37.04   ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so ./libiberty.a; \
+#7 37.04   cd ..; \
+#7 37.04 else true; fi
+#7 37.04 echo ./regex.o ./cplus-dem.o ./cp-demangle.o ./md5.o ./sha1.o ./alloca.o ./argv.o ./bsearch_r.o ./choose-temp.o ./concat.o ./cp-demint.o ./crc32.o ./d-demangle.o ./dwarfnames.o ./dyn-string.o ./fdmatch.o ./fibheap.o ./filedescriptor.o ./filename_cmp.o ./floatformat.o ./fnmatch.o ./fopen_unlocked.o ./getopt.o ./getopt1.o ./getpwd.o ./getruntime.o ./hashtab.o ./hex.o ./lbasename.o ./lrealpath.o ./make-relative-prefix.o ./make-temp-file.o ./objalloc.o ./obstack.o ./partition.o ./pexecute.o ./physmem.o ./pex-common.o ./pex-one.o ./pex-unix.o ./vprintf-support.o ./rust-demangle.o ./safe-ctype.o ./simple-object.o ./simple-object-coff.o ./simple-object-elf.o ./simple-object-mach-o.o ./simple-object-xcoff.o ./sort.o ./spaces.o ./splay-tree.o ./stack-limit.o ./strerror.o ./strsignal.o ./timeval-utils.o ./unlink-if-ordinary.o ./xasprintf.o ./xatexit.o ./xexit.o ./xmalloc.o ./xmemdup.o ./xstrdup.o ./xstrerror.o ./xstrndup.o ./xvasprintf.o > required-list
+#7 37.05 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/libiberty/testsuite'
+#7 37.05 make[3]: Nothing to be done for 'all'.
+#7 37.05 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/libiberty/testsuite'
+#7 37.05 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/libiberty'
+#7 37.06 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/intl'
+#7 37.06 make[2]: Nothing to be done for 'all'.
+#7 37.06 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/intl'
+#7 37.07 mkdir -p -- ./zlib
+#7 37.07 Configuring in ./zlib
+#7 37.21 configure: creating cache ./config.cache
+#7 37.22 checking build system type... x86_64-pc-linux-gnu
+#7 37.22 checking host system type... x86_64-pc-linux-gnu
+#7 37.23 checking target system type... x86_64-lfs-linux-gnu
+#7 37.24 checking for a BSD-compatible install... /usr/bin/install -c
+#7 37.24 checking whether build environment is sane... yes
+#7 37.25 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 37.26 checking for gawk... gawk
+#7 37.26 checking whether make sets $(MAKE)... yes
+#7 37.27 checking whether make supports nested variables... yes
+#7 37.28 checking whether make supports nested variables... (cached) yes
+#7 37.28 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 37.29 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 37.37 checking whether the C compiler works... yes
+#7 37.42 checking for C compiler default output file name... a.out
+#7 37.43 checking for suffix of executables... 
+#7 37.48 checking whether we are cross compiling... no
+#7 37.53 checking for suffix of object files... o
+#7 37.56 checking whether we are using the GNU C compiler... yes
+#7 37.58 checking whether gcc accepts -g... yes
+#7 37.60 checking for gcc option to accept ISO C89... none needed
+#7 37.64 checking whether gcc understands -c and -o together... yes
+#7 37.67 checking whether make supports the include directive... yes (GNU style)
+#7 37.68 checking dependency style of gcc... gcc3
+#7 37.72 checking how to print strings... printf
+#7 37.72 checking for a sed that does not truncate output... /usr/bin/sed
+#7 37.72 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 37.73 checking for egrep... /usr/bin/grep -E
+#7 37.73 checking for fgrep... /usr/bin/grep -F
+#7 37.73 checking for ld used by gcc... ld
+#7 37.73 checking if the linker (ld) is GNU ld... yes
+#7 37.74 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 37.75 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 37.78 checking whether ln -s works... yes
+#7 37.78 checking the maximum length of command line arguments... 1572864
+#7 37.78 checking whether the shell understands some XSI constructs... yes
+#7 37.78 checking whether the shell understands "+="... yes
+#7 37.79 checking for ld option to reload object files... -r
+#7 37.79 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 37.79 checking how to recognize dependent libraries... pass_all
+#7 37.79 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 37.80 checking for x86_64-pc-linux-gnu-strip... no
+#7 37.80 checking for strip... strip
+#7 37.80 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 37.80 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 37.89 /lfs/sources/binutils-2.39/zlib/configure: line 6199: /usr/bin/file: No such file or directory
+#7 37.89 checking how to run the C preprocessor... gcc -E
+#7 37.95 checking for ANSI C header files... yes
+#7 38.07 checking for sys/types.h... yes
+#7 38.11 checking for sys/stat.h... yes
+#7 38.15 checking for stdlib.h... yes
+#7 38.19 checking for string.h... yes
+#7 38.22 checking for memory.h... yes
+#7 38.26 checking for strings.h... yes
+#7 38.30 checking for inttypes.h... yes
+#7 38.34 checking for stdint.h... yes
+#7 38.38 checking for unistd.h... yes
+#7 38.43 checking for dlfcn.h... yes
+#7 38.47 checking for objdir... .libs
+#7 38.54 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 38.56 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 38.56 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 38.59 checking if gcc static flag -static works... yes
+#7 38.70 checking if gcc supports -c -o file.o... yes
+#7 38.73 checking if gcc supports -c -o file.o... (cached) yes
+#7 38.73 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 38.75 checking whether -lc should be explicitly linked in... no
+#7 38.78 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 38.85 checking how to hardcode library paths into programs... immediate
+#7 38.85 checking whether stripping libraries is possible... yes
+#7 38.85 checking if libtool supports shared libraries... yes
+#7 38.85 checking whether to build shared libraries... yes
+#7 38.85 checking whether to build static libraries... yes
+#7 38.85 checking how to run the C preprocessor... gcc -E
+#7 38.88 checking for stdlib.h... (cached) yes
+#7 38.89 checking for unistd.h... (cached) yes
+#7 38.90 checking for sys/param.h... yes
+#7 38.95 checking for getpagesize... yes
+#7 38.99 checking for working mmap... yes
+#7 39.10 checking for memcpy... yes
+#7 39.15 checking for strerror... yes
+#7 39.20 checking for unistd.h... (cached) yes
+#7 39.23 configure: updating cache ./config.cache
+#7 39.24 checking that generated files are newer than configure... done
+#7 39.24 configure: creating ./config.status
+#7 39.74 config.status: creating Makefile
+#7 39.75 config.status: executing depfiles commands
+#7 39.86 config.status: executing libtool commands
+#7 39.93 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/zlib'
+#7 39.94   CC       libz_a-adler32.o
+#7 40.05   CC       libz_a-compress.o
+#7 40.10   CC       libz_a-crc32.o
+#7 40.26   CC       libz_a-deflate.o
+#7 40.89   CC       libz_a-gzread.o
+#7 41.09   CC       libz_a-gzclose.o
+#7 41.14   CC       libz_a-gzwrite.o
+#7 41.33   CC       libz_a-gzlib.o
+#7 41.48   CC       libz_a-infback.o
+#7 41.77   CC       libz_a-inffast.o
+#7 41.90   CC       libz_a-inflate.o
+#7 42.59   CC       libz_a-inftrees.o
+#7 42.71   CC       libz_a-trees.o
+#7 43.08   CC       libz_a-uncompr.o
+#7 43.13   CC       libz_a-zutil.o
+#7 43.19   AR       libz.a
+#7 43.19 ar: `u' modifier ignored since `D' is the default (see `U')
+#7 43.20 true "AR_FLAGS=rc" "CC_FOR_BUILD=gcc" "CFLAGS=-g -O2    " "CXXFLAGS=-g -O2    " "CFLAGS_FOR_BUILD=-g -O2" "CFLAGS_FOR_TARGET=-g -O2" "INSTALL=/usr/bin/install -c" "INSTALL_DATA=/usr/bin/install -c -m 644" "INSTALL_PROGRAM=/usr/bin/install -c" "INSTALL_SCRIPT=/usr/bin/install -c" "LDFLAGS=" "LIBCFLAGS=-g -O2  " "LIBCFLAGS_FOR_TARGET=-g -O2" "MAKE=make" "MAKEINFO=makeinfo --split-size=5000000 --split-size=5000000 " "PICFLAG=" "PICFLAG_FOR_TARGET=" "SHELL=/bin/sh" "EXPECT=expect" "RUNTEST=runtest" "RUNTESTFLAGS=" "exec_prefix=/lfs/tools" "infodir=/lfs/tools/share/info" "libdir=/lfs/tools/lib" "prefix=/lfs/tools" "tooldir=/lfs/tools/x86_64-lfs-linux-gnu" "AR=ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so" "AS=as" "CC=gcc" "CXX=g++" "LD=ld" "LIBCFLAGS=-g -O2  " "NM=nm" "PICFLAG=" "RANLIB=ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so" "DESTDIR=" DO=all multi-do # make
+#7 43.20 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/zlib'
+#7 43.24 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 43.24   GEN      bfdver.h
+#7 43.25   GEN      elf32-target.h
+#7 43.25   GEN      elf64-target.h
+#7 43.25   GEN      targmatch.h
+#7 43.27 Making info in po
+#7 43.27 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/bfd/po'
+#7 43.27 ( if test 'x../../../bfd/po' != 'x.'; then \
+#7 43.27     posrcprefix='../../../bfd/'; \
+#7 43.27   else \
+#7 43.27     posrcprefix="../"; \
+#7 43.27   fi; \
+#7 43.27   rm -f SRC-POTFILES-t SRC-POTFILES \
+#7 43.27     && (sed -e '/^#/d' \
+#7 43.27             -e '/^[ 	]*$/d' \
+#7 43.27 	    -e "s@.*@	$posrcprefix& \\\\@" < ../../../bfd/po/SRC-POTFILES.in \
+#7 43.27 	| sed -e '$s/\\$//') > SRC-POTFILES-t \
+#7 43.27     && chmod a-w SRC-POTFILES-t \
+#7 43.27     && mv SRC-POTFILES-t SRC-POTFILES )
+#7 43.28 ( rm -f BLD-POTFILES-t BLD-POTFILES \
+#7 43.28     && (sed -e '/^#/d' \
+#7 43.28             -e '/^[ 	]*$/d' \
+#7 43.28 	    -e "s@.*@	../& \\\\@" < ../../../bfd/po/BLD-POTFILES.in \
+#7 43.28 	| sed -e '$s/\\$//') > BLD-POTFILES-t \
+#7 43.28     && chmod a-w BLD-POTFILES-t \
+#7 43.28     && mv BLD-POTFILES-t BLD-POTFILES )
+#7 43.29 cd .. \
+#7 43.29   && CONFIG_FILES=po/Makefile.in:po/Make-in \
+#7 43.29      CONFIG_HEADERS= /bin/sh ./config.status
+#7 43.42 config.status: creating po/Makefile.in
+#7 43.44 config.status: executing depfiles commands
+#7 43.45 config.status: executing libtool commands
+#7 43.46 config.status: executing default-1 commands
+#7 43.47 config.status: executing default commands
+#7 43.48 make[3]: Nothing to be done for 'info'.
+#7 43.48 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd/po'
+#7 43.51 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 43.51   CCLD     doc/chew.stamp
+#7 44.14   GEN      doc/aoutx.stamp
+#7 44.15   GEN      doc/archive.stamp
+#7 44.16   GEN      doc/archures.stamp
+#7 44.17   GEN      doc/bfdio.stamp
+#7 44.18   GEN      doc/bfdt.stamp
+#7 44.19   GEN      doc/bfdwin.stamp
+#7 44.20   GEN      doc/cache.stamp
+#7 44.21   GEN      doc/coffcode.stamp
+#7 44.23   GEN      doc/corefile.stamp
+#7 44.24   GEN      doc/elfcode.stamp
+#7 44.25   GEN      doc/elf.stamp
+#7 44.26   GEN      doc/format.stamp
+#7 44.27   GEN      doc/hash.stamp
+#7 44.28   GEN      doc/init.stamp
+#7 44.29   GEN      doc/libbfd.stamp
+#7 44.30   GEN      doc/linker.stamp
+#7 44.31   GEN      doc/mmo.stamp
+#7 44.32   GEN      doc/opncls.stamp
+#7 44.33   GEN      doc/reloc.stamp
+#7 44.34   GEN      doc/section.stamp
+#7 44.36   GEN      doc/syms.stamp
+#7 44.37   GEN      doc/targets.stamp
+#7 44.38   MAKEINFO doc/bfd.info
+#7 46.06 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 46.06 make  all-recursive
+#7 46.08 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 46.09 Making all in po
+#7 46.09 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/bfd/po'
+#7 46.09 make[4]: Nothing to be done for 'all'.
+#7 46.09 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd/po'
+#7 46.11 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 46.13 rm -f bfd-tmp.h
+#7 46.13 cp bfd-in3.h bfd-tmp.h
+#7 46.13 /bin/sh ../../bfd/../move-if-change bfd-tmp.h bfd.h
+#7 46.13 rm -f bfd-tmp.h
+#7 46.13 touch stmp-bfd-h
+#7 46.14   CC       archive.lo
+#7 46.93   CC       archures.lo
+#7 47.14   CC       bfd.lo
+#7 47.68   CC       bfdio.lo
+#7 47.90   CC       bfdwin.lo
+#7 47.99   CC       cache.lo
+#7 48.20   CC       coff-bfd.lo
+#7 48.33   CC       compress.lo
+#7 48.55   CC       corefile.lo
+#7 48.70   CC       elf-properties.lo
+#7 49.01   CC       format.lo
+#7 49.24   CC       hash.lo
+#7 49.48   CC       init.lo
+#7 49.57   CC       libbfd.lo
+#7 49.85   CC       linker.lo
+#7 50.65   CC       merge.lo
+#7 51.02   CC       opncls.lo
+#7 51.48   CC       reloc.lo
+#7 51.82   CC       section.lo
+#7 52.05   CC       simple.lo
+#7 52.20   CC       stab-syms.lo
+#7 52.30   CC       stabs.lo
+#7 52.62   CC       syms.lo
+#7 52.95   CC       targets.lo
+#7 53.12   CC       binary.lo
+#7 53.27   CC       ihex.lo
+#7 53.59   CC       srec.lo
+#7 54.03   CC       tekhex.lo
+#7 54.36   CC       verilog.lo
+#7 54.54   CC       elf64-x86-64.lo
+#7 55.99   CC       elfxx-x86.lo
+#7 57.18   CC       elf-ifunc.lo
+#7 57.38   CC       elf-vxworks.lo
+#7 57.59   CC       elf64.lo
+#7 58.21   CC       elf.lo
+#7 62.32   CC       elflink.lo
+#7 67.11   CC       elf-attrs.lo
+#7 67.52   CC       elf-strtab.lo
+#7 67.76   CC       elf-eh-frame.lo
+#7 68.79   CC       dwarf1.lo
+#7 69.01   CC       dwarf2.lo
+#7 70.61   CC       elf32-i386.lo
+#7 71.80   CC       elf32.lo
+#7 72.45   CC       pei-i386.lo
+#7 73.49   GEN      peigen.c
+#7 73.49   CC       peigen.lo
+#7 74.79   CC       cofflink.lo
+#7 75.80   CC       coffgen.lo
+#7 76.73   CC       pe-x86_64.lo
+#7 77.65   GEN      pex64igen.c
+#7 77.66   CC       pex64igen.lo
+#7 78.97   CC       pei-x86_64.lo
+#7 80.28   CC       elf64-gen.lo
+#7 80.41   CC       elf32-gen.lo
+#7 80.54   CC       plugin.lo
+#7 80.79   CC       cpu-i386.lo
+#7 80.91   CC       cpu-iamcu.lo
+#7 80.99   CC       archive64.lo
+#7 81.16 rm -f tofiles
+#7 81.16 f=""; \
+#7 81.16 for i in elf64-x86-64.lo elfxx-x86.lo elf-ifunc.lo elf-vxworks.lo elf64.lo elf.lo elflink.lo elf-attrs.lo elf-strtab.lo elf-eh-frame.lo dwarf1.lo dwarf2.lo elf32-i386.lo elf32.lo pei-i386.lo peigen.lo cofflink.lo coffgen.lo pe-x86_64.lo pex64igen.lo pei-x86_64.lo elf64-gen.lo elf32-gen.lo plugin.lo cpu-i386.lo cpu-iamcu.lo  archive64.lo ; do \
+#7 81.16   case " $f " in \
+#7 81.16     *" $i "*) ;; \
+#7 81.16     *) f="$f $i" ;; \
+#7 81.16   esac ; \
+#7 81.16 done ; \
+#7 81.16 echo $f > tofiles
+#7 81.16 /bin/sh ../../bfd/../move-if-change tofiles ofiles
+#7 81.16 touch stamp-ofiles
+#7 81.17   CCLD     libbfd.la
+#7 81.36 libtooldir=`/bin/sh ./libtool --config | /usr/bin/sed -n -e 's/^objdir=//p'`; \
+#7 81.36 if [ -f $libtooldir/libbfd.a ]; then \
+#7 81.36   cp $libtooldir/libbfd.a libbfd.tmp; \
+#7 81.36   ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so libbfd.tmp; \
+#7 81.36   /bin/sh ../../bfd/../move-if-change libbfd.tmp libbfd.a; \
+#7 81.36 else true; fi
+#7 81.45 touch stamp-lib
+#7 81.45 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 81.45 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 81.45 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 81.46 mkdir -p -- ./opcodes
+#7 81.46 Configuring in ./opcodes
+#7 81.59 configure: creating cache ./config.cache
+#7 81.59 checking build system type... x86_64-pc-linux-gnu
+#7 81.60 checking host system type... x86_64-pc-linux-gnu
+#7 81.61 checking target system type... x86_64-lfs-linux-gnu
+#7 81.61 checking for a BSD-compatible install... /usr/bin/install -c
+#7 81.61 checking whether build environment is sane... yes
+#7 81.63 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 81.63 checking for gawk... gawk
+#7 81.63 checking whether make sets $(MAKE)... yes
+#7 81.64 checking whether make supports nested variables... yes
+#7 81.65 checking whether make supports nested variables... (cached) yes
+#7 81.65 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 81.68 checking whether the C compiler works... yes
+#7 81.72 checking for C compiler default output file name... a.out
+#7 81.72 checking for suffix of executables... 
+#7 81.76 checking whether we are cross compiling... no
+#7 81.81 checking for suffix of object files... o
+#7 81.84 checking whether we are using the GNU C compiler... yes
+#7 81.86 checking whether gcc accepts -g... yes
+#7 81.88 checking for gcc option to accept ISO C89... none needed
+#7 81.92 checking whether gcc understands -c and -o together... yes
+#7 81.95 checking for style of include used by make... GNU
+#7 81.96 checking dependency style of gcc... gcc3
+#7 81.99 checking how to run the C preprocessor... gcc -E
+#7 82.05 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 82.05 checking for egrep... /usr/bin/grep -E
+#7 82.05 checking for ANSI C header files... yes
+#7 82.18 checking for sys/types.h... yes
+#7 82.21 checking for sys/stat.h... yes
+#7 82.25 checking for stdlib.h... yes
+#7 82.29 checking for string.h... yes
+#7 82.34 checking for memory.h... yes
+#7 82.39 checking for strings.h... yes
+#7 82.44 checking for inttypes.h... yes
+#7 82.49 checking for stdint.h... yes
+#7 82.53 checking for unistd.h... yes
+#7 82.58 checking minix/config.h usability... no
+#7 82.62 checking minix/config.h presence... no
+#7 82.63 checking for minix/config.h... no
+#7 82.63 checking whether it is safe to define __EXTENSIONS__... yes
+#7 82.68 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 82.68 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 82.68 checking how to print strings... printf
+#7 82.68 checking for a sed that does not truncate output... /usr/bin/sed
+#7 82.69 checking for fgrep... /usr/bin/grep -F
+#7 82.69 checking for ld used by gcc... ld
+#7 82.69 checking if the linker (ld) is GNU ld... yes
+#7 82.70 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 82.71 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 82.74 checking whether ln -s works... yes
+#7 82.74 checking the maximum length of command line arguments... 1572864
+#7 82.74 checking whether the shell understands some XSI constructs... yes
+#7 82.74 checking whether the shell understands "+="... yes
+#7 82.75 checking for ld option to reload object files... -r
+#7 82.75 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 82.75 checking how to recognize dependent libraries... pass_all
+#7 82.75 checking for x86_64-pc-linux-gnu-ar... (cached) ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 82.76 checking for x86_64-pc-linux-gnu-strip... no
+#7 82.76 checking for strip... strip
+#7 82.76 checking for x86_64-pc-linux-gnu-ranlib... (cached) ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 82.76 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 82.85 /lfs/sources/binutils-2.39/opcodes/configure: line 6847: /usr/bin/file: No such file or directory
+#7 82.85 checking for dlfcn.h... yes
+#7 82.90 checking for objdir... .libs
+#7 82.97 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 82.99 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 82.99 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 83.01 checking if gcc static flag -static works... yes
+#7 83.11 checking if gcc supports -c -o file.o... yes
+#7 83.14 checking if gcc supports -c -o file.o... (cached) yes
+#7 83.14 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 83.15 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 83.22 checking how to hardcode library paths into programs... immediate
+#7 83.22 checking whether stripping libraries is possible... yes
+#7 83.22 checking if libtool supports shared libraries... yes
+#7 83.22 checking whether to build shared libraries... no
+#7 83.22 checking whether to build static libraries... yes
+#7 83.27 Setting warning flags = -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow -Wstack-usage=262144
+#7 83.27 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 83.27 checking whether to install libbfd... no
+#7 83.27 checking whether NLS is requested... no
+#7 83.27 checking whether NLS is requested... no
+#7 83.28 checking for msgfmt... no
+#7 83.28 checking for gmsgfmt... :
+#7 83.28 checking for xgettext... no
+#7 83.29 checking for msgmerge... no
+#7 83.29 checking size of void *... 8
+#7 83.37 checking whether basename is declared... yes
+#7 83.43 checking whether stpcpy is declared... yes
+#7 83.48 checking for sigsetjmp... 
+#7 83.50 checking linker --as-needed support... yes
+#7 83.51 checking for cos in -lm... yes
+#7 83.62 configure: updating cache ./config.cache
+#7 83.62 checking that generated files are newer than configure... done
+#7 83.62 configure: creating ./config.status
+#7 84.14 config.status: creating Makefile
+#7 84.16 config.status: creating po/Makefile.in
+#7 84.18 config.status: creating config.h
+#7 84.19 config.status: executing depfiles commands
+#7 84.51 config.status: executing libtool commands
+#7 84.53 config.status: executing default-1 commands
+#7 84.54 config.status: creating po/POTFILES
+#7 84.54 config.status: creating po/Makefile
+#7 84.62 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 84.62 make  all-recursive
+#7 84.64 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 84.64 Making all in .
+#7 84.66 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 84.66   CC       dis-buf.lo
+#7 84.76   CC       disassemble.lo
+#7 84.88   CC       dis-init.lo
+#7 84.96   CC       i386-dis.lo
+#7 86.96   CC       i386-opc.lo
+#7 88.15   CCLD     libopcodes.la
+#7 88.23 libtooldir=`/bin/sh ./libtool --config | sed -n -e 's/^objdir=//p'`; \
+#7 88.23 if [ -f $libtooldir/libopcodes.a ]; then \
+#7 88.23   cp $libtooldir/libopcodes.a libopcodes.tmp; \
+#7 88.23   ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so libopcodes.tmp; \
+#7 88.23   /bin/sh ../../opcodes/../move-if-change libopcodes.tmp libopcodes.a; \
+#7 88.23 else true; fi
+#7 88.26 touch stamp-lib
+#7 88.27 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 88.27 Making all in po
+#7 88.27 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes/po'
+#7 88.27 make[4]: Nothing to be done for 'all'.
+#7 88.27 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes/po'
+#7 88.27 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 88.27 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 88.28 mkdir -p -- ./binutils
+#7 88.28 Configuring in ./binutils
+#7 88.42 configure: creating cache ./config.cache
+#7 88.42 checking build system type... x86_64-pc-linux-gnu
+#7 88.43 checking host system type... x86_64-pc-linux-gnu
+#7 88.44 checking target system type... x86_64-lfs-linux-gnu
+#7 88.44 checking for a BSD-compatible install... /usr/bin/install -c
+#7 88.45 checking whether build environment is sane... yes
+#7 88.46 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 88.46 checking for gawk... gawk
+#7 88.46 checking whether make sets $(MAKE)... yes
+#7 88.47 checking whether make supports nested variables... yes
+#7 88.49 checking whether make supports nested variables... (cached) yes
+#7 88.49 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 88.51 checking whether the C compiler works... yes
+#7 88.57 checking for C compiler default output file name... a.out
+#7 88.57 checking for suffix of executables... 
+#7 88.63 checking whether we are cross compiling... no
+#7 88.71 checking for suffix of object files... o
+#7 88.74 checking whether we are using the GNU C compiler... yes
+#7 88.80 checking whether gcc accepts -g... yes
+#7 88.85 checking for gcc option to accept ISO C89... none needed
+#7 88.92 checking whether gcc understands -c and -o together... yes
+#7 88.96 checking for style of include used by make... GNU
+#7 88.97 checking dependency style of gcc... gcc3
+#7 89.00 checking how to run the C preprocessor... gcc -E
+#7 89.06 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 89.07 checking for egrep... /usr/bin/grep -E
+#7 89.07 checking for ANSI C header files... yes
+#7 89.21 checking for sys/types.h... yes
+#7 89.25 checking for sys/stat.h... yes
+#7 89.29 checking for stdlib.h... yes
+#7 89.33 checking for string.h... yes
+#7 89.37 checking for memory.h... yes
+#7 89.42 checking for strings.h... yes
+#7 89.47 checking for inttypes.h... yes
+#7 89.52 checking for stdint.h... yes
+#7 89.57 checking for unistd.h... yes
+#7 89.62 checking minix/config.h usability... no
+#7 89.67 checking minix/config.h presence... no
+#7 89.68 checking for minix/config.h... no
+#7 89.68 checking whether it is safe to define __EXTENSIONS__... yes
+#7 89.73 checking how to print strings... printf
+#7 89.73 checking for a sed that does not truncate output... /usr/bin/sed
+#7 89.74 checking for fgrep... /usr/bin/grep -F
+#7 89.74 checking for ld used by gcc... ld
+#7 89.74 checking if the linker (ld) is GNU ld... yes
+#7 89.74 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 89.76 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 89.78 checking whether ln -s works... yes
+#7 89.79 checking the maximum length of command line arguments... 1572864
+#7 89.79 checking whether the shell understands some XSI constructs... yes
+#7 89.79 checking whether the shell understands "+="... yes
+#7 89.80 checking for ld option to reload object files... -r
+#7 89.80 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 89.80 checking how to recognize dependent libraries... pass_all
+#7 89.80 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 89.81 checking for x86_64-pc-linux-gnu-strip... no
+#7 89.81 checking for strip... strip
+#7 89.81 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 89.81 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 89.91 /lfs/sources/binutils-2.39/binutils/configure: line 6763: /usr/bin/file: No such file or directory
+#7 89.91 checking for dlfcn.h... yes
+#7 89.96 checking for objdir... .libs
+#7 90.03 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 90.05 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 90.05 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 90.07 checking if gcc static flag -static works... yes
+#7 90.18 checking if gcc supports -c -o file.o... yes
+#7 90.21 checking if gcc supports -c -o file.o... (cached) yes
+#7 90.21 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 90.22 checking whether -lc should be explicitly linked in... no
+#7 90.25 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 90.32 checking how to hardcode library paths into programs... immediate
+#7 90.32 checking whether stripping libraries is possible... yes
+#7 90.32 checking if libtool supports shared libraries... yes
+#7 90.32 checking whether to build shared libraries... yes
+#7 90.32 checking whether to build static libraries... yes
+#7 90.32 checking for dlfcn.h... (cached) yes
+#7 90.33 checking for windows.h... no
+#7 90.37 checking for library containing dlsym... none required
+#7 90.42 checking for special C compiler options needed for large files... no
+#7 90.42 checking for _FILE_OFFSET_BITS value needed for large files... no
+#7 90.46 checking for x86_64-pc-linux-gnu-pkg-config... no
+#7 90.46 checking for pkg-config... no
+#7 90.46 checking whether to use debuginfod... auto
+#7 90.46 checking for libdebuginfod >= 0.179... no
+#7 90.46 configure: WARNING: libdebuginfod is missing or unusable; some features may be unavailable.
+#7 90.51 Setting warning flags = -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow -Wstack-usage=262144
+#7 90.51 checking for bison... bison -y
+#7 90.51 checking for flex... /lfs/sources/binutils-2.39/missing flex
+#7 90.51 checking whether NLS is requested... no
+#7 90.51 checking whether NLS is requested... no
+#7 90.51 checking for msgfmt... no
+#7 90.52 checking for gmsgfmt... :
+#7 90.52 checking for xgettext... no
+#7 90.52 checking for msgmerge... no
+#7 90.52 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 90.53 checking for x86_64-pc-linux-gnu-ranlib... (cached) ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 90.53 checking size of long... 8
+#7 90.62 checking size of long long... 8
+#7 90.70 checking fcntl.h usability... yes
+#7 90.76 checking fcntl.h presence... yes
+#7 90.77 checking for fcntl.h... yes
+#7 90.78 checking for inttypes.h... (cached) yes
+#7 90.79 checking for stdint.h... (cached) yes
+#7 90.80 checking sys/file.h usability... yes
+#7 90.85 checking sys/file.h presence... yes
+#7 90.87 checking for sys/file.h... yes
+#7 90.88 checking for sys/stat.h... (cached) yes
+#7 90.89 checking sys/time.h usability... yes
+#7 90.94 checking sys/time.h presence... yes
+#7 90.95 checking for sys/time.h... yes
+#7 90.96 checking for sys/types.h... (cached) yes
+#7 90.97 checking for unistd.h... (cached) yes
+#7 90.97 checking for sys/wait.h that is POSIX.1 compatible... yes
+#7 91.02 checking for stdlib.h... (cached) yes
+#7 91.03 checking for unistd.h... (cached) yes
+#7 91.04 checking for sys/param.h... yes
+#7 91.10 checking for getpagesize... yes
+#7 91.16 checking for working mmap... yes
+#7 91.28 checking for getc_unlocked... yes
+#7 91.33 checking for mkdtemp... yes
+#7 91.39 checking for mkstemp... yes
+#7 91.46 checking for sbrk... yes
+#7 91.53 checking for utimensat... yes
+#7 91.58 checking for utimes... yes
+#7 91.64 checking for mbstate_t... yes
+#7 91.67 checking for struct stat.st_atim.tv_nsec... yes
+#7 91.71 checking whether struct stat.st_atim is of type struct timespec... yes
+#7 91.75 checking for library containing frexp... none required
+#7 91.81 checking for LC_MESSAGES... yes
+#7 91.86 checking for a known getopt prototype in unistd.h... yes
+#7 91.89 checking for utime.h... yes
+#7 91.92 checking whether asprintf is declared... yes
+#7 91.98 checking whether environ is declared... yes
+#7 92.04 checking whether getc_unlocked is declared... yes
+#7 92.10 checking whether sbrk is declared... yes
+#7 92.15 checking whether stpcpy is declared... yes
+#7 92.21 checking whether strnlen is declared... yes
+#7 92.26 checking for msgpack... no
+#7 92.26 checking iconv.h usability... yes
+#7 92.31 checking iconv.h presence... yes
+#7 92.33 checking for iconv.h... yes
+#7 92.33 checking for ld used by GCC... ld
+#7 92.33 checking if the linker (ld) is GNU ld... yes
+#7 92.33 checking for shared library run path origin... done
+#7 92.36 checking for iconv... yes
+#7 92.43 checking for iconv declaration... 
+#7 92.47          extern size_t iconv (iconv_t cd, char * *inbuf, size_t *inbytesleft, char * *outbuf, size_t *outbytesleft);
+#7 92.50 configure: updating cache ./config.cache
+#7 92.51 checking that generated files are newer than configure... done
+#7 92.51 configure: creating ./config.status
+#7 93.03 config.status: creating Makefile
+#7 93.05 config.status: creating po/Makefile.in
+#7 93.07 config.status: creating config.h
+#7 93.08 config.status: executing depfiles commands
+#7 93.21 config.status: executing libtool commands
+#7 93.22 config.status: executing default-1 commands
+#7 93.23 config.status: creating po/POTFILES
+#7 93.24 config.status: creating po/Makefile
+#7 93.29 mkdir -p -- ./gas
+#7 93.30 Configuring in ./gas
+#7 93.42 configure: creating cache ./config.cache
+#7 93.43 checking build system type... x86_64-pc-linux-gnu
+#7 93.44 checking host system type... x86_64-pc-linux-gnu
+#7 93.44 checking target system type... x86_64-lfs-linux-gnu
+#7 93.45 checking for a BSD-compatible install... /usr/bin/install -c
+#7 93.45 checking whether build environment is sane... yes
+#7 93.46 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 93.46 checking for gawk... gawk
+#7 93.46 checking whether make sets $(MAKE)... yes
+#7 93.48 checking whether make supports nested variables... yes
+#7 93.49 checking whether make supports nested variables... (cached) yes
+#7 93.49 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 93.51 checking whether the C compiler works... yes
+#7 93.56 checking for C compiler default output file name... a.out
+#7 93.56 checking for suffix of executables... 
+#7 93.61 checking whether we are cross compiling... no
+#7 93.67 checking for suffix of object files... o
+#7 93.70 checking whether we are using the GNU C compiler... yes
+#7 93.73 checking whether gcc accepts -g... yes
+#7 93.75 checking for gcc option to accept ISO C89... none needed
+#7 93.79 checking whether gcc understands -c and -o together... yes
+#7 93.83 checking for style of include used by make... GNU
+#7 93.83 checking dependency style of gcc... gcc3
+#7 93.87 checking how to run the C preprocessor... gcc -E
+#7 93.92 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 93.92 checking for egrep... /usr/bin/grep -E
+#7 93.93 checking for ANSI C header files... yes
+#7 94.05 checking for sys/types.h... yes
+#7 94.09 checking for sys/stat.h... yes
+#7 94.12 checking for stdlib.h... yes
+#7 94.16 checking for string.h... yes
+#7 94.20 checking for memory.h... yes
+#7 94.24 checking for strings.h... yes
+#7 94.28 checking for inttypes.h... yes
+#7 94.32 checking for stdint.h... yes
+#7 94.36 checking for unistd.h... yes
+#7 94.40 checking minix/config.h usability... no
+#7 94.45 checking minix/config.h presence... no
+#7 94.46 checking for minix/config.h... no
+#7 94.46 checking whether it is safe to define __EXTENSIONS__... yes
+#7 94.51 checking how to print strings... printf
+#7 94.51 checking for a sed that does not truncate output... /usr/bin/sed
+#7 94.51 checking for fgrep... /usr/bin/grep -F
+#7 94.52 checking for ld used by gcc... ld
+#7 94.52 checking if the linker (ld) is GNU ld... yes
+#7 94.52 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 94.54 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 94.56 checking whether ln -s works... yes
+#7 94.56 checking the maximum length of command line arguments... 1572864
+#7 94.57 checking whether the shell understands some XSI constructs... yes
+#7 94.57 checking whether the shell understands "+="... yes
+#7 94.58 checking for ld option to reload object files... -r
+#7 94.58 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 94.58 checking how to recognize dependent libraries... pass_all
+#7 94.58 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 94.59 checking for x86_64-pc-linux-gnu-strip... no
+#7 94.59 checking for strip... strip
+#7 94.59 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 94.59 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 94.68 /lfs/sources/binutils-2.39/gas/configure: line 6478: /usr/bin/file: No such file or directory
+#7 94.68 checking for dlfcn.h... yes
+#7 94.73 checking for objdir... .libs
+#7 94.80 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 94.82 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 94.82 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 94.84 checking if gcc static flag -static works... yes
+#7 94.94 checking if gcc supports -c -o file.o... yes
+#7 94.97 checking if gcc supports -c -o file.o... (cached) yes
+#7 94.97 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 94.98 checking whether -lc should be explicitly linked in... no
+#7 95.01 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 95.08 checking how to hardcode library paths into programs... immediate
+#7 95.08 checking whether stripping libraries is possible... yes
+#7 95.08 checking if libtool supports shared libraries... yes
+#7 95.08 checking whether to build shared libraries... yes
+#7 95.08 checking whether to build static libraries... yes
+#7 95.08 checking for dlfcn.h... (cached) yes
+#7 95.09 checking for windows.h... no
+#7 95.13 checking for library containing dlsym... none required
+#7 95.18 checking for special C compiler options needed for large files... no
+#7 95.18 checking for _FILE_OFFSET_BITS value needed for large files... no
+#7 95.20 checking how to compare bootstrapped objects... cmp --ignore-initial=16 $$f1 $$f2
+#7 95.26 Setting warning flags = -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow -Wstack-usage=262144
+#7 95.26 checking whether byte ordering is bigendian... no
+#7 95.37 checking for bison... bison -y
+#7 95.37 checking for flex... /lfs/sources/binutils-2.39/missing flex
+#7 95.37 checking whether NLS is requested... no
+#7 95.37 checking whether NLS is requested... no
+#7 95.38 checking for msgfmt... no
+#7 95.38 checking for gmsgfmt... :
+#7 95.38 checking for xgettext... no
+#7 95.38 checking for msgmerge... no
+#7 95.39 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 95.39 checking for memory.h... (cached) yes
+#7 95.40 checking for sys/stat.h... (cached) yes
+#7 95.40 checking for sys/types.h... (cached) yes
+#7 95.41 checking for unistd.h... (cached) yes
+#7 95.42 checking whether compiling a cross-assembler... yes
+#7 95.42 checking for strsignal... yes
+#7 95.46 checking for LC_MESSAGES... yes
+#7 95.51 checking for working assert macro... yes
+#7 95.57 checking for a known getopt prototype in unistd.h... yes
+#7 95.60 checking whether declaration is required for environ... no
+#7 95.67 checking whether declaration is required for ffs... no
+#7 95.73 checking whether asprintf is declared... yes
+#7 95.79 checking whether mempcpy is declared... yes
+#7 95.85 checking whether stpcpy is declared... yes
+#7 95.90 checking for struct stat.st_mtim.tv_sec in sys/stat.h... yes
+#7 95.93 checking for struct stat.st_mtim.tv_nsec in sys/stat.h... yes
+#7 95.98 configure: updating cache ./config.cache
+#7 95.99 checking that generated files are newer than configure... done
+#7 95.99 configure: creating ./config.status
+#7 96.49 config.status: creating .gdbinit
+#7 96.50 config.status: creating Makefile
+#7 96.52 config.status: creating po/Makefile.in
+#7 96.53 config.status: creating config.h
+#7 96.55 config.status: executing depfiles commands
+#7 96.79 config.status: executing libtool commands
+#7 96.81 config.status: executing default-1 commands
+#7 96.82 config.status: creating po/POTFILES
+#7 96.82 config.status: creating po/Makefile
+#7 96.83 config.status: executing default commands
+#7 96.90 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/gas'
+#7 96.90 make  all-recursive
+#7 96.92 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/gas'
+#7 96.93 Making all in po
+#7 96.93 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/gas/po'
+#7 96.93 make[4]: Nothing to be done for 'all'.
+#7 96.93 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/gas/po'
+#7 96.95 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/gas'
+#7 96.95   GEN      doc/asconfig.texi
+#7 96.96   MAKEINFO doc/as.info
+#7 97.57 as.texi:2101: warning: @refill is obsolete.
+#7 97.57 as.texi:3012: warning: @refill is obsolete.
+#7 97.57 as.texi:3032: warning: @refill is obsolete.
+#7 97.57 as.texi:3231: warning: @refill is obsolete.
+#7 99.30   CC       app.o
+#7 99.68   CC       as.o
+#7 99.98   CC       atof-generic.o
+#7 100.2   CC       compress-debug.o
+#7 100.2   CC       cond.o
+#7 100.5   CC       depend.o
+#7 100.6   CC       dwarf2dbg.o
+#7 101.5   CC       dw2gencfi.o
+#7 102.1   CC       ecoff.o
+#7 102.2   CC       ehopt.o
+#7 102.4   CC       expr.o
+#7 103.0   CC       flonum-copy.o
+#7 103.1   CC       flonum-konst.o
+#7 103.1   CC       flonum-mult.o
+#7 103.2   CC       frags.o
+#7 103.4   CC       hash.o
+#7 103.5   CC       input-file.o
+#7 103.6   CC       input-scrub.o
+#7 103.8   CC       listing.o
+#7 104.3   CC       literal.o
+#7 104.4   CC       macro.o
+#7 105.0   CC       messages.o
+#7 105.2   CC       output-file.o
+#7 105.3   CC       read.o
+#7 106.9   CC       remap.o
+#7 107.0   CC       sb.o
+#7 107.1   CC       stabs.o
+#7 107.3   CC       subsegs.o
+#7 107.6   CC       symbols.o
+#7 108.5   CC       write.o
+#7 109.4   CC       config/tc-i386.o
+#7 114.0   CC       config/obj-elf.o
+#7 114.8   CC       config/atof-ieee.o
+#7 115.0   CCLD     as-new
+#7 115.3   GEN      doc/as.1
+#7 115.6 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/gas'
+#7 115.6 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/gas'
+#7 115.6 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/gas'
+#7 115.6 mkdir -p -- ./libctf
+#7 115.6 Configuring in ./libctf
+#7 115.8 configure: creating cache ./config.cache
+#7 115.8 checking build system type... x86_64-pc-linux-gnu
+#7 115.8 checking host system type... x86_64-pc-linux-gnu
+#7 115.8 checking target system type... x86_64-lfs-linux-gnu
+#7 115.8 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 115.8 checking whether the C compiler works... yes
+#7 115.9 checking for C compiler default output file name... a.out
+#7 115.9 checking for suffix of executables... 
+#7 115.9 checking whether we are cross compiling... no
+#7 115.9 checking for suffix of object files... o
+#7 116.0 checking whether we are using the GNU C compiler... yes
+#7 116.0 checking whether gcc accepts -g... yes
+#7 116.0 checking for gcc option to accept ISO C89... none needed
+#7 116.0 checking whether gcc understands -c and -o together... yes
+#7 116.1 checking how to run the C preprocessor... gcc -E
+#7 116.1 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 116.1 checking for egrep... /usr/bin/grep -E
+#7 116.1 checking for ANSI C header files... yes
+#7 116.3 checking for sys/types.h... yes
+#7 116.3 checking for sys/stat.h... yes
+#7 116.3 checking for stdlib.h... yes
+#7 116.4 checking for string.h... yes
+#7 116.4 checking for memory.h... yes
+#7 116.5 checking for strings.h... yes
+#7 116.5 checking for inttypes.h... yes
+#7 116.5 checking for stdint.h... yes
+#7 116.6 checking for unistd.h... yes
+#7 116.6 checking minix/config.h usability... no
+#7 116.7 checking minix/config.h presence... no
+#7 116.7 checking for minix/config.h... no
+#7 116.7 checking whether it is safe to define __EXTENSIONS__... yes
+#7 116.7 checking for a BSD-compatible install... /usr/bin/install -c
+#7 116.7 checking whether build environment is sane... yes
+#7 116.7 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 116.7 checking for gawk... gawk
+#7 116.7 checking whether make sets $(MAKE)... yes
+#7 116.8 checking for style of include used by make... GNU
+#7 116.8 checking whether make supports nested variables... yes
+#7 116.8 checking dependency style of gcc... gcc3
+#7 116.8 checking whether make supports nested variables... (cached) yes
+#7 116.8 checking whether make sets $(MAKE)... (cached) yes
+#7 116.8 checking for x86_64-pc-linux-gnu-gcc... (cached) gcc
+#7 116.8 checking whether we are using the GNU C compiler... (cached) yes
+#7 116.8 checking whether gcc accepts -g... (cached) yes
+#7 116.8 checking for gcc option to accept ISO C89... (cached) none needed
+#7 116.8 checking whether gcc understands -c and -o together... (cached) yes
+#7 116.8 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 116.8 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 116.8 checking the archiver (ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so) interface... ar
+#7 116.9 checking whether NLS is requested... no
+#7 116.9 checking how to print strings... printf
+#7 116.9 checking for a sed that does not truncate output... /usr/bin/sed
+#7 116.9 checking for fgrep... /usr/bin/grep -F
+#7 116.9 checking for ld used by gcc... ld
+#7 116.9 checking if the linker (ld) is GNU ld... yes
+#7 116.9 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 116.9 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 116.9 checking whether ln -s works... yes
+#7 116.9 checking the maximum length of command line arguments... 1572864
+#7 116.9 checking whether the shell understands some XSI constructs... yes
+#7 116.9 checking whether the shell understands "+="... yes
+#7 116.9 checking for ld option to reload object files... -r
+#7 116.9 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 116.9 checking how to recognize dependent libraries... pass_all
+#7 116.9 checking for x86_64-pc-linux-gnu-ar... (cached) ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 116.9 checking for x86_64-pc-linux-gnu-strip... no
+#7 116.9 checking for strip... strip
+#7 116.9 checking for x86_64-pc-linux-gnu-ranlib... (cached) ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 116.9 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 117.0 /lfs/sources/binutils-2.39/libctf/configure: line 7441: /usr/bin/file: No such file or directory
+#7 117.0 checking for dlfcn.h... yes
+#7 117.1 checking for objdir... .libs
+#7 117.1 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 117.2 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 117.2 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 117.2 checking if gcc static flag -static works... yes
+#7 117.3 checking if gcc supports -c -o file.o... yes
+#7 117.3 checking if gcc supports -c -o file.o... (cached) yes
+#7 117.3 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 117.3 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 117.4 checking how to hardcode library paths into programs... immediate
+#7 117.4 checking whether stripping libraries is possible... yes
+#7 117.4 checking if libtool supports shared libraries... yes
+#7 117.4 checking whether to build shared libraries... no
+#7 117.4 checking whether to build static libraries... yes
+#7 117.4 checking for special C compiler options needed for large files... no
+#7 117.4 checking for _FILE_OFFSET_BITS value needed for large files... no
+#7 117.4 checking for aclocal... ${SHELL} /lfs/sources/binutils-2.39/missing aclocal-1.15
+#7 117.4 checking for autoconf... ${SHELL} /lfs/sources/binutils-2.39/missing autoconf
+#7 117.4 checking for autoheader... ${SHELL} /lfs/sources/binutils-2.39/missing autoheader
+#7 117.4 checking whether gcc supports -W... yes
+#7 117.5 checking whether gcc supports -Wall... yes
+#7 117.5 checking whether gcc supports -Wnarrowing... yes
+#7 117.5 checking whether gcc supports -Wwrite-strings... yes
+#7 117.6 checking whether gcc supports -Wmissing-format-attribute... yes
+#7 117.6 checking whether gcc supports -Wstrict-prototypes... yes
+#7 117.6 checking whether gcc supports -Wmissing-prototypes... yes
+#7 117.6 checking whether gcc supports -Wold-style-definition... yes
+#7 117.7 checking whether gcc supports -pedantic -Wlong-long... yes
+#7 117.7 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 117.7 checking whether to install libbfd... no
+#7 117.7 checking whether gcc supports -Wall... (cached) yes
+#7 117.7 checking for stdlib.h... (cached) yes
+#7 117.7 checking for unistd.h... (cached) yes
+#7 117.7 checking for sys/param.h... yes
+#7 117.8 checking for getpagesize... yes
+#7 117.8 checking for working mmap... yes
+#7 117.9 checking for library containing dlsym... none required
+#7 118.0 checking for ELF support in BFD... yes
+#7 118.2 checking whether byte ordering is bigendian... no
+#7 118.3 checking byteswap.h usability... yes
+#7 118.3 checking byteswap.h presence... yes
+#7 118.3 checking for byteswap.h... yes
+#7 118.4 checking endian.h usability... yes
+#7 118.4 checking endian.h presence... yes
+#7 118.4 checking for endian.h... yes
+#7 118.4 checking for pread... yes
+#7 118.5 checking whether bswap_16 is declared... yes
+#7 118.5 checking whether bswap_32 is declared... yes
+#7 118.5 checking whether bswap_64 is declared... yes
+#7 118.6 checking whether asprintf is declared... yes
+#7 118.6 checking whether vasprintf is declared... yes
+#7 118.7 checking whether stpcpy is declared... yes
+#7 118.8 checking for qsort_r... yes
+#7 118.8 checking for qsort_r signature... GNU
+#7 118.9 checking for O_CLOEXEC... yes
+#7 118.9 checking for makeinfo... makeinfo --split-size=5000000
+#7 119.0 checking for expect... no
+#7 119.0 checking for Tcl supporting try/catch... no
+#7 119.0 checking for linker versioning flags... -Wl,--version-script='../../libctf/libctf.ver'
+#7 119.1 configure: updating cache ./config.cache
+#7 119.1 checking that generated files are newer than configure... done
+#7 119.1 configure: creating ./config.status
+#7 119.6 config.status: creating Makefile
+#7 119.6 config.status: creating config.h
+#7 119.6 config.status: executing depfiles commands
+#7 119.7 config.status: executing libtool commands
+#7 119.8 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 119.8 make  all-am
+#7 119.8 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 119.8   CC       libctf_la-ctf-archive.lo
+#7 120.2   CC       libctf_la-ctf-dump.lo
+#7 120.5   CC       libctf_la-ctf-create.lo
+#7 121.1   CC       libctf_la-ctf-decl.lo
+#7 121.3   CC       libctf_la-ctf-error.lo
+#7 121.4   CC       libctf_la-ctf-hash.lo
+#7 121.7   CC       libctf_la-ctf-labels.lo
+#7 121.8   CC       libctf_la-ctf-dedup.lo
+#7 122.6   CC       libctf_la-ctf-link.lo
+#7 123.1   CC       libctf_la-ctf-lookup.lo
+#7 123.5   CC       libctf_la-ctf-open.lo
+#7 124.2   CC       libctf_la-ctf-serialize.lo
+#7 124.7   CC       libctf_la-ctf-sha1.lo
+#7 124.8   CC       libctf_la-ctf-string.lo
+#7 125.1   CC       libctf_la-ctf-subr.lo
+#7 125.2   CC       libctf_la-ctf-types.lo
+#7 125.8   CC       libctf_la-ctf-util.lo
+#7 126.0   CC       libctf_la-ctf-open-bfd.lo
+#7 126.2   CCLD     libctf.la
+#7 126.2 libtool: link: warning: `-version-info/-version-number' is ignored for convenience libraries
+#7 126.3   CC       libctf_nobfd_la-ctf-archive.lo
+#7 126.6   CC       libctf_nobfd_la-ctf-dump.lo
+#7 127.0   CC       libctf_nobfd_la-ctf-create.lo
+#7 127.7   CC       libctf_nobfd_la-ctf-decl.lo
+#7 127.8   CC       libctf_nobfd_la-ctf-error.lo
+#7 128.0   CC       libctf_nobfd_la-ctf-hash.lo
+#7 128.3   CC       libctf_nobfd_la-ctf-labels.lo
+#7 128.4   CC       libctf_nobfd_la-ctf-dedup.lo
+#7 129.2   CC       libctf_nobfd_la-ctf-link.lo
+#7 129.7   CC       libctf_nobfd_la-ctf-lookup.lo
+#7 130.1   CC       libctf_nobfd_la-ctf-open.lo
+#7 130.7   CC       libctf_nobfd_la-ctf-serialize.lo
+#7 131.3   CC       libctf_nobfd_la-ctf-sha1.lo
+#7 131.4   CC       libctf_nobfd_la-ctf-string.lo
+#7 131.6   CC       libctf_nobfd_la-ctf-subr.lo
+#7 131.8   CC       libctf_nobfd_la-ctf-types.lo
+#7 132.4   CC       libctf_nobfd_la-ctf-util.lo
+#7 132.6   CCLD     libctf-nobfd.la
+#7 132.6 libtool: link: warning: `-version-info/-version-number' is ignored for convenience libraries
+#7 132.7 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 132.7 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 132.7 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 132.7   CC       sysinfo.o
+#7 132.9   CC       syslex_wrap.o
+#7 133.2   CCLD     sysinfo
+#7 133.2   GEN      sysroff.h
+#7 133.2 Making info in po
+#7 133.2 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/binutils/po'
+#7 133.2 make[3]: Nothing to be done for 'info'.
+#7 133.2 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils/po'
+#7 133.2 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 133.2   GEN      doc/addr2line.1
+#7 133.4   GEN      doc/ar.1
+#7 133.5   GEN      doc/dlltool.1
+#7 133.6   GEN      doc/nm.1
+#7 133.8   GEN      doc/objcopy.1
+#7 133.9   GEN      doc/objdump.1
+#7 134.1   GEN      doc/ranlib.1
+#7 134.2   GEN      doc/readelf.1
+#7 134.4   GEN      doc/size.1
+#7 134.5   GEN      doc/strings.1
+#7 134.6   GEN      doc/strip.1
+#7 134.7   GEN      doc/elfedit.1
+#7 134.8   GEN      doc/windres.1
+#7 134.9   GEN      doc/windmc.1
+#7 135.0   GEN      doc/cxxfilt.man
+#7 135.1   GEN      doc/c++filt.1
+#7 135.1 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 135.1 make  all-recursive
+#7 135.1 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 135.1 Making all in po
+#7 135.1 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/binutils/po'
+#7 135.1 make[4]: Nothing to be done for 'all'.
+#7 135.1 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils/po'
+#7 135.2 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 135.2   CC       size.o
+#7 135.4   CC       bucomm.o
+#7 135.7   CC       version.o
+#7 135.7   CC       filemode.o
+#7 135.8   CCLD     size
+#7 136.0   CC       objdump.o
+#7 138.0   CC       dwarf.o
+#7 144.1   CC       prdbg.o
+#7 145.0   CC       demanguse.o
+#7 145.1   CC       rddbg.o
+#7 145.2   CC       debug.o
+#7 145.9   CC       stabs.o
+#7 147.3   CC       rdcoff.o
+#7 147.6   CC       elfcomm.o
+#7 147.9   CCLD     objdump
+#7 148.2   CC       arparse.o
+#7 148.4   CC       arlex.o
+#7 148.7   CC       ar.o
+#7 149.1   CC       not-ranlib.o
+#7 149.1   CC       arsup.o
+#7 149.3   CC       rename.o
+#7 149.4   CC       binemul.o
+#7 149.5   CC       emul_vanilla.o
+#7 149.6   CCLD     ar
+#7 149.8   CC       strings.o
+#7 150.2   CCLD     strings
+#7 150.4   CC       is-ranlib.o
+#7 150.5   CCLD     ranlib
+#7 150.7   CC       objcopy.o
+#7 152.3   CC       not-strip.o
+#7 152.3   CC       wrstabs.o
+#7 153.0   CCLD     objcopy
+#7 153.2   CC       addr2line.o
+#7 153.4   CCLD     addr2line
+#7 153.7   CC       readelf.o
+#7 162.8   CC       unwind-ia64.o
+#7 163.1   CCLD     readelf
+#7 163.3   CC       elfedit.o
+#7 163.8   CCLD     elfedit
+#7 163.9   CC       nm.o
+#7 164.7   CCLD     nm-new
+#7 165.0   CC       is-strip.o
+#7 165.0   CCLD     strip-new
+#7 165.3   CC       cxxfilt.o
+#7 165.5   CCLD     cxxfilt
+#7 165.7   CC       bfdtest1.o
+#7 165.9   CCLD     bfdtest1
+#7 166.1   CC       bfdtest2.o
+#7 166.2   CCLD     bfdtest2
+#7 166.5   CC       testsuite/gentestdlls.o
+#7 166.6   CCLD     testsuite/gentestdlls
+#7 166.7 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 166.7 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 166.7 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 166.7 mkdir -p -- ./etc
+#7 166.7 Configuring in ./etc
+#7 166.9 configure: creating cache ./config.cache
+#7 166.9 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 166.9 checking for a BSD-compatible install... /usr/bin/install -c
+#7 166.9 checking whether build environment is sane... yes
+#7 166.9 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 166.9 checking for gawk... gawk
+#7 166.9 checking whether make sets $(MAKE)... yes
+#7 166.9 checking whether make supports nested variables... yes
+#7 166.9 checking whether make supports nested variables... (cached) yes
+#7 167.0 configure: updating cache ./config.cache
+#7 167.0 checking that generated files are newer than configure... done
+#7 167.9 configure: creating ./config.status
+#7 168.0 config.status: creating Makefile
+#7 168.1 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/etc'
+#7 168.1 make[2]: Nothing to be done for 'all'.
+#7 168.1 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/etc'
+#7 168.1 mkdir -p -- ./gprof
+#7 168.1 Configuring in ./gprof
+#7 168.2 configure: creating cache ./config.cache
+#7 168.2 checking build system type... x86_64-pc-linux-gnu
+#7 168.2 checking host system type... x86_64-pc-linux-gnu
+#7 168.2 checking target system type... x86_64-lfs-linux-gnu
+#7 168.3 checking for a BSD-compatible install... /usr/bin/install -c
+#7 168.3 checking whether build environment is sane... yes
+#7 168.3 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 168.3 checking for gawk... gawk
+#7 168.3 checking whether make sets $(MAKE)... yes
+#7 168.3 checking whether make supports nested variables... yes
+#7 168.3 checking whether make supports nested variables... (cached) yes
+#7 168.3 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 168.3 checking whether the C compiler works... yes
+#7 168.4 checking for C compiler default output file name... a.out
+#7 168.4 checking for suffix of executables... 
+#7 168.4 checking whether we are cross compiling... no
+#7 168.5 checking for suffix of object files... o
+#7 168.5 checking whether we are using the GNU C compiler... yes
+#7 168.5 checking whether gcc accepts -g... yes
+#7 168.6 checking for gcc option to accept ISO C89... none needed
+#7 168.6 checking whether gcc understands -c and -o together... yes
+#7 168.7 checking for style of include used by make... GNU
+#7 168.7 checking dependency style of gcc... gcc3
+#7 168.7 checking how to run the C preprocessor... gcc -E
+#7 168.8 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 168.8 checking for egrep... /usr/bin/grep -E
+#7 168.8 checking for ANSI C header files... yes
+#7 169.0 checking for sys/types.h... yes
+#7 169.0 checking for sys/stat.h... yes
+#7 169.1 checking for stdlib.h... yes
+#7 169.1 checking for string.h... yes
+#7 169.2 checking for memory.h... yes
+#7 169.2 checking for strings.h... yes
+#7 169.3 checking for inttypes.h... yes
+#7 169.3 checking for stdint.h... yes
+#7 169.4 checking for unistd.h... yes
+#7 169.4 checking minix/config.h usability... no
+#7 169.5 checking minix/config.h presence... no
+#7 169.5 checking for minix/config.h... no
+#7 169.5 checking whether it is safe to define __EXTENSIONS__... yes
+#7 169.5 checking how to print strings... printf
+#7 169.5 checking for a sed that does not truncate output... /usr/bin/sed
+#7 169.5 checking for fgrep... /usr/bin/grep -F
+#7 169.6 checking for ld used by gcc... ld
+#7 169.6 checking if the linker (ld) is GNU ld... yes
+#7 169.6 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 169.6 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 169.6 checking whether ln -s works... yes
+#7 169.6 checking the maximum length of command line arguments... 1572864
+#7 169.6 checking whether the shell understands some XSI constructs... yes
+#7 169.6 checking whether the shell understands "+="... yes
+#7 169.6 checking for ld option to reload object files... -r
+#7 169.6 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 169.6 checking how to recognize dependent libraries... pass_all
+#7 169.6 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 169.6 checking for x86_64-pc-linux-gnu-strip... no
+#7 169.6 checking for strip... strip
+#7 169.6 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 169.6 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 169.8 /lfs/sources/binutils-2.39/gprof/configure: line 6380: /usr/bin/file: No such file or directory
+#7 169.8 checking for dlfcn.h... yes
+#7 169.8 checking for objdir... .libs
+#7 169.9 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 169.9 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 169.9 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 169.9 checking if gcc static flag -static works... yes
+#7 170.1 checking if gcc supports -c -o file.o... yes
+#7 170.1 checking if gcc supports -c -o file.o... (cached) yes
+#7 170.1 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 170.1 checking whether -lc should be explicitly linked in... no
+#7 170.1 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 170.2 checking how to hardcode library paths into programs... immediate
+#7 170.2 checking whether stripping libraries is possible... yes
+#7 170.2 checking if libtool supports shared libraries... yes
+#7 170.2 checking whether to build shared libraries... yes
+#7 170.2 checking whether to build static libraries... yes
+#7 170.2 checking for dlfcn.h... (cached) yes
+#7 170.2 checking for windows.h... no
+#7 170.3 checking for library containing dlsym... none required
+#7 170.4 checking for special C compiler options needed for large files... no
+#7 170.4 checking for _FILE_OFFSET_BITS value needed for large files... no
+#7 170.4 checking sys/time.h usability... yes
+#7 170.4 checking sys/time.h presence... yes
+#7 170.4 checking for sys/time.h... yes
+#7 170.5 checking for setitimer... yes
+#7 170.5 checking whether NLS is requested... no
+#7 170.5 checking whether NLS is requested... no
+#7 170.5 checking for msgfmt... no
+#7 170.5 checking for gmsgfmt... :
+#7 170.5 checking for xgettext... no
+#7 170.5 checking for msgmerge... no
+#7 170.5 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 170.5 checking sys/gmon_out.h usability... yes
+#7 170.6 checking sys/gmon_out.h presence... yes
+#7 170.6 checking for sys/gmon_out.h... yes
+#7 170.6 checking for a known getopt prototype in unistd.h... yes
+#7 170.6 checking for library containing fabs... -lm
+#7 170.8 Setting warning flags = -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow -Wstack-usage=262144
+#7 170.8 configure: updating cache ./config.cache
+#7 170.8 checking that generated files are newer than configure... done
+#7 170.8 configure: creating ./config.status
+#7 171.4 config.status: creating Makefile
+#7 171.4 config.status: creating po/Makefile.in
+#7 171.5 config.status: creating gconfig.h
+#7 171.5 config.status: executing depfiles commands
+#7 171.6 config.status: executing libtool commands
+#7 171.6 config.status: executing default-1 commands
+#7 171.6 config.status: creating po/POTFILES
+#7 171.6 config.status: creating po/Makefile
+#7 171.7 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 171.7 make  all-recursive
+#7 171.7 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 171.7 Making all in po
+#7 171.7 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/gprof/po'
+#7 171.7 make[4]: Nothing to be done for 'all'.
+#7 171.7 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof/po'
+#7 171.7 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 171.7   CC       basic_blocks.o
+#7 172.0   CC       call_graph.o
+#7 172.1   CC       cg_arcs.o
+#7 172.4   CC       cg_dfn.o
+#7 172.6   CC       cg_print.o
+#7 173.1   CC       corefile.o
+#7 173.5   CC       gmon_io.o
+#7 173.8   CC       gprof.o
+#7 174.0   CC       hertz.o
+#7 174.1   CC       hist.o
+#7 174.5   CC       source.o
+#7 174.7   CC       search_list.o
+#7 174.8   CC       symtab.o
+#7 175.0   CC       sym_ids.o
+#7 175.2   CC       utils.o
+#7 175.3   CC       i386.o
+#7 175.4   CC       alpha.o
+#7 175.6   CC       vax.o
+#7 175.7   CC       sparc.o
+#7 175.8   CC       mips.o
+#7 176.0   CC       aarch64.o
+#7 176.1   CC       flat_bl.o
+#7 176.1   CC       bsd_callg_bl.o
+#7 176.2   CC       fsf_callg_bl.o
+#7 176.2   CCLD     gprof
+#7 176.5 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 176.5 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 176.5 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 176.5 mkdir -p -- ./ld
+#7 176.6 Configuring in ./ld
+#7 176.7 configure: creating cache ./config.cache
+#7 176.7 checking build system type... x86_64-pc-linux-gnu
+#7 176.7 checking host system type... x86_64-pc-linux-gnu
+#7 176.7 checking target system type... x86_64-lfs-linux-gnu
+#7 176.7 checking for a BSD-compatible install... /usr/bin/install -c
+#7 176.7 checking whether build environment is sane... yes
+#7 176.7 checking for a thread-safe mkdir -p... /usr/bin/mkdir -p
+#7 176.7 checking for gawk... gawk
+#7 176.8 checking whether make sets $(MAKE)... yes
+#7 176.8 checking whether make supports nested variables... yes
+#7 176.8 checking whether make supports nested variables... (cached) yes
+#7 176.8 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 176.8 checking for x86_64-pc-linux-gnu-gcc... gcc
+#7 176.8 checking whether the C compiler works... yes
+#7 176.9 checking for C compiler default output file name... a.out
+#7 176.9 checking for suffix of executables... 
+#7 176.9 checking whether we are cross compiling... no
+#7 177.0 checking for suffix of object files... o
+#7 177.0 checking whether we are using the GNU C compiler... yes
+#7 177.0 checking whether gcc accepts -g... yes
+#7 177.0 checking for gcc option to accept ISO C89... none needed
+#7 177.1 checking whether gcc understands -c and -o together... yes
+#7 177.1 checking for style of include used by make... GNU
+#7 177.1 checking dependency style of gcc... gcc3
+#7 177.2 checking whether we are using the GNU C++ compiler... yes
+#7 177.2 checking whether g++ accepts -g... yes
+#7 177.2 checking dependency style of g++... gcc3
+#7 177.3 checking for grep that handles long lines and -e... /usr/bin/grep
+#7 177.3 checking how to run the C preprocessor... gcc -E
+#7 177.4 checking for egrep... /usr/bin/grep -E
+#7 177.4 checking for ANSI C header files... yes
+#7 177.6 checking for sys/types.h... yes
+#7 177.6 checking for sys/stat.h... yes
+#7 177.6 checking for stdlib.h... yes
+#7 177.7 checking for string.h... yes
+#7 177.7 checking for memory.h... yes
+#7 177.8 checking for strings.h... yes
+#7 177.8 checking for inttypes.h... yes
+#7 177.9 checking for stdint.h... yes
+#7 177.9 checking for unistd.h... yes
+#7 178.0 checking minix/config.h usability... no
+#7 178.0 checking minix/config.h presence... no
+#7 178.0 checking for minix/config.h... no
+#7 178.0 checking whether it is safe to define __EXTENSIONS__... yes
+#7 178.1 checking how to print strings... printf
+#7 178.1 checking for a sed that does not truncate output... /usr/bin/sed
+#7 178.1 checking for fgrep... /usr/bin/grep -F
+#7 178.1 checking for ld used by gcc... ld
+#7 178.1 checking if the linker (ld) is GNU ld... yes
+#7 178.1 checking for BSD- or MS-compatible name lister (nm)... /usr/bin/nm -B
+#7 178.1 checking the name lister (/usr/bin/nm -B) interface... BSD nm
+#7 178.1 checking whether ln -s works... yes
+#7 178.1 checking the maximum length of command line arguments... 1572864
+#7 178.2 checking whether the shell understands some XSI constructs... yes
+#7 178.2 checking whether the shell understands "+="... yes
+#7 178.2 checking for ld option to reload object files... -r
+#7 178.2 checking for x86_64-pc-linux-gnu-objdump... objdump
+#7 178.2 checking how to recognize dependent libraries... pass_all
+#7 178.2 checking for x86_64-pc-linux-gnu-ar... ar --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 178.2 checking for x86_64-pc-linux-gnu-strip... no
+#7 178.2 checking for strip... strip
+#7 178.2 checking for x86_64-pc-linux-gnu-ranlib... ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so
+#7 178.2 checking command to parse /usr/bin/nm -B output from gcc object... ok
+#7 178.3 /lfs/sources/binutils-2.39/ld/configure: line 7266: /usr/bin/file: No such file or directory
+#7 178.3 checking for dlfcn.h... yes
+#7 178.3 checking for objdir... .libs
+#7 178.4 checking if gcc supports -fno-rtti -fno-exceptions... no
+#7 178.4 checking for gcc option to produce PIC... -fPIC -DPIC
+#7 178.4 checking if gcc PIC flag -fPIC -DPIC works... yes
+#7 178.5 checking if gcc static flag -static works... yes
+#7 178.6 checking if gcc supports -c -o file.o... yes
+#7 178.6 checking if gcc supports -c -o file.o... (cached) yes
+#7 178.6 checking whether the gcc linker (ld) supports shared libraries... yes
+#7 178.6 checking whether -lc should be explicitly linked in... no
+#7 178.7 checking dynamic linker characteristics... GNU/Linux ld.so
+#7 178.8 checking how to hardcode library paths into programs... immediate
+#7 178.8 checking whether stripping libraries is possible... yes
+#7 178.8 checking if libtool supports shared libraries... yes
+#7 178.8 checking whether to build shared libraries... yes
+#7 178.8 checking whether to build static libraries... yes
+#7 178.8 checking how to run the C++ preprocessor... g++ -E
+#7 179.0 checking for ld used by g++... ld
+#7 179.0 checking if the linker (ld) is GNU ld... yes
+#7 179.0 checking whether the g++ linker (ld) supports shared libraries... yes
+#7 179.0 checking for g++ option to produce PIC... -fPIC -DPIC
+#7 179.0 checking if g++ PIC flag -fPIC -DPIC works... yes
+#7 179.1 checking if g++ static flag -static works... yes
+#7 179.2 checking if g++ supports -c -o file.o... yes
+#7 179.2 checking if g++ supports -c -o file.o... (cached) yes
+#7 179.2 checking whether the g++ linker (ld) supports shared libraries... yes
+#7 179.2 checking dynamic linker characteristics... (cached) GNU/Linux ld.so
+#7 179.2 checking how to hardcode library paths into programs... immediate
+#7 179.2 checking for dlfcn.h... (cached) yes
+#7 179.2 checking for windows.h... no
+#7 179.3 checking for library containing dlsym... none required
+#7 179.3 checking for special C compiler options needed for large files... no
+#7 179.3 checking for _FILE_OFFSET_BITS value needed for large files... no
+#7 179.4 checking size of void *... 8
+#7 179.5 Setting warning flags = -W -Wall -Wstrict-prototypes -Wmissing-prototypes -Wshadow -Wstack-usage=262144
+#7 179.5 checking for LC_MESSAGES... yes
+#7 179.6 checking whether NLS is requested... no
+#7 179.6 checking whether NLS is requested... no
+#7 179.6 checking for msgfmt... no
+#7 179.6 checking for gmsgfmt... :
+#7 179.6 checking for xgettext... no
+#7 179.6 checking for msgmerge... no
+#7 179.6 checking for bison... bison -y
+#7 179.6 checking for flex... /lfs/sources/binutils-2.39/missing flex
+#7 179.6 checking whether to enable maintainer-specific portions of Makefiles... no
+#7 179.6 checking how to compare bootstrapped objects... cmp --ignore-initial=16 $$f1 $$f2
+#7 179.6 checking fcntl.h usability... yes
+#7 179.7 checking fcntl.h presence... yes
+#7 179.7 checking for fcntl.h... yes
+#7 179.7 checking elf-hints.h usability... no
+#7 179.8 checking elf-hints.h presence... no
+#7 179.8 checking for elf-hints.h... no
+#7 179.8 checking limits.h usability... yes
+#7 179.8 checking limits.h presence... yes
+#7 179.9 checking for limits.h... yes
+#7 179.9 checking for inttypes.h... (cached) yes
+#7 179.9 checking for stdint.h... (cached) yes
+#7 179.9 checking sys/file.h usability... yes
+#7 179.9 checking sys/file.h presence... yes
+#7 179.9 checking for sys/file.h... yes
+#7 180.0 checking sys/mman.h usability... yes
+#7 180.0 checking sys/mman.h presence... yes
+#7 180.0 checking for sys/mman.h... yes
+#7 180.0 checking sys/param.h usability... yes
+#7 180.1 checking sys/param.h presence... yes
+#7 180.1 checking for sys/param.h... yes
+#7 180.1 checking for sys/stat.h... (cached) yes
+#7 180.1 checking sys/time.h usability... yes
+#7 180.2 checking sys/time.h presence... yes
+#7 180.2 checking for sys/time.h... yes
+#7 180.2 checking for sys/types.h... (cached) yes
+#7 180.2 checking for unistd.h... (cached) yes
+#7 180.2 checking for close... yes
+#7 180.3 checking for glob... yes
+#7 180.4 checking for lseek... yes
+#7 180.4 checking for mkstemp... yes
+#7 180.5 checking for open... yes
+#7 180.5 checking for realpath... yes
+#7 180.6 checking for sbrk... yes
+#7 180.7 checking for waitpid... yes
+#7 180.7 checking whether asprintf is declared... yes
+#7 180.8 checking whether environ is declared... yes
+#7 180.9 checking whether sbrk is declared... yes
+#7 180.9 checking for stdlib.h... (cached) yes
+#7 180.9 checking for unistd.h... (cached) yes
+#7 181.0 checking for sys/param.h... (cached) yes
+#7 181.0 checking for getpagesize... yes
+#7 181.0 checking for working mmap... yes
+#7 181.1 checking for library containing dlopen... none required
+#7 181.2 checking for a known getopt prototype in unistd.h... yes
+#7 181.2 checking whether ANSI C string concatenation works... yes
+#7 181.3 configure: updating cache ./config.cache
+#7 181.3 checking that generated files are newer than configure... done
+#7 181.3 configure: creating ./config.status
+#7 182.2 config.status: creating Makefile
+#7 182.2 config.status: creating po/Makefile.in
+#7 182.2 config.status: creating config.h
+#7 182.2 config.status: executing depfiles commands
+#7 183.5 config.status: executing libtool commands
+#7 183.6 config.status: executing default-1 commands
+#7 183.6 config.status: executing default commands
+#7 183.8 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 183.8 (echo "/* This file is automatically generated.  DO NOT EDIT! */";\
+#7 183.8 for f in `echo " " eelf_x86_64.o eelf32_x86_64.o eelf_i386.o eelf_iamcu.o "" \
+#7 183.8  | sed -e 's/ e/ ld/g' -e 's/ ld/ /g' -e 's/[.]o//g'`; do \
+#7 183.8     echo "extern ld_emulation_xfer_type ld_${f}_emulation;"; \
+#7 183.8 done;\
+#7 183.8 echo "";\
+#7 183.8 echo "#define EMULATION_LIST \\";\
+#7 183.8 for f in `echo " " eelf_x86_64.o eelf32_x86_64.o eelf_i386.o eelf_iamcu.o "" \
+#7 183.8  | sed -e 's/ e/ ld/g' -e 's/ ld/ /g' -e 's/[.]o//g'`; do \
+#7 183.8     echo "  &ld_${f}_emulation, \\"; \
+#7 183.8 done;\
+#7 183.8 echo "  0") >ldemul-tmp.h
+#7 183.8 mv ldemul-tmp.h ldemul-list.h
+#7 183.8 make  all-recursive
+#7 183.9 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 183.9 Making all in po
+#7 183.9 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/ld/po'
+#7 183.9 ( if test 'x../../../ld/po' != 'x.'; then \
+#7 183.9     posrcprefix='../../../ld/'; \
+#7 183.9   else \
+#7 183.9     posrcprefix="../"; \
+#7 183.9   fi; \
+#7 183.9   rm -f SRC-POTFILES-t SRC-POTFILES \
+#7 183.9     && (sed -e '/^#/d' -e '/^[	 ]*$/d' \
+#7 183.9 	    -e "s@.*@	$posrcprefix& \\\\@" < ../../../ld/po/SRC-POTFILES.in \
+#7 183.9 	| sed -e '$s/\\$//') > SRC-POTFILES-t \
+#7 183.9     && chmod a-w SRC-POTFILES-t \
+#7 183.9     && mv SRC-POTFILES-t SRC-POTFILES )
+#7 183.9 rm -f BLD-POTFILES-t BLD-POTFILES \
+#7 183.9   && sed -e '/^#/d' -e '/^[	 ]*$/d' \
+#7 183.9 	 -e "s@.*@	../& \\\\@" < ../../../ld/po/BLD-POTFILES.in \
+#7 183.9      | sed -e '$s/\\$//' > BLD-POTFILES-t \
+#7 183.9   && chmod a-w BLD-POTFILES-t \
+#7 183.9   && mv BLD-POTFILES-t BLD-POTFILES
+#7 183.9 cd .. \
+#7 183.9   && CONFIG_FILES=po/Makefile.in:po/Make-in \
+#7 183.9      CONFIG_HEADERS= /bin/sh ./config.status
+#7 184.1 config.status: creating po/Makefile.in
+#7 184.1 config.status: executing depfiles commands
+#7 184.1 config.status: executing libtool commands
+#7 184.2 config.status: executing default-1 commands
+#7 184.2 config.status: executing default commands
+#7 184.2 make[4]: Nothing to be done for 'all'.
+#7 184.2 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/ld/po'
+#7 184.3 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 184.3   CC       libdep_plugin.lo
+#7 184.7   GEN      libdep.la
+#7 184.7 libtool: link: warning: ignoring multiple `-rpath's for a libtool library
+#7 184.7   CC       libldtestplug_la-testplug.lo
+#7 185.2   CCLD     libldtestplug.la
+#7 185.3   CC       libldtestplug2_la-testplug2.lo
+#7 185.9   CCLD     libldtestplug2.la
+#7 186.0   CC       libldtestplug3_la-testplug3.lo
+#7 186.5   CCLD     libldtestplug3.la
+#7 186.6   CC       libldtestplug4_la-testplug4.lo
+#7 187.1   CCLD     libldtestplug4.la
+#7 187.2   CC       ldgram.o
+#7 187.9   CC       ldlex-wrapper.o
+#7 188.4   CC       lexsup.o
+#7 189.1   CC       ldlang.o
+#7 191.9   CC       mri.o
+#7 192.1   CC       ldctor.o
+#7 192.3   CC       ldmain.o
+#7 192.9   CC       ldwrite.o
+#7 193.1   CC       ldexp.o
+#7 193.7   CC       ldemul.o
+#7 194.0   CC       ldver.o
+#7 194.1   CC       ldmisc.o
+#7 194.4   CC       ldfile.o
+#7 194.7   CC       ldcref.o
+#7 195.0   CC       plugin.o
+#7 195.5   CC       ldbuildid.o
+#7 195.6   GEN      stringify.sed
+#7 195.6   GEN      eelf_x86_64.c
+#7 195.7 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 196.4 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 196.4   CC       eelf_x86_64.o
+#7 196.7   GEN      eelf32_x86_64.c
+#7 196.8 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 197.6 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 197.6   CC       eelf32_x86_64.o
+#7 197.9   GEN      eelf_i386.c
+#7 198.0 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 198.7 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 198.7   CC       eelf_i386.o
+#7 199.0   GEN      eelf_iamcu.c
+#7 199.1 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 199.7 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 199.7   CC       eelf_iamcu.o
+#7 200.0   CC       ldelf.o
+#7 200.8   CC       ldelfgen.o
+#7 201.0   CCLD     ld-new
+#7 201.4 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 201.4 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 201.4 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 201.4 make[1]: Nothing to be done for 'all-target'.
+#7 201.4 make[1]: Leaving directory '/lfs/sources/binutils-2.39/build'
+#7 201.6 make[1]: Entering directory '/lfs/sources/binutils-2.39/build'
+#7 201.6 /bin/sh ../mkinstalldirs /lfs/tools /lfs/tools
+#7 201.7 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.7 make  install-recursive
+#7 201.7 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.7 Making install in po
+#7 201.7 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/bfd/po'
+#7 201.7 make[4]: Nothing to be done for 'install'.
+#7 201.7 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd/po'
+#7 201.8 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.9 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.9 make[5]: Nothing to be done for 'install-exec-am'.
+#7 201.9  /usr/bin/mkdir -p '/lfs/tools/share/info'
+#7 201.9  /usr/bin/install -c -m 644 ./doc/bfd.info '/lfs/tools/share/info'
+#7 201.9 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.9 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.9 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.9 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/bfd'
+#7 201.9 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 201.9 Making install in .
+#7 202.0 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 202.0 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 202.0 make[4]: Nothing to be done for 'install-exec-am'.
+#7 202.0 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 202.0 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 202.0 Making install in po
+#7 202.0 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/opcodes/po'
+#7 202.0 make[3]: Nothing to be done for 'install'.
+#7 202.0 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes/po'
+#7 202.0 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/opcodes'
+#7 202.1 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.1 make  install-recursive
+#7 202.1 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.1 Making install in po
+#7 202.1 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/binutils/po'
+#7 202.1 make[4]: Nothing to be done for 'install'.
+#7 202.1 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils/po'
+#7 202.2 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.2 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.2  /usr/bin/mkdir -p '/lfs/tools/bin'
+#7 202.2   /bin/sh ./libtool   --mode=install /usr/bin/install -c size '/lfs/tools/bin/./x86_64-lfs-linux-gnu-size'
+#7 202.2 libtool: install: /usr/bin/install -c size /lfs/tools/bin/./x86_64-lfs-linux-gnu-size
+#7 202.3   /bin/sh ./libtool   --mode=install /usr/bin/install -c objdump '/lfs/tools/bin/./x86_64-lfs-linux-gnu-objdump'
+#7 202.3 libtool: install: /usr/bin/install -c objdump /lfs/tools/bin/./x86_64-lfs-linux-gnu-objdump
+#7 202.3   /bin/sh ./libtool   --mode=install /usr/bin/install -c ar '/lfs/tools/bin/./x86_64-lfs-linux-gnu-ar'
+#7 202.3 libtool: install: /usr/bin/install -c ar /lfs/tools/bin/./x86_64-lfs-linux-gnu-ar
+#7 202.3   /bin/sh ./libtool   --mode=install /usr/bin/install -c strings '/lfs/tools/bin/./x86_64-lfs-linux-gnu-strings'
+#7 202.3 libtool: install: /usr/bin/install -c strings /lfs/tools/bin/./x86_64-lfs-linux-gnu-strings
+#7 202.3   /bin/sh ./libtool   --mode=install /usr/bin/install -c ranlib '/lfs/tools/bin/./x86_64-lfs-linux-gnu-ranlib'
+#7 202.4 libtool: install: /usr/bin/install -c ranlib /lfs/tools/bin/./x86_64-lfs-linux-gnu-ranlib
+#7 202.4   /bin/sh ./libtool   --mode=install /usr/bin/install -c objcopy '/lfs/tools/bin/./x86_64-lfs-linux-gnu-objcopy'
+#7 202.4 libtool: install: /usr/bin/install -c objcopy /lfs/tools/bin/./x86_64-lfs-linux-gnu-objcopy
+#7 202.4   /bin/sh ./libtool   --mode=install /usr/bin/install -c addr2line '/lfs/tools/bin/./x86_64-lfs-linux-gnu-addr2line'
+#7 202.4 libtool: install: /usr/bin/install -c addr2line /lfs/tools/bin/./x86_64-lfs-linux-gnu-addr2line
+#7 202.5   /bin/sh ./libtool   --mode=install /usr/bin/install -c readelf '/lfs/tools/bin/./x86_64-lfs-linux-gnu-readelf'
+#7 202.5 libtool: install: /usr/bin/install -c readelf /lfs/tools/bin/./x86_64-lfs-linux-gnu-readelf
+#7 202.5   /bin/sh ./libtool   --mode=install /usr/bin/install -c elfedit '/lfs/tools/bin/./x86_64-lfs-linux-gnu-elfedit'
+#7 202.5 libtool: install: /usr/bin/install -c elfedit /lfs/tools/bin/./x86_64-lfs-linux-gnu-elfedit
+#7 202.5   /bin/sh ./libtool  --mode=install /usr/bin/install -c nm-new /lfs/tools/bin/x86_64-lfs-linux-gnu-nm
+#7 202.5 libtool: install: /usr/bin/install -c nm-new /lfs/tools/bin/x86_64-lfs-linux-gnu-nm
+#7 202.6   /bin/sh ./libtool  --mode=install /usr/bin/install -c strip-new /lfs/tools/bin/x86_64-lfs-linux-gnu-strip
+#7 202.6 libtool: install: /usr/bin/install -c strip-new /lfs/tools/bin/x86_64-lfs-linux-gnu-strip
+#7 202.6   /bin/sh ./libtool  --mode=install /usr/bin/install -c cxxfilt /lfs/tools/bin/x86_64-lfs-linux-gnu-c++filt
+#7 202.6 libtool: install: /usr/bin/install -c cxxfilt /lfs/tools/bin/x86_64-lfs-linux-gnu-c++filt
+#7 202.6 /bin/sh ../../binutils/../mkinstalldirs /lfs/tools/x86_64-lfs-linux-gnu/bin
+#7 202.6 mkdir -p -- /lfs/tools/x86_64-lfs-linux-gnu/bin
+#7 202.6 for i in nm-new strip-new ar ranlib dlltool objdump objcopy readelf; do \
+#7 202.6   if [ -f $i ]; then \
+#7 202.6     j=`echo $i | sed -e 's/-new//'`; \
+#7 202.6     k=`echo $j | sed 's&^&x86_64-lfs-linux-gnu-&'`; \
+#7 202.6     if [ "/lfs/tools/bin/$k" != "/lfs/tools/x86_64-lfs-linux-gnu/bin/$j" ]; then \
+#7 202.6       rm -f /lfs/tools/x86_64-lfs-linux-gnu/bin/$j; \
+#7 202.6       ln /lfs/tools/bin/$k /lfs/tools/x86_64-lfs-linux-gnu/bin/$j >/dev/null 2>/dev/null \
+#7 202.6 	||  /bin/sh ./libtool --mode=install /usr/bin/install -c $i /lfs/tools/x86_64-lfs-linux-gnu/bin/$j; \
+#7 202.6     fi; \
+#7 202.6   else true; \
+#7 202.6   fi; \
+#7 202.6 done
+#7 202.7  /usr/bin/mkdir -p '/lfs/tools/share/info'
+#7 202.7  /usr/bin/install -c -m 644 ../../binutils/doc/binutils.info '/lfs/tools/share/info'
+#7 202.7  /usr/bin/mkdir -p '/lfs/tools/share/man/man1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/addr2line.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-addr2line.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/ar.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-ar.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/dlltool.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-dlltool.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/nm.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-nm.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/objcopy.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-objcopy.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/objdump.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-objdump.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/ranlib.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-ranlib.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/readelf.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-readelf.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/size.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-size.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/strings.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-strings.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/strip.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-strip.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/elfedit.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-elfedit.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/windres.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-windres.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/windmc.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-windmc.1'
+#7 202.7  /usr/bin/install -c -m 644 'doc/c++filt.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-c++filt.1'
+#7 202.7 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.7 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.7 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.7 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/binutils'
+#7 202.8 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/etc'
+#7 202.8 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/etc'
+#7 202.8 make[3]: Nothing to be done for 'install-exec-am'.
+#7 202.8 make[3]: Nothing to be done for 'install-data-am'.
+#7 202.8 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/etc'
+#7 202.8 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/etc'
+#7 202.8 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/gas'
+#7 202.8 Making install in po
+#7 202.8 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/gas/po'
+#7 202.8 make[3]: Nothing to be done for 'install'.
+#7 202.8 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/gas/po'
+#7 202.9 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/gas'
+#7 202.9 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/gas'
+#7 202.9 /bin/sh ../../gas/../mkinstalldirs /lfs/tools/bin
+#7 203.0   /bin/sh ./libtool  --mode=install /usr/bin/install -c as-new /lfs/tools/bin/x86_64-lfs-linux-gnu-as
+#7 203.0 libtool: install: /usr/bin/install -c as-new /lfs/tools/bin/x86_64-lfs-linux-gnu-as
+#7 203.0 /bin/sh ../../gas/../mkinstalldirs /lfs/tools/x86_64-lfs-linux-gnu/bin
+#7 203.0 n=`echo as | sed 's&^&x86_64-lfs-linux-gnu-&'`; \
+#7 203.0 if [ "/lfs/tools/bin/$n" != "/lfs/tools/x86_64-lfs-linux-gnu/bin/as" ]; then \
+#7 203.0   rm -f /lfs/tools/x86_64-lfs-linux-gnu/bin/as; \
+#7 203.0   ln /lfs/tools/bin/$n /lfs/tools/x86_64-lfs-linux-gnu/bin/as >/dev/null 2>/dev/null \
+#7 203.0     ||  /bin/sh ./libtool --mode=install /usr/bin/install -c as-new /lfs/tools/x86_64-lfs-linux-gnu/bin/as; \
+#7 203.0 else \
+#7 203.0   true ; \
+#7 203.0 fi
+#7 203.0  /usr/bin/mkdir -p '/lfs/tools/share/info'
+#7 203.0  /usr/bin/install -c -m 644 ./doc/as.info '/lfs/tools/share/info'
+#7 203.0  /usr/bin/mkdir -p '/lfs/tools/share/man/man1'
+#7 203.0  /usr/bin/install -c -m 644 'doc/as.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-as.1'
+#7 203.0 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/gas'
+#7 203.0 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/gas'
+#7 203.0 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/gas'
+#7 203.1 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.1 make  install-recursive
+#7 203.1 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.1 Making install in po
+#7 203.1 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/gprof/po'
+#7 203.1 make[4]: Nothing to be done for 'install'.
+#7 203.1 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof/po'
+#7 203.1 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.2 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.2  /usr/bin/mkdir -p '/lfs/tools/bin'
+#7 203.2   /bin/sh ./libtool   --mode=install /usr/bin/install -c gprof '/lfs/tools/bin/./x86_64-lfs-linux-gnu-gprof'
+#7 203.2 libtool: install: /usr/bin/install -c gprof /lfs/tools/bin/./x86_64-lfs-linux-gnu-gprof
+#7 203.2  /usr/bin/mkdir -p '/lfs/tools/share/info'
+#7 203.2  /usr/bin/install -c -m 644 ../../gprof/gprof.info '/lfs/tools/share/info'
+#7 203.2  /usr/bin/mkdir -p '/lfs/tools/share/man/man1'
+#7 203.2  /usr/bin/install -c -m 644 '../../gprof/gprof.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-gprof.1'
+#7 203.2 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.2 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.2 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.2 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/gprof'
+#7 203.2 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/intl'
+#7 203.2 make[2]: Nothing to be done for 'install'.
+#7 203.2 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/intl'
+#7 203.3 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 203.3 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 203.4  /usr/bin/mkdir -p '/lfs/tools/share/info'
+#7 203.4  /usr/bin/install -c -m 644 ../../libctf/doc/ctf-spec.info '/lfs/tools/share/info'
+#7 203.4 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 203.4 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/libctf'
+#7 203.5 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 203.5 make  install-recursive
+#7 203.6 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 203.6 Making install in po
+#7 203.6 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/ld/po'
+#7 203.6 make[4]: Nothing to be done for 'install'.
+#7 203.6 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/ld/po'
+#7 203.7 make[4]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 203.8 make[5]: Entering directory '/lfs/sources/binutils-2.39/build/ld'
+#7 203.9  /usr/bin/mkdir -p '/lfs/tools/bin'
+#7 203.9   /bin/sh ./libtool   --mode=install /usr/bin/install -c ld-new '/lfs/tools/bin/./x86_64-lfs-linux-gnu-ld.bfd'
+#7 203.9 libtool: install: /usr/bin/install -c ld-new /lfs/tools/bin/./x86_64-lfs-linux-gnu-ld.bfd
+#7 203.9 /bin/sh ../../ld/../mkinstalldirs /lfs/tools/x86_64-lfs-linux-gnu/bin
+#7 203.9 n=`echo ld.bfd | sed 's/^ld-new$/ld.bfd/;s&^&x86_64-lfs-linux-gnu-&'`; \
+#7 203.9 if test "/lfs/tools/bin" != "/lfs/tools/x86_64-lfs-linux-gnu/bin"; then \
+#7 203.9   rm -f /lfs/tools/x86_64-lfs-linux-gnu/bin/ld.bfd; \
+#7 203.9   ln /lfs/tools/bin/$n /lfs/tools/x86_64-lfs-linux-gnu/bin/ld.bfd >/dev/null 2>/dev/null \
+#7 203.9   ||  /bin/sh ./libtool --mode=install /usr/bin/install -c ld-new /lfs/tools/x86_64-lfs-linux-gnu/bin/ld.bfd; \
+#7 203.9 fi; \
+#7 203.9 if test "xyes" = "xyes"; then \
+#7 203.9   ld=`echo ld | sed 's/^ld-new$/ld.bfd/;s&^&x86_64-lfs-linux-gnu-&'`; \
+#7 203.9   rm -f /lfs/tools/bin/$ld; \
+#7 203.9   ln /lfs/tools/bin/$n /lfs/tools/bin/$ld >/dev/null 2>/dev/null \
+#7 203.9   ||  /bin/sh ./libtool --mode=install /usr/bin/install -c ld-new /lfs/tools/bin/$ld; \
+#7 203.9   if test "/lfs/tools/bin" != "/lfs/tools/x86_64-lfs-linux-gnu/bin"; then \
+#7 203.9     rm -f /lfs/tools/x86_64-lfs-linux-gnu/bin/ld; \
+#7 203.9     ln /lfs/tools/bin/$n /lfs/tools/x86_64-lfs-linux-gnu/bin/ld >/dev/null 2>/dev/null \
+#7 203.9     ||  /bin/sh ./libtool --mode=install /usr/bin/install -c ld-new /lfs/tools/x86_64-lfs-linux-gnu/bin/ld; \
+#7 203.9   fi; \
+#7 203.9 fi
+#7 203.9  /usr/bin/mkdir -p '/lfs/tools/lib/bfd-plugins'
+#7 203.9  /bin/sh ./libtool   --mode=install /usr/bin/install -c   libdep.la '/lfs/tools/lib/bfd-plugins'
+#7 203.9 libtool: install: /usr/bin/install -c .libs/libdep.so /lfs/tools/lib/bfd-plugins/libdep.so
+#7 203.9 libtool: install: /usr/bin/install -c .libs/libdep.lai /lfs/tools/lib/bfd-plugins/libdep.la
+#7 203.9 libtool: install: warning: remember to run `libtool --finish /nowhere'
+#7 203.9 /bin/sh ../../ld/../mkinstalldirs /lfs/tools/x86_64-lfs-linux-gnu/lib/ldscripts
+#7 203.9 mkdir -p -- /lfs/tools/x86_64-lfs-linux-gnu/lib/ldscripts
+#7 203.9 for f in ldscripts/* ; do \
+#7 203.9   /usr/bin/install -c -m 644 $f /lfs/tools/x86_64-lfs-linux-gnu/lib/$f ; \
+#7 203.9 done
+#7 204.1 rm -f /lfs/tools/lib/bfd-plugins/libdep.la
+#7 204.1 rm -f /lfs/tools/lib/bfd-plugins/libdep.dll.a
+#7 204.1  /usr/bin/mkdir -p '/lfs/tools/share/info'
+#7 204.1  /usr/bin/install -c -m 644 ../../ld/ld.info '/lfs/tools/share/info'
+#7 204.1  /usr/bin/mkdir -p '/lfs/tools/share/man/man1'
+#7 204.1  /usr/bin/install -c -m 644 '../../ld/ld.1' '/lfs/tools/share/man/man1/x86_64-lfs-linux-gnu-ld.1'
+#7 204.1 make[5]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 204.1 make[4]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 204.1 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 204.1 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/ld'
+#7 204.1 make[2]: Entering directory '/lfs/sources/binutils-2.39/build/libiberty'
+#7 204.2 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/libiberty/testsuite'
+#7 204.2 make[3]: Nothing to be done for 'all'.
+#7 204.2 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/libiberty/testsuite'
+#7 204.2 if test -n ""; then \
+#7 204.2 	/bin/sh ../../libiberty/../mkinstalldirs /lfs/tools/lib/`gcc -g -O2     -print-multi-os-directory`; \
+#7 204.2 	/usr/bin/install -c -m 644 ./libiberty.a /lfs/tools/lib/`gcc -g -O2     -print-multi-os-directory`/./libiberty.an; \
+#7 204.2 	( cd /lfs/tools/lib/`gcc -g -O2     -print-multi-os-directory` ; chmod 644 ./libiberty.an ;ranlib --plugin /usr/lib/gcc/x86_64-linux-gnu/11/liblto_plugin.so ./libiberty.an ); \
+#7 204.2 	mv -f /lfs/tools/lib/`gcc -g -O2     -print-multi-os-directory`/./libiberty.an /lfs/tools/lib/`gcc -g -O2     -print-multi-os-directory`/./libiberty.a; \
+#7 204.2 	case "" in \
+#7 204.2 	  /*)    thd=;; \
+#7 204.2 	  *)     thd=/lfs/tools/include/;; \
+#7 204.2 	esac; \
+#7 204.2 	/bin/sh ../../libiberty/../mkinstalldirs ${thd}; \
+#7 204.2 	for h in ../../libiberty/../include/ansidecl.h ../../libiberty/../include/demangle.h ../../libiberty/../include/dyn-string.h ../../libiberty/../include/fibheap.h ../../libiberty/../include/floatformat.h ../../libiberty/../include/hashtab.h ../../libiberty/../include/libiberty.h ../../libiberty/../include/objalloc.h ../../libiberty/../include/partition.h ../../libiberty/../include/safe-ctype.h ../../libiberty/../include/sort.h ../../libiberty/../include/splay-tree.h ../../libiberty/../include/timeval-utils.h; do \
+#7 204.2 	  /usr/bin/install -c -m 644 $h ${thd}; \
+#7 204.2 	done; \
+#7 204.2 fi
+#7 204.2 make[3]: Entering directory '/lfs/sources/binutils-2.39/build/libiberty/testsuite'
+#7 204.2 make[3]: Nothing to be done for 'install'.
+#7 204.2 make[3]: Leaving directory '/lfs/sources/binutils-2.39/build/libiberty/testsuite'
+#7 204.2 make[2]: Leaving directory '/lfs/sources/binutils-2.39/build/libiberty'
+#7 204.2 make[1]: Nothing to be done for 'install-target'.
+#7 204.2 make[1]: Leaving directory '/lfs/sources/binutils-2.39/build'
+#7 204.2 ~
+#7 DONE 205.3s
+
+#8 exporting to image
+#8 sha256:e8c613e07b0b7ff33893b694f7759a10d42e180f2b4dc349fb57dc6b71dcab00
+#8 exporting layers
+#8 exporting layers 0.7s done
+#8 writing image sha256:681be0d97cb69f63a0ce534cbe29db37139abd2eeddb9fd94384600632229065 done
+#8 naming to docker.io/ronhatch/stage1-lfs done
+#8 DONE 0.7s
