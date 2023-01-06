@@ -7,12 +7,12 @@ Primarily a learning project, but also intended to provide a usable minimal Linu
 ## Usage
 
 Running the version check script can be done as follows:  
-`docker run ronhatch/linuxfromscratch-prebuild /home/lfs/version-check.sh`
+`docker run ronhatch/lfs-prebuild /home/lfs/version-check.sh`
 
 Running an interactive shell in the pre-build environment can be done using:  
-`docker run -it ronhatch/linuxfromscratch-prebuild`
+`docker run -it ronhatch/lfs-prebuild`
 
 ## Building
 
 Images were built using:  
-`docker build --target=[stage] -t ronhatch/linuxfromscratch-[stage] . 2>&1 | tee build-logs/[stage].log`
+`docker build --target=[stage] -t ronhatch/lfs-[stage] . 2>&1 | tee build-logs/[stage].log`
