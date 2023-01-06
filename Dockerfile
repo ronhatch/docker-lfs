@@ -337,3 +337,112 @@ RUN cd $LFS_SRC/gcc-12.2.0/build; \
         --disable-libvtv --enable-languages=c,c++ && \
     make && make DESTDIR=$LFS install && \
     ln -sv gcc $LFS/usr/bin/cc
+
+# --- Chroot environment: Chapter 7, Sections 1-6 ---
+FROM scratch AS chroot
+LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
+COPY --from=gcc-2 --chown=0:0 /lfs /
+COPY scripts/passwd scripts/group /etc/
+ENV PS1='(LFS chroot) \u:\w\$ '
+ENV PATH=/usr/sbin:/usr/bin
+ENV LFS_SRC=/sources
+CMD ["/bin/bash", "--login", "-c"]
+RUN rm -rf /tools; \
+    mkdir -pv $LFS_SRC; \
+    mkdir -pv /{boot,home,mnt,opt,srv}; \
+    mkdir -pv /etc/{opt,sysconfig}; \
+    mkdir -pv /lib/firmware; \
+    mkdir -pv /media/{floppy,cdrom}; \
+    mkdir -pv /usr/{,local/}{include,src}; \
+    mkdir -pv /usr/local/{bin,lib,sbin}; \
+    mkdir -pv /usr/{,local/}share/{color,dict,doc,info,locale,misc,terminfo,zoneinfo}; \
+    mkdir -pv /usr/{,local/}share/man/man{1..8}; \
+    mkdir -pv /var/{cache,local,log,mail,opt,spool}; \
+    mkdir -pv /var/lib/{color,misc,locate}; \
+    ln -sfv /run /var/run; \
+    ln -sfv /run/lock /var/lock; \
+    install -dv -m 0750 /root; \
+    install -dv -m 1777 /tmp /var/tmp; \
+    ln -sv /proc/self/mounts /etc/mtab; \
+    install -o 101 -d /home/tester; \
+    touch /var/log/{btmp,lastlog,faillog,wtmp}; \
+    chgrp -v utmp /var/log/lastlog; \
+    chmod -v 664 /var/log/lastlog; \
+    chmod -v 600 /var/log/btmp
+
+# --- Gettext: Chapter 7.7 ---
+FROM chroot AS gettext
+ADD https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz $LFS_SRC
+RUN cd $LFS_SRC; \
+    tar xf gettext-0.21.tar.xz
+RUN cd $LFS_SRC/gettext-0.21; \
+    ./configure --disable-shared && \
+    make && cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
+
+# --- Bison: Chapter 7.8 ---
+FROM gettext AS bison
+ADD https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz $LFS_SRC
+RUN cd $LFS_SRC; \
+    tar xf bison-3.8.2.tar.xz
+RUN cd $LFS_SRC/bison-3.8.2; \
+    ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2 && \
+    make && make install
+
+# --- Perl: Chapter 7.9 ---
+FROM bison AS perl
+ADD https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz $LFS_SRC
+RUN cd $LFS_SRC; \
+    tar xf perl-5.36.0.tar.xz
+RUN cd $LFS_SRC/perl-5.36.0; \
+    sh Configure -des -Dprefix=/usr -Dvendorprefix=/usr \
+        -Dprivlib=/usr/lib/perl5/5.36/core_perl \
+        -Darchlib=/usr/lib/perl5/5.36/core_perl \
+        -Dsitelib=/usr/lib/perl5/5.36/site_perl \
+        -Dsitearch=/usr/lib/perl5/5.36/site_perl \
+        -Dvendorlib=/usr/lib/perl5/5.36/vendor_perl \
+        -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl && \
+    make && make install
+
+# --- Python: Chapter 7.10 ---
+FROM perl AS python
+ADD https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz $LFS_SRC
+RUN cd $LFS_SRC; \
+    tar xf Python-3.11.1.tar.xz
+RUN cd $LFS_SRC/Python-3.11.1; \
+    ./configure --prefix=/usr --enable-shared --without-ensurepip && \
+    make && make install
+
+# --- Texinfo: Chapter 7.11 ---
+FROM python AS texinfo
+ADD https://ftp.gnu.org/gnu/texinfo/texinfo-6.8.tar.xz $LFS_SRC
+RUN cd $LFS_SRC; \
+    tar xf texinfo-6.8.tar.xz
+RUN cd $LFS_SRC/texinfo-6.8; \
+    ./configure --prefix=/usr && make && make install
+
+# --- Util-linux: Chapter 7.12 ---
+FROM texinfo AS util-linux
+ADD https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz $LFS_SRC
+RUN cd $LFS_SRC; \
+    tar xf util-linux-2.38.1.tar.xz
+RUN cd $LFS_SRC/util-linux-2.38.1; \
+    mkdir -pv /var/lib/hwclock; \
+    ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib \
+        --docdir=/usr/share/doc/util-linux-2.38.1 --disable-chfn-chsh \
+        --disable-login --disable-nologin --disable-su --disable-setpriv \
+        --disable-runuser --disable-pylibmount --disable-static \
+        --without-python runstatedir=/run && \
+    make && make install
+
+# --- Cleanup: Chapter 7.13 ---
+FROM util-linux AS cleanup
+RUN rm -rf $LFS_SRC /usr/share/{info,man,doc}/*; \
+    find /usr/{lib,libexec} -name \*.la -delete
+
+# --- Final build system: Ready for Chapter 8 and on ---
+FROM scratch AS build
+LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
+COPY --from=cleanup / /
+ENV PS1='(LFS build) \u:\w\$ '
+ENV PATH=/usr/sbin:/usr/bin
+CMD ["/bin/bash", "--login", "-c"]
