@@ -26,16 +26,28 @@ COPY scripts/version-check.sh /root
 WORKDIR /root
 
 # --- Binutils 1st pass: Chapter 5.2 ---
-FROM prebuild AS binutils-1
-ADD https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf binutils-2.39.tar.xz; \
-    mkdir -v binutils-2.39/build
-RUN cd $LFS_SRC/binutils-2.39/build; \
+# In this and all later steps, the src postfix is used for source tarball
+#   unpacked only (image is suitable for examining for possible patches).
+#   The bld postfix is used after the package is built but before it is
+#   installed (image is suitable for running test suites).
+FROM prebuild AS binutils-1-src
+ADD sources/binutils-2.39.tar.xz $LFS_SRC
+RUN mkdir -v $LFS_SRC/binutils-2.39/build
+
+FROM binutils-1-src AS binutils-1-bld
+RUN <<CMD_LIST
+    cd $LFS_SRC/binutils-2.39/build
     ../configure --prefix=$LFS/tools --with-sysroot=$LFS \
         --target=$LFS_TGT --disable-nls \
-        --enable-gprofng=no --disable-werror && \
-    make && make install
+        --enable-gprofng=no --disable-werror
+    make
+CMD_LIST
+
+FROM binutils-1-bld AS binutils-1
+RUN <<CMD_LIST
+    cd $LFS_SRC/binutils-2.39/build
+    make install
+CMD_LIST
 
 # --- GCC 1st pass: Chapter 5.3 ---
 FROM prebuild AS gcc-1
