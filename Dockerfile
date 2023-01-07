@@ -157,7 +157,7 @@ WORKDIR $LFS_SRC/m4-1.4.19
 
 FROM m4-src AS m4-bld
 RUN <<CMD_LIST
-    ./configure --prefix=/usr --host=$LFS_TGT \ 
+    ./configure --prefix=/usr --host=$LFS_TGT \
         --build=$(build-aux/config.guess)
     make
 CMD_LIST
