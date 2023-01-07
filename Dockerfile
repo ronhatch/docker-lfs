@@ -237,14 +237,19 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Diffutils: Chapter 6.6 ---
-FROM prebuild AS diffutils
+FROM prebuild AS diffutils-src
 COPY --from=coreutils $LFS $LFS
-ADD https://ftp.gnu.org/gnu/diffutils/diffutils-3.8.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf diffutils-3.8.tar.xz
-RUN cd $LFS_SRC/diffutils-3.8; \
-    ./configure --prefix=/usr --host=$LFS_TGT && \
-    make && make DESTDIR=$LFS install
+ADD sources/diffutils-3.8.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/diffutils-3.8
+
+FROM diffutils-src AS diffutils-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT
+    make
+CMD_LIST
+
+FROM diffutils-bld AS diffutils
+RUN make DESTDIR=$LFS install
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS file
