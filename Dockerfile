@@ -134,18 +134,26 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Libstdc++: Chapter 5.6 ---
-FROM prebuild AS libstdc
+FROM prebuild AS libstdc-src
 COPY --from=glibc $LFS $LFS
-ADD https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf gcc-12.2.0.tar.xz; \
-    mkdir -v gcc-12.2.0/build
-RUN cd $LFS_SRC/gcc-12.2.0/build; \
+ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
+RUN mkdir -v $LFS_SRC/gcc-12.2.0/build
+
+FROM libstdc-src AS libstdc-bld
+RUN <<CMD_LIST
+    cd $LFS_SRC/gcc-12.2.0/build
     ../libstdc++-v3/configure --host=$LFS_TGT --build=$(../config.guess) \
         --prefix=/usr --disable-multilib --disable-nls --disable-libstdcxx-pch \
-        --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/12.2.0 && \
-    make && make DESTDIR=$LFS install; \
+        --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/12.2.0
+    make
+CMD_LIST
+
+FROM libstdc-bld AS libstdc
+RUN <<CMD_LIST
+    cd $LFS_SRC/gcc-12.2.0/build
+    make DESTDIR=$LFS install
     rm -v $LFS/usr/lib/lib{stdc++,stdc++fs,supc++}.la
+CMD_LIST
 
 # --- M4: Chapter 6.2 ---
 FROM prebuild AS m4
