@@ -33,10 +33,10 @@ WORKDIR /root
 FROM prebuild AS binutils1-src
 ADD sources/binutils-2.39.tar.xz $LFS_SRC
 RUN mkdir -v $LFS_SRC/binutils-2.39/build
+WORKDIR $LFS_SRC/binutils-2.39/build
 
 FROM binutils1-src AS binutils1-bld
 RUN <<CMD_LIST
-    cd $LFS_SRC/binutils-2.39/build
     ../configure --prefix=$LFS/tools --with-sysroot=$LFS \
         --target=$LFS_TGT --disable-nls \
         --enable-gprofng=no --disable-werror
@@ -44,10 +44,7 @@ RUN <<CMD_LIST
 CMD_LIST
 
 FROM binutils1-bld AS binutils1
-RUN <<CMD_LIST
-    cd $LFS_SRC/binutils-2.39/build
-    make install
-CMD_LIST
+RUN make install
 
 # --- GCC 1st pass: Chapter 5.3 ---
 FROM prebuild AS gcc1-src
@@ -64,10 +61,10 @@ RUN <<CMD_LIST
     sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
     mkdir -v build
 CMD_LIST
+WORKDIR $LFS_SRC/gcc-12.2.0/build
 
 FROM gcc1-src AS gcc1-bld
 RUN <<CMD_LIST
-    cd $LFS_SRC/gcc-12.2.0/build
     ../configure --target=$LFS_TGT --prefix=$LFS/tools --with-glibc-version=2.36 \
         --with-sysroot=$LFS --with-newlib --without-headers --disable-nls \
         --disable-shared --disable-multilib --disable-decimal-float \
@@ -79,7 +76,6 @@ CMD_LIST
 
 FROM gcc1-bld AS gcc1
 RUN <<CMD_LIST
-    cd $LFS_SRC/gcc-12.2.0/build
     make install
     cd ..
     cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
@@ -90,17 +86,17 @@ CMD_LIST
 FROM prebuild AS headers-src
 COPY --from=gcc1 $LFS $LFS
 ADD sources/linux-6.0.11.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/linux-6.0.11
 
 FROM headers-src AS headers-bld
 RUN <<CMD_LIST
-    cd $LFS_SRC/linux-6.0.11
     make mrproper
     make headers
     find usr/include -type f ! -name '*.h' -delete
 CMD_LIST
 
 FROM headers-bld AS headers
-RUN cp -rv $LFS_SRC/linux-6.0.11/usr/include $LFS/usr
+RUN cp -rv usr/include $LFS/usr
 
 # --- Glibc: Chapter 5.5 ---
 FROM prebuild AS glibc-src
@@ -114,10 +110,10 @@ RUN <<CMD_LIST
     patch -Np1 -i ../glibc-2.36-fhs-1.patch
     mkdir -v build
 CMD_LIST
+WORKDIR $LFS_SRC/glibc-2.36/build
 
 FROM glibc-src AS glibc-bld
 RUN <<CMD_LIST
-    cd $LFS_SRC/glibc-2.36/build
     echo "rootsbindir=/usr/sbin" > configparms
     ../configure --prefix=/usr --host=$LFS_TGT \
         --build=$(../scripts/config.guess) --enable-kernel=3.2 \
@@ -127,7 +123,6 @@ CMD_LIST
 
 FROM glibc-bld AS glibc
 RUN <<CMD_LIST
-    cd $LFS_SRC/glibc-2.36/build
     make DESTDIR=$LFS install
     sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd
     $LFS/tools/libexec/gcc/$LFS_TGT/12.2.0/install-tools/mkheaders
@@ -138,10 +133,10 @@ FROM prebuild AS libstdc-src
 COPY --from=glibc $LFS $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
 RUN mkdir -v $LFS_SRC/gcc-12.2.0/build
+WORKDIR $LFS_SRC/gcc-12.2.0/build
 
 FROM libstdc-src AS libstdc-bld
 RUN <<CMD_LIST
-    cd $LFS_SRC/gcc-12.2.0/build
     ../libstdc++-v3/configure --host=$LFS_TGT --build=$(../config.guess) \
         --prefix=/usr --disable-multilib --disable-nls --disable-libstdcxx-pch \
         --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/12.2.0
@@ -150,7 +145,6 @@ CMD_LIST
 
 FROM libstdc-bld AS libstdc
 RUN <<CMD_LIST
-    cd $LFS_SRC/gcc-12.2.0/build
     make DESTDIR=$LFS install
     rm -v $LFS/usr/lib/lib{stdc++,stdc++fs,supc++}.la
 CMD_LIST
@@ -159,20 +153,17 @@ CMD_LIST
 FROM prebuild AS m4-src
 COPY --from=libstdc $LFS $LFS
 ADD sources/m4-1.4.19.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/m4-1.4.19
 
 FROM m4-src AS m4-bld
 RUN <<CMD_LIST
-    cd $LFS_SRC/m4-1.4.19
     ./configure --prefix=/usr --host=$LFS_TGT \ 
         --build=$(build-aux/config.guess)
     make
 CMD_LIST
 
 FROM m4-bld AS m4
-RUN <<CMD_LIST
-    cd $LFS_SRC/m4-1.4.19
-    make DESTDIR=$LFS install
-CMD_LIST
+RUN make DESTDIR=$LFS install
 
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS ncurses
