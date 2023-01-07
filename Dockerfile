@@ -1,3 +1,6 @@
+# syntax=docker/dockerfile:1
+# Use BuildKit, needed for the heredoc feature.
+
 # --- Prebuild environment: Chapters 1-4 ---
 FROM ubuntu:22.04 AS prebuild
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
@@ -8,13 +11,17 @@ ENV PATH=$LFS/tools/bin:/usr/sbin:/usr/bin
 ENV LFS_TGT=x86_64-lfs-linux-gnu
 ENV CONFIG_SITE=$LFS/usr/share/config.site
 SHELL ["/bin/bash", "+h", "-c"]
-RUN rm -f /bin/sh; \
-    ln -sv /usr/bin/bash /bin/sh; \
-    mkdir -pv $LFS/{etc,lib64,tools,var} $LFS/usr/{bin,lib,sbin}; \
-    for i in bin lib sbin; do ln -sv usr/$i $LFS/$i; done; \
-    mkdir -pv $LFS_SRC; \
+RUN <<CMD_LIST
+    rm -f /bin/sh
+    ln -sv /usr/bin/bash /bin/sh
+    mkdir -pv $LFS/{etc,lib64,tools,var} $LFS/usr/{bin,lib,sbin}
+    for i in bin lib sbin; do
+      ln -sv usr/$i $LFS/$is
+    done
+    mkdir -pv $LFS_SRC
     apt update && \
     apt -y install binutils bison gawk gcc g++ make patch perl python3 texinfo xz-utils
+CMD_LIST
 COPY scripts/version-check.sh /root
 WORKDIR /root
 
