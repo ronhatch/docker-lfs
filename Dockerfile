@@ -166,24 +166,34 @@ FROM m4-bld AS m4
 RUN make DESTDIR=$LFS install
 
 # --- Ncurses: Chapter 6.3 ---
-FROM prebuild AS ncurses
+FROM prebuild AS ncurses-src
 COPY --from=m4 $LFS $LFS
-ADD https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf ncurses-6.3.tar.gz; \
-    sed -i s/mawk// ncurses-6.3/configure; \
-    mkdir -v ncurses-6.3/build; \
-    cd ncurses-6.3/build; \
-    ../configure && \
-    make -C include && \
+ADD sources/ncurses-6.3.tar.gz $LFS_SRC
+WORKDIR $LFS_SRC/ncurses-6.3
+RUN <<CMD_LIST
+    sed -i s/mawk// configure
+    mkdir -v build
+CMD_LIST
+
+FROM ncurses-src AS ncurses-bld
+RUN <<CMD_LIST
+    cd build
+    ../configure
+    make -C include
     make -C progs tic
-RUN cd $LFS_SRC/ncurses-6.3; \
+    cd ..
     ./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess) \
         --mandir=/usr/share/man --with-manpage-format=normal \
         --with-shared --without-normal --with-cxx-shared --without-debug \
-        --without-ada --disable-stripping --enable-widec && \
-    make && make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install && \
+        --without-ada --disable-stripping --enable-widec
+    make
+CMD_LIST
+
+FROM ncurses-bld AS ncurses
+RUN <<CMD_LIST
+    make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
     echo "INPUT(-lncursesw)" > $LFS/usr/lib/libncurses.so
+CMD_LIST
 
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS bash
