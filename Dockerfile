@@ -2,7 +2,7 @@
 FROM ubuntu:22.04 AS prebuild
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
 ENV LFS=/lfs
-ENV LFS_SRC=/home/lfs/sources
+ENV LFS_SRC=/root/sources
 ENV LC_ALL=POSIX
 ENV PATH=$LFS/tools/bin:/usr/sbin:/usr/bin
 ENV LFS_TGT=x86_64-lfs-linux-gnu
@@ -10,22 +10,17 @@ ENV CONFIG_SITE=$LFS/usr/share/config.site
 SHELL ["/bin/bash", "+h", "-c"]
 RUN rm -f /bin/sh; \
     ln -sv /usr/bin/bash /bin/sh; \
-    groupadd --gid 1000 lfs; \
-    useradd --uid 1000 -s /bin/bash -g lfs -m -k /dev/null lfs; \
     mkdir -pv $LFS/{etc,lib64,tools,var} $LFS/usr/{bin,lib,sbin}; \
     for i in bin lib sbin; do ln -sv usr/$i $LFS/$i; done; \
     mkdir -pv $LFS_SRC; \
-    chown lfs:lfs -R $LFS $LFS_SRC; \
-    chmod a+wt $LFS_SRC; \
     apt update && \
     apt -y install binutils bison gawk gcc g++ make patch perl python3 texinfo xz-utils
-COPY scripts/version-check.sh /home/lfs
-USER lfs
-WORKDIR /home/lfs
+COPY scripts/version-check.sh /root
+WORKDIR /root
 
 # --- Binutils 1st pass: Chapter 5.2 ---
 FROM prebuild AS binutils-1
-ADD --chown=lfs https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf binutils-2.39.tar.xz; \
     mkdir -v binutils-2.39/build
@@ -38,10 +33,10 @@ RUN cd $LFS_SRC/binutils-2.39/build; \
 # --- GCC 1st pass: Chapter 5.3 ---
 FROM prebuild AS gcc-1
 COPY --from=binutils-1 $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
-ADD --chown=lfs https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz $LFS_SRC
-ADD --chown=lfs https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz $LFS_SRC
-ADD --chown=lfs https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf gcc-12.2.0.tar.xz; \
     cd gcc-12.2.0; \
@@ -67,7 +62,7 @@ RUN cd $LFS_SRC/gcc-12.2.0/build; \
 # --- Linux API headers: Chapter 5.4 ---
 FROM prebuild AS linux-headers
 COPY --from=gcc-1 $LFS $LFS
-ADD --chown=lfs https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz $LFS_SRC
+ADD https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf linux-6.0.11.tar.xz
 RUN cd $LFS_SRC/linux-6.0.11; \
@@ -78,8 +73,8 @@ RUN cd $LFS_SRC/linux-6.0.11; \
 # --- Glibc: Chapter 5.5 ---
 FROM prebuild AS glibc
 COPY --from=linux-headers $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz $LFS_SRC
-ADD --chown=lfs https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch $LFS_SRC
+ADD https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz $LFS_SRC
+ADD https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf glibc-2.36.tar.xz; \
     cd glibc-2.36; \
@@ -99,7 +94,7 @@ RUN cd $LFS_SRC/glibc-2.36/build; \
 # --- Libstdc++: Chapter 5.6 ---
 FROM prebuild AS libstdc
 COPY --from=glibc $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf gcc-12.2.0.tar.xz; \
     mkdir -v gcc-12.2.0/build
@@ -113,7 +108,7 @@ RUN cd $LFS_SRC/gcc-12.2.0/build; \
 # --- M4: Chapter 6.2 ---
 FROM prebuild AS m4
 COPY --from=libstdc $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf m4-1.4.19.tar.xz
 RUN cd $LFS_SRC/m4-1.4.19; \
@@ -124,7 +119,7 @@ RUN cd $LFS_SRC/m4-1.4.19; \
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS ncurses
 COPY --from=m4 $LFS $LFS
-ADD --chown=lfs https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz $LFS_SRC
+ADD https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf ncurses-6.3.tar.gz; \
     sed -i s/mawk// ncurses-6.3/configure; \
@@ -144,7 +139,7 @@ RUN cd $LFS_SRC/ncurses-6.3; \
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS bash
 COPY --from=ncurses $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/bash/bash-5.1.16.tar.gz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/bash/bash-5.1.16.tar.gz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf bash-5.1.16.tar.gz
 RUN cd $LFS_SRC/bash-5.1.16; \
@@ -156,7 +151,7 @@ RUN cd $LFS_SRC/bash-5.1.16; \
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS coreutils
 COPY --from=bash $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf coreutils-9.1.tar.xz
 RUN cd $LFS_SRC/coreutils-9.1; \
@@ -171,7 +166,7 @@ RUN cd $LFS_SRC/coreutils-9.1; \
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS diffutils
 COPY --from=coreutils $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/diffutils/diffutils-3.8.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/diffutils/diffutils-3.8.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf diffutils-3.8.tar.xz
 RUN cd $LFS_SRC/diffutils-3.8; \
@@ -181,7 +176,7 @@ RUN cd $LFS_SRC/diffutils-3.8; \
 # --- File: Chapter 6.7 ---
 FROM prebuild AS file
 COPY --from=diffutils $LFS $LFS
-ADD --chown=lfs https://astron.com/pub/file/file-5.42.tar.gz $LFS_SRC
+ADD https://astron.com/pub/file/file-5.42.tar.gz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf file-5.42.tar.gz; \
     mkdir -v file-5.42/build
@@ -198,7 +193,7 @@ RUN cd $LFS_SRC/file-5.42; \
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS findutils
 COPY --from=file $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf findutils-4.9.0.tar.xz
 RUN cd $LFS_SRC/findutils-4.9.0; \
@@ -209,7 +204,7 @@ RUN cd $LFS_SRC/findutils-4.9.0; \
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS gawk
 COPY --from=findutils $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf gawk-5.1.1.tar.xz; \
     sed -i 's/extras//' gawk-5.1.1/Makefile.in
@@ -220,7 +215,7 @@ RUN cd $LFS_SRC/gawk-5.1.1; \
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS grep
 COPY --from=gawk $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf grep-3.7.tar.xz
 RUN cd $LFS_SRC/grep-3.7; \
@@ -230,7 +225,7 @@ RUN cd $LFS_SRC/grep-3.7; \
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS gzip
 COPY --from=grep $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/gzip/gzip-1.12.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/gzip/gzip-1.12.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf gzip-1.12.tar.xz
 RUN cd $LFS_SRC/gzip-1.12; \
@@ -240,7 +235,7 @@ RUN cd $LFS_SRC/gzip-1.12; \
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS make
 COPY --from=gzip $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/make/make-4.3.tar.gz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/make/make-4.3.tar.gz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf make-4.3.tar.gz
 RUN cd $LFS_SRC/make-4.3; \
@@ -251,7 +246,7 @@ RUN cd $LFS_SRC/make-4.3; \
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS patch
 COPY --from=make $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf patch-2.7.6.tar.xz
 RUN cd $LFS_SRC/patch-2.7.6; \
@@ -261,7 +256,7 @@ RUN cd $LFS_SRC/patch-2.7.6; \
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS sed
 COPY --from=patch $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf sed-4.8.tar.xz
 RUN cd $LFS_SRC/sed-4.8; \
@@ -271,7 +266,7 @@ RUN cd $LFS_SRC/sed-4.8; \
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS tar
 COPY --from=sed $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf tar-1.34.tar.xz
 RUN cd $LFS_SRC/tar-1.34; \
@@ -283,7 +278,7 @@ FROM prebuild AS xz
 COPY --from=tar $LFS $LFS
 # Note: Official download link listed in LFS book was resulting in errors.
 #       Using sourceforge instead, but not sure if this is a permanent link.
-ADD --chown=lfs https://pilotfiber.dl.sourceforge.net/project/lzmautils/xz-5.2.6.tar.xz $LFS_SRC
+ADD https://pilotfiber.dl.sourceforge.net/project/lzmautils/xz-5.2.6.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf xz-5.2.6.tar.xz
 RUN cd $LFS_SRC/xz-5.2.6; \
@@ -295,7 +290,7 @@ RUN cd $LFS_SRC/xz-5.2.6; \
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS binutils-2
 COPY --from=xz $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf binutils-2.39.tar.xz; \
     sed '6009s/$add_dir//' -i ltmain.sh; \
@@ -310,10 +305,10 @@ RUN cd $LFS_SRC/binutils-2.39/build; \
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS gcc-2
 COPY --from=binutils-2 $LFS $LFS
-ADD --chown=lfs https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
-ADD --chown=lfs https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz $LFS_SRC
-ADD --chown=lfs https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz $LFS_SRC
-ADD --chown=lfs https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz $LFS_SRC
+ADD https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf gcc-12.2.0.tar.xz; \
     cd gcc-12.2.0; \
@@ -340,7 +335,7 @@ RUN cd $LFS_SRC/gcc-12.2.0/build; \
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=gcc-2 --chown=0:0 /lfs /
+COPY --from=gcc-2 /lfs /
 COPY scripts/passwd scripts/group /etc/
 ENV PS1='(LFS chroot) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin

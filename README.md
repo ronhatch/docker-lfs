@@ -7,7 +7,7 @@ Primarily a learning project, but also intended to provide a usable minimal Linu
 ## Usage
 
 Running the version check script can be done as follows:  
-`docker run ronhatch/lfs-prebuild /home/lfs/version-check.sh`
+`docker run ronhatch/lfs-prebuild /root/version-check.sh`
 
 Running an interactive shell in the pre-build environment can be done using:  
 `docker run -it ronhatch/lfs-prebuild`
