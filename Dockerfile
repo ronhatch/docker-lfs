@@ -252,21 +252,28 @@ FROM diffutils-bld AS diffutils
 RUN make DESTDIR=$LFS install
 
 # --- File: Chapter 6.7 ---
-FROM prebuild AS file
+FROM prebuild AS file-src
 COPY --from=diffutils $LFS $LFS
-ADD https://astron.com/pub/file/file-5.42.tar.gz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf file-5.42.tar.gz; \
-    mkdir -v file-5.42/build
-RUN cd $LFS_SRC/file-5.42/build; \
+ADD sources/file-5.42.tar.gz $LFS_SRC
+WORKDIR $LFS_SRC/file-5.42
+RUN mkdir -v build
+
+FROM file-src AS file-bld
+RUN <<CMD_LIST
+RUN cd build
     ../configure --disable-bzlib --disable-libseccomp \
-        --disable-xzlib --disable-zlib && \
+        --disable-xzlib --disable-zlib
     make
-RUN cd $LFS_SRC/file-5.42; \
-    ./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess) && \
-    make FILE_COMPILE=$(pwd)/build/src/file && \
-    make DESTDIR=$LFS install && \
+    cd ..
+    ./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
+    make FILE_COMPILE=$(pwd)/build/src/file
+CMD_LIST
+
+FROM file-bld AS file
+RUN <<CMD_LIST
+    make DESTDIR=$LFS install
     rm -v $LFS/usr/lib/libmagic.la
+CMD_LIST
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS findutils
