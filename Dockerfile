@@ -87,7 +87,7 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Linux API headers: Chapter 5.4 ---
-FROM prebuild AS linux-headers
+FROM prebuild AS headers
 COPY --from=gcc1 $LFS $LFS
 ADD https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
@@ -99,7 +99,7 @@ RUN cd $LFS_SRC/linux-6.0.11; \
 
 # --- Glibc: Chapter 5.5 ---
 FROM prebuild AS glibc
-COPY --from=linux-headers $LFS $LFS
+COPY --from=headers $LFS $LFS
 ADD https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz $LFS_SRC
 ADD https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch $LFS_SRC
 RUN cd $LFS_SRC; \
