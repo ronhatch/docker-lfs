@@ -103,25 +103,35 @@ FROM headers-bld AS headers
 RUN cp -rv $LFS_SRC/linux-6.0.11/usr/include $LFS/usr
 
 # --- Glibc: Chapter 5.5 ---
-FROM prebuild AS glibc
+FROM prebuild AS glibc-src
 COPY --from=headers $LFS $LFS
-ADD https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz $LFS_SRC
-ADD https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf glibc-2.36.tar.xz; \
-    cd glibc-2.36; \
-    ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64; \
-    ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.3; \
-    patch -Np1 -i ../glibc-2.36-fhs-1.patch; \
+ADD sources/glibc-2.36.tar.xz $LFS_SRC
+ADD sources/glibc-2.36-fhs-1.patch $LFS_SRC
+RUN <<CMD_LIST
+    cd $LFS_SRC/glibc-2.36
+    ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64
+    ln -sfv ../lib/ld-linux-x86-64.so.2 $LFS/lib64/ld-lsb-x86-64.so.3
+    patch -Np1 -i ../glibc-2.36-fhs-1.patch
     mkdir -v build
-RUN cd $LFS_SRC/glibc-2.36/build; \
-    echo "rootsbindir=/usr/sbin" > configparms; \
+CMD_LIST
+
+FROM glibc-src AS glibc-bld
+RUN <<CMD_LIST
+    cd $LFS_SRC/glibc-2.36/build
+    echo "rootsbindir=/usr/sbin" > configparms
     ../configure --prefix=/usr --host=$LFS_TGT \
         --build=$(../scripts/config.guess) --enable-kernel=3.2 \
-        --with-headers=$LFS/usr/include libc_cv_slibdir=/usr/lib && \
-    make && make DESTDIR=$LFS install && \
-    sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd && \
+        --with-headers=$LFS/usr/include libc_cv_slibdir=/usr/lib
+    make
+CMD_LIST
+
+FROM glibc-bld AS glibc
+RUN <<CMD_LIST
+    cd $LFS_SRC/glibc-2.36/build
+    make DESTDIR=$LFS install
+    sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd
     $LFS/tools/libexec/gcc/$LFS_TGT/12.2.0/install-tools/mkheaders
+CMD_LIST
 
 # --- Libstdc++: Chapter 5.6 ---
 FROM prebuild AS libstdc
