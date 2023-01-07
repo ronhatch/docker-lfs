@@ -87,15 +87,20 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Linux API headers: Chapter 5.4 ---
-FROM prebuild AS headers
+FROM prebuild AS headers-src
 COPY --from=gcc1 $LFS $LFS
-ADD https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf linux-6.0.11.tar.xz
-RUN cd $LFS_SRC/linux-6.0.11; \
-    make mrproper && make headers && \
-    find usr/include -type f ! -name '*.h' -delete && \
-    cp -rv usr/include $LFS/usr
+ADD sources/linux-6.0.11.tar.xz $LFS_SRC
+
+FROM headers-src AS headers-bld
+RUN <<CMD_LIST
+    cd $LFS_SRC/linux-6.0.11
+    make mrproper
+    make headers
+    find usr/include -type f ! -name '*.h' -delete
+CMD_LIST
+
+FROM headers-bld AS headers
+RUN cp -rv $LFS_SRC/linux-6.0.11/usr/include $LFS/usr
 
 # --- Glibc: Chapter 5.5 ---
 FROM prebuild AS glibc
