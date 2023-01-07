@@ -50,33 +50,41 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- GCC 1st pass: Chapter 5.3 ---
-FROM prebuild AS gcc1
+FROM prebuild AS gcc1-src
 COPY --from=binutils1 $LFS $LFS
-ADD https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
-ADD https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz $LFS_SRC
-ADD https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz $LFS_SRC
-ADD https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf gcc-12.2.0.tar.xz; \
-    cd gcc-12.2.0; \
-    tar xf ../gmp-6.2.1.tar.xz; \
-    mv gmp-6.2.1 gmp; \
-    tar xf ../mpc-1.2.1.tar.gz; \
-    mv mpc-1.2.1 mpc; \
-    tar xf ../mpfr-4.1.0.tar.xz; \
-    mv mpfr-4.1.0 mpfr; \
-    sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64; \
+ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
+ADD sources/gmp-6.2.1.tar.xz $LFS_SRC/gcc-12.2.0
+ADD sources/mpc-1.2.1.tar.gz $LFS_SRC/gcc-12.2.0
+ADD sources/mpfr-4.1.0.tar.xz $LFS_SRC/gcc-12.2.0
+RUN <<CMD_LIST
+    cd $LFS_SRC/gcc-12.2.0
+    mv gmp-6.2.1 gmp
+    mv mpc-1.2.1 mpc
+    mv mpfr-4.1.0 mpfr
+    sed -e '/m64=/s/lib64/lib/' -i.orig gcc/config/i386/t-linux64
     mkdir -v build
-RUN cd $LFS_SRC/gcc-12.2.0/build; \
+CMD_LIST
+
+FROM gcc1-src AS gcc1-bld
+RUN <<CMD_LIST
+    cd $LFS_SRC/gcc-12.2.0/build
     ../configure --target=$LFS_TGT --prefix=$LFS/tools --with-glibc-version=2.36 \
         --with-sysroot=$LFS --with-newlib --without-headers --disable-nls \
         --disable-shared --disable-multilib --disable-decimal-float \
         --disable-threads --disable-libatomic --disable-libgomp \
         --disable-libquadmath --disable-libssp --disable-libvtv \
-        --disable-libstdcxx --enable-languages=c,c++ && \
-    make && make install && \
-    cd .. && cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+        --disable-libstdcxx --enable-languages=c,c++
+    make
+CMD_LIST
+
+FROM gcc1-bld AS gcc1
+RUN <<CMD_LIST
+    cd $LFS_SRC/gcc-12.2.0/build
+    make install
+    cd ..
+    cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
         `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
+CMD_LIST
 
 # --- Linux API headers: Chapter 5.4 ---
 FROM prebuild AS linux-headers
