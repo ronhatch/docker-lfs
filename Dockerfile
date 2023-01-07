@@ -196,16 +196,23 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Bash: Chapter 6.4 ---
-FROM prebuild AS bash
+FROM prebuild AS bash-src
 COPY --from=ncurses $LFS $LFS
-ADD https://ftp.gnu.org/gnu/bash/bash-5.1.16.tar.gz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf bash-5.1.16.tar.gz
-RUN cd $LFS_SRC/bash-5.1.16; \
+ADD sources/bash-5.1.16.tar.gz $LFS_SRC
+WORKDIR $LFS_SRC/bash-5.1.16
+
+FROM bash-src AS bash-bld
+RUN <<CMD_LIST
     ./configure --prefix=/usr --build=$(support/config.guess) \
-        --host=$LFS_TGT --without-bash-malloc && \
-    make && make DESTDIR=$LFS install && \
+        --host=$LFS_TGT --without-bash-malloc
+    make
+CMD_LIST
+
+FROM bash-bld AS bash
+RUN <<CMD_LIST
+    make DESTDIR=$LFS install
     ln -sv bash $LFS/bin/sh
+CMD_LIST
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS coreutils
