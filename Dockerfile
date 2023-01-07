@@ -215,19 +215,26 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Coreutils: Chapter 6.5 ---
-FROM prebuild AS coreutils
+FROM prebuild AS coreutils-src
 COPY --from=bash $LFS $LFS
-ADD https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf coreutils-9.1.tar.xz
-RUN cd $LFS_SRC/coreutils-9.1; \
+ADD source/coreutils-9.1.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/coreutils-9.1
+
+FROM coreutils-src AS coreutils-bld
+RUN <<CMD_LIST
     ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess) \
-        --enable-install-program=hostname --enable-no-install-program=kill,uptime && \
-    make && make DESTDIR=$LFS install; \
-    mv -v $LFS/usr/{bin/chroot,sbin}; \
-    mkdir -pv $LFS/usr/share/man/man8; \
-    mv -v $LFS/usr/share/man/{man1/chroot.1,man8/chroot.8}; \
+        --enable-install-program=hostname --enable-no-install-program=kill,uptime
+    make
+CMD_LIST
+
+FROM coreutils-bld AS coreutils
+RUN <<CMD_LIST
+    make DESTDIR=$LFS install
+    mv -v $LFS/usr/{bin/chroot,sbin}
+    mkdir -pv $LFS/usr/share/man/man8
+    mv -v $LFS/usr/share/man/{man1/chroot.1,man8/chroot.8}
     sed -i 's/"1"/"8"/' $LFS/usr/share/man/man8/chroot.8
+CMD_LIST
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS diffutils
