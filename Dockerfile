@@ -276,15 +276,20 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Findutils: Chapter 6.8 ---
-FROM prebuild AS findutils
+FROM prebuild AS findutils-src
 COPY --from=file $LFS $LFS
-ADD https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf findutils-4.9.0.tar.xz
-RUN cd $LFS_SRC/findutils-4.9.0; \
+ADD sources/findutils-4.9.0.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/findutils-4.9.0
+
+FROM findutils-src AS findutils-bld
+RUN <<CMD_LIST
     ./configure --prefix=/usr --localstatedir=/var/lib/locate \
-        --host=$LFS_TGT --build=$(build-aux/config.guess) && \
-    make && make DESTDIR=$LFS install
+        --host=$LFS_TGT --build=$(build-aux/config.guess)
+    make
+CMD_LIST
+
+FROM findutils-bld AS findutils
+RUN make DESTDIR=$LFS install
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS gawk
