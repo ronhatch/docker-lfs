@@ -30,11 +30,11 @@ WORKDIR /root
 #   unpacked only (image is suitable for examining for possible patches).
 #   The bld postfix is used after the package is built but before it is
 #   installed (image is suitable for running test suites).
-FROM prebuild AS binutils-1-src
+FROM prebuild AS binutils1-src
 ADD sources/binutils-2.39.tar.xz $LFS_SRC
 RUN mkdir -v $LFS_SRC/binutils-2.39/build
 
-FROM binutils-1-src AS binutils-1-bld
+FROM binutils1-src AS binutils1-bld
 RUN <<CMD_LIST
     cd $LFS_SRC/binutils-2.39/build
     ../configure --prefix=$LFS/tools --with-sysroot=$LFS \
@@ -43,15 +43,15 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 
-FROM binutils-1-bld AS binutils-1
+FROM binutils1-bld AS binutils1
 RUN <<CMD_LIST
     cd $LFS_SRC/binutils-2.39/build
     make install
 CMD_LIST
 
 # --- GCC 1st pass: Chapter 5.3 ---
-FROM prebuild AS gcc-1
-COPY --from=binutils-1 $LFS $LFS
+FROM prebuild AS gcc1
+COPY --from=binutils1 $LFS $LFS
 ADD https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
 ADD https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz $LFS_SRC
 ADD https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz $LFS_SRC
@@ -80,7 +80,7 @@ RUN cd $LFS_SRC/gcc-12.2.0/build; \
 
 # --- Linux API headers: Chapter 5.4 ---
 FROM prebuild AS linux-headers
-COPY --from=gcc-1 $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
 ADD https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
     tar xf linux-6.0.11.tar.xz
@@ -307,7 +307,7 @@ RUN cd $LFS_SRC/xz-5.2.6; \
     rm -v $LFS/usr/lib/liblzma.la
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
-FROM prebuild AS binutils-2
+FROM prebuild AS binutils2
 COPY --from=xz $LFS $LFS
 ADD https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS_SRC
 RUN cd $LFS_SRC; \
@@ -322,8 +322,8 @@ RUN cd $LFS_SRC/binutils-2.39/build; \
     rm -v $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.{a,la}
 
 # --- GCC 2nd pass: Chapter 6.18 ---
-FROM prebuild AS gcc-2
-COPY --from=binutils-2 $LFS $LFS
+FROM prebuild AS gcc2
+COPY --from=binutils2 $LFS $LFS
 ADD https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz $LFS_SRC
 ADD https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz $LFS_SRC
 ADD https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz $LFS_SRC
@@ -354,7 +354,7 @@ RUN cd $LFS_SRC/gcc-12.2.0/build; \
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=gcc-2 /lfs /
+COPY --from=gcc2 /lfs /
 COPY scripts/passwd scripts/group /etc/
 ENV PS1='(LFS chroot) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin
