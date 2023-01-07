@@ -156,15 +156,23 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- M4: Chapter 6.2 ---
-FROM prebuild AS m4
+FROM prebuild AS m4-src
 COPY --from=libstdc $LFS $LFS
-ADD https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf m4-1.4.19.tar.xz
-RUN cd $LFS_SRC/m4-1.4.19; \
+ADD sources/m4-1.4.19.tar.xz $LFS_SRC
+
+FROM m4-src AS m4-bld
+RUN <<CMD_LIST
+    cd $LFS_SRC/m4-1.4.19
     ./configure --prefix=/usr --host=$LFS_TGT \ 
-        --build=$(build-aux/config.guess) && \
-    make && make DESTDIR=$LFS install
+        --build=$(build-aux/config.guess)
+    make
+CMD_LIST
+
+FROM m4-bld AS m4
+RUN <<CMD_LIST
+    cd $LFS_SRC/m4-1.4.19
+    make DESTDIR=$LFS install
+CMD_LIST
 
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS ncurses
