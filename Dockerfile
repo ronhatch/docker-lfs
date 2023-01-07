@@ -19,7 +19,7 @@ RUN <<CMD_LIST
       ln -sv usr/$i $LFS/$is
     done
     mkdir -pv $LFS_SRC
-    apt update && \
+    apt update
     apt -y install binutils bison gawk gcc g++ make patch perl python3 texinfo xz-utils
 CMD_LIST
 COPY scripts/version-check.sh /root
