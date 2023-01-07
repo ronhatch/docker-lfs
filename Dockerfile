@@ -483,7 +483,7 @@ RUN rm -rf $LFS_SRC /usr/share/{info,man,doc}/*; \
     find /usr/{lib,libexec} -name \*.la -delete
 
 # --- Final build system: Ready for Chapter 8 and on ---
-FROM scratch AS build
+FROM scratch AS builder
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
 COPY --from=cleanup / /
 ENV PS1='(LFS build) \u:\w\$ '
