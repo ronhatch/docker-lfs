@@ -436,7 +436,7 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 
-FROM binutils2-bld AS binutils
+FROM binutils2-bld AS binutils2
 RUN <<CMD_LIST
     make DESTDIR=$LFS install
     rm -v $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.{a,la}
