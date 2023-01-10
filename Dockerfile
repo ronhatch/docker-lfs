@@ -354,14 +354,19 @@ FROM make-bld AS make
 RUN make DESTDIR=$LFS install
 
 # --- Patch: Chapter 6.13 ---
-FROM prebuild AS patch
+FROM prebuild AS patch-src
 COPY --from=make $LFS $LFS
-ADD https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf patch-2.7.6.tar.xz
-RUN cd $LFS_SRC/patch-2.7.6; \
-    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess) && \
-    make && make DESTDIR=$LFS install
+ADD sources/patch-2.7.6.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/patch-2.7.6
+
+FROM patch-src AS patch-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess)
+    make
+CMD_LIST
+
+FROM patch-bld AS patch
+RUN make DESTDIR=$LFS install
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS sed
