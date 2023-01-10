@@ -527,13 +527,18 @@ FROM gettext-bld AS gettext
 RUN cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
 
 # --- Bison: Chapter 7.8 ---
-FROM gettext AS bison
-ADD https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf bison-3.8.2.tar.xz
-RUN cd $LFS_SRC/bison-3.8.2; \
-    ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2 && \
-    make && make install
+FROM gettext AS bison-src
+ADD sources/bison-3.8.2.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/bison-3.8.2
+
+FROM bison-src AS bison-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2
+    make
+CMD_LIST
+
+FROM bison-bld AS bison
+RUN make install
 
 # --- Perl: Chapter 7.9 ---
 FROM bison AS perl
