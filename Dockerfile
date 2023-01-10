@@ -308,14 +308,19 @@ FROM gawk-bld AS gawk
 RUN make DESTDIR=$LFS install
 
 # --- Grep: Chapter 6.10 ---
-FROM prebuild AS grep
+FROM prebuild AS grep-src
 COPY --from=gawk $LFS $LFS
-ADD https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf grep-3.7.tar.xz
-RUN cd $LFS_SRC/grep-3.7; \
-    ./configure --prefix=/usr --host=$LFS_TGT && \
-    make && make DESTDIR=$LFS install
+ADD sources/grep-3.7.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/grep-3.7
+
+FROM grep-src AS grep-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT
+    make
+CMD_LIST
+
+FROM grep-bld AS grep
+RUN make DESTDIR=$LFS install
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS gzip
