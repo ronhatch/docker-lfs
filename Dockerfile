@@ -369,14 +369,19 @@ FROM patch-bld AS patch
 RUN make DESTDIR=$LFS install
 
 # --- Sed: Chapter 6.14 ---
-FROM prebuild AS sed
+FROM prebuild AS sed-src
 COPY --from=patch $LFS $LFS
-ADD https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf sed-4.8.tar.xz
-RUN cd $LFS_SRC/sed-4.8; \
-    ./configure --prefix=/usr --host=$LFS_TGT && \
-    make && make DESTDIR=$LFS install
+ADD sources/sed-4.8.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/sed-4.8
+
+FROM sed-src AS sed-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT
+    make
+CMD_LIST
+
+FROM sed-bld AS sed
+RUN make DESTDIR=$LFS install
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS tar
