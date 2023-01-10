@@ -541,19 +541,24 @@ FROM bison-bld AS bison
 RUN make install
 
 # --- Perl: Chapter 7.9 ---
-FROM bison AS perl
-ADD https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf perl-5.36.0.tar.xz
-RUN cd $LFS_SRC/perl-5.36.0; \
+FROM bison AS perl-src
+ADD sources/perl-5.36.0.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/perl-5.36.0
+
+FROM perl-src AS perl-bld
+RUN <<CMD_LIST
     sh Configure -des -Dprefix=/usr -Dvendorprefix=/usr \
         -Dprivlib=/usr/lib/perl5/5.36/core_perl \
         -Darchlib=/usr/lib/perl5/5.36/core_perl \
         -Dsitelib=/usr/lib/perl5/5.36/site_perl \
         -Dsitearch=/usr/lib/perl5/5.36/site_perl \
         -Dvendorlib=/usr/lib/perl5/5.36/vendor_perl \
-        -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl && \
-    make && make install
+        -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl
+    make
+CMD_LIST
+
+FROM perl-bld AS perl
+RUN make install
 
 # --- Python: Chapter 7.10 ---
 FROM perl AS python
