@@ -260,7 +260,7 @@ RUN mkdir -v build
 
 FROM file-src AS file-bld
 RUN <<CMD_LIST
-RUN cd build
+    cd build
     ../configure --disable-bzlib --disable-libseccomp \
         --disable-xzlib --disable-zlib
     make
