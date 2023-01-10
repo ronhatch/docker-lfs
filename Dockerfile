@@ -561,13 +561,18 @@ FROM perl-bld AS perl
 RUN make install
 
 # --- Python: Chapter 7.10 ---
-FROM perl AS python
-ADD https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf Python-3.11.1.tar.xz
-RUN cd $LFS_SRC/Python-3.11.1; \
-    ./configure --prefix=/usr --enable-shared --without-ensurepip && \
-    make && make install
+FROM perl AS python-src
+ADD sources/Python-3.11.1.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/Python-3.11.1
+
+FROM python-src AS python-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --enable-shared --without-ensurepip
+    make
+CMD_LIST
+
+FROM python-bld AS python
+RUN make install
 
 # --- Texinfo: Chapter 7.11 ---
 FROM python AS texinfo
