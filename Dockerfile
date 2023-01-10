@@ -589,18 +589,23 @@ FROM texinfo-bld AS texinfo
 RUN make install
 
 # --- Util-linux: Chapter 7.12 ---
-FROM texinfo AS util-linux
-ADD https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf util-linux-2.38.1.tar.xz
-RUN cd $LFS_SRC/util-linux-2.38.1; \
-    mkdir -pv /var/lib/hwclock; \
+FROM texinfo AS util-linux-src
+ADD sources/util-linux-2.38.1.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/util-linux-2.38.1
+
+FROM util-linux-src AS util-linux-bld
+RUN <<CMD_LIST
+    mkdir -pv /var/lib/hwclock
     ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib \
         --docdir=/usr/share/doc/util-linux-2.38.1 --disable-chfn-chsh \
         --disable-login --disable-nologin --disable-su --disable-setpriv \
         --disable-runuser --disable-pylibmount --disable-static \
-        --without-python runstatedir=/run && \
-    make && make install
+        --without-python runstatedir=/run
+    make
+CMD_LIST
+
+FROM util-linux-bld AS util-linux
+RUN make install
 
 # --- Cleanup: Chapter 7.13 ---
 FROM util-linux AS cleanup
