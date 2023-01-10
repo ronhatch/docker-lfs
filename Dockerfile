@@ -323,14 +323,19 @@ FROM grep-bld AS grep
 RUN make DESTDIR=$LFS install
 
 # --- Gzip: Chapter 6.11 ---
-FROM prebuild AS gzip
+FROM prebuild AS gzip-src
 COPY --from=grep $LFS $LFS
-ADD https://ftp.gnu.org/gnu/gzip/gzip-1.12.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf gzip-1.12.tar.xz
-RUN cd $LFS_SRC/gzip-1.12; \
-    ./configure --prefix=/usr --host=$LFS_TGT && \
-    make && make DESTDIR=$LFS install
+ADD sources/gzip-1.12.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/gzip-1.12
+
+FROM gzip-src AS gzip-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT
+    make
+CMD_LIST
+
+FROM gzip-bld AS gzip
+RUN make DESTDIR=$LFS install
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS make
