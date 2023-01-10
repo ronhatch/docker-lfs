@@ -338,15 +338,20 @@ FROM gzip-bld AS gzip
 RUN make DESTDIR=$LFS install
 
 # --- Make: Chapter 6.12 ---
-FROM prebuild AS make
+FROM prebuild AS make-src
 COPY --from=gzip $LFS $LFS
-ADD https://ftp.gnu.org/gnu/make/make-4.3.tar.gz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf make-4.3.tar.gz
-RUN cd $LFS_SRC/make-4.3; \
+ADD sources/make-4.3.tar.gz $LFS_SRC
+WORKDIR $LFS_SRC/make-4.3
+
+FROM make-src AS make-bld
+RUN <<CMD_LIST
     ./configure --prefix=/usr --without-guile --host=$LFS_TGT \
-        --build=$(build-aux/config.guess) && \
-    make && make DESTDIR=$LFS install
+        --build=$(build-aux/config.guess)
+    make
+CMD_LIST
+
+FROM make-bld AS make
+RUN make DESTDIR=$LFS install
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS patch
