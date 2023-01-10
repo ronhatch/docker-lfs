@@ -217,7 +217,7 @@ CMD_LIST
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS coreutils-src
 COPY --from=bash $LFS $LFS
-ADD source/coreutils-9.1.tar.xz $LFS_SRC
+ADD sources/coreutils-9.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/coreutils-9.1
 
 FROM coreutils-src AS coreutils-bld
