@@ -513,13 +513,18 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Gettext: Chapter 7.7 ---
-FROM chroot AS gettext
-ADD https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf gettext-0.21.tar.xz
-RUN cd $LFS_SRC/gettext-0.21; \
-    ./configure --disable-shared && \
-    make && cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
+FROM chroot AS gettext-src
+ADD sources/gettext-0.21.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/gettext-0.21
+
+FROM gettext-src AS gettext-bld
+RUN <<CMD_LIST
+    ./configure --disable-shared
+    make
+CMD_LIST
+
+FROM gettext-bld AS gettext
+RUN cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
 
 # --- Bison: Chapter 7.8 ---
 FROM gettext AS bison
