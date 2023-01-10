@@ -418,19 +418,29 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
-FROM prebuild AS binutils2
+FROM prebuild AS binutils2-src
 COPY --from=xz $LFS $LFS
-ADD https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf binutils-2.39.tar.xz; \
-    sed '6009s/$add_dir//' -i ltmain.sh; \
-    mkdir -v binutils-2.39/build
-RUN cd $LFS_SRC/binutils-2.39/build; \
+ADD sources/binutils-2.39.tar.xz $LFS_SRC
+RUN <<CMD_LIST
+    cd $LFS_SRC/binutils-2.39
+    sed '6009s/$add_dir//' -i ltmain.sh
+    mkdir -v build
+CMD_LIST
+WORKDIR $LFS_SRC/binutils-2.39/build
+
+FROM binutils2-src AS binutils2-bld
+RUN <<CMD_LIST
     ../configure --prefix=/usr --build=$(../config.guess) --host=$LFS_TGT \
         --disable-nls --enable-shared --enable-gprofng=no \
-        --disable-werror --enable-64-bit-bfd && \
-    make && make DESTDIR=$LFS install && \
+        --disable-werror --enable-64-bit-bfd
+    make
+CMD_LIST
+
+FROM binutils2-bld AS binutils
+RUN <<CMD_LIST
+    make DESTDIR=$LFS install
     rm -v $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.{a,la}
+CMD_LIST
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS gcc2
