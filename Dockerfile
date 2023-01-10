@@ -575,12 +575,18 @@ FROM python-bld AS python
 RUN make install
 
 # --- Texinfo: Chapter 7.11 ---
-FROM python AS texinfo
-ADD https://ftp.gnu.org/gnu/texinfo/texinfo-6.8.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf texinfo-6.8.tar.xz
-RUN cd $LFS_SRC/texinfo-6.8; \
-    ./configure --prefix=/usr && make && make install
+FROM python AS texinfo-src
+ADD sources/texinfo-6.8.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/texinfo-6.8
+
+FROM texinfo-src AS texinfo-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr
+     make
+CMD_LIST
+
+FROM texinfo-bld AS texinfo
+RUN make install
 
 # --- Util-linux: Chapter 7.12 ---
 FROM texinfo AS util-linux
