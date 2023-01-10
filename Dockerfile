@@ -384,14 +384,19 @@ FROM sed-bld AS sed
 RUN make DESTDIR=$LFS install
 
 # --- Tar: Chapter 6.15 ---
-FROM prebuild AS tar
+FROM prebuild AS tar-src
 COPY --from=sed $LFS $LFS
-ADD https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf tar-1.34.tar.xz
-RUN cd $LFS_SRC/tar-1.34; \
-    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess) && \
-    make && make DESTDIR=$LFS install
+ADD sources/tar-1.34.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/tar-1.34
+
+FROM tar-src AS tar-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess)
+    make
+CMD_LIST
+
+FROM tar-bld AS tar
+RUN make DESTDIR=$LFS install
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS xz
