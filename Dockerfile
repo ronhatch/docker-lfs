@@ -609,13 +609,15 @@ RUN make install
 
 # --- Cleanup: Chapter 7.13 ---
 FROM util-linux AS cleanup
-RUN rm -rf $LFS_SRC /usr/share/{info,man,doc}/*; \
+RUN <<CMD_LIST
+    rm -rf $LFS_SRC /usr/share/{info,man,doc}/*
     find /usr/{lib,libexec} -name \*.la -delete
+CMD_LIST
 
 # --- Final build system: Ready for Chapter 8 and on ---
 FROM scratch AS builder
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
 COPY --from=cleanup / /
-ENV PS1='(LFS build) \u:\w\$ '
+ENV PS1='(LFS builder) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin
-CMD ["/bin/bash", "--login", "-c"]
+CMD ["/bin/bash", "+h", "-c"]
