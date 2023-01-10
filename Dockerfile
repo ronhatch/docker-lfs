@@ -399,18 +399,23 @@ FROM tar-bld AS tar
 RUN make DESTDIR=$LFS install
 
 # --- Xz: Chapter 6.16 ---
-FROM prebuild AS xz
+FROM prebuild AS xz-src
 COPY --from=tar $LFS $LFS
-# Note: Official download link listed in LFS book was resulting in errors.
-#       Using sourceforge instead, but not sure if this is a permanent link.
-ADD https://pilotfiber.dl.sourceforge.net/project/lzmautils/xz-5.2.6.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf xz-5.2.6.tar.xz
-RUN cd $LFS_SRC/xz-5.2.6; \
+ADD sources/xz-5.2.6.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/xz-5.2.6
+
+FROM xz-src AS xz-bld
+RUN <<CMD_LIST
     ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess) \
-        --disable-static --docdir=/usr/share/doc/xz-5.2.6 && \
-    make && make DESTDIR=$LFS install && \
+        --disable-static --docdir=/usr/share/doc/xz-5.2.6
+    make
+CMD_LIST
+
+FROM xz-bld AS xz
+RUN <<CMD_LIST
+    make DESTDIR=$LFS install
     rm -v $LFS/usr/lib/liblzma.la
+CMD_LIST
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS binutils2
