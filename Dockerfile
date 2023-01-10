@@ -292,15 +292,20 @@ FROM findutils-bld AS findutils
 RUN make DESTDIR=$LFS install
 
 # --- Gawk: Chapter 6.9 ---
-FROM prebuild AS gawk
+FROM prebuild AS gawk-src
 COPY --from=findutils $LFS $LFS
-ADD https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz $LFS_SRC
-RUN cd $LFS_SRC; \
-    tar xf gawk-5.1.1.tar.xz; \
-    sed -i 's/extras//' gawk-5.1.1/Makefile.in
-RUN cd $LFS_SRC/gawk-5.1.1; \
-    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess) && \
-    make && make DESTDIR=$LFS install
+ADD sources/gawk-5.1.1.tar.xz $LFS_SRC
+WORKDIR $LFS_SRC/gawk-5.1.1
+RUN sed -i 's/extras//' Makefile.in
+
+FROM gawk-src AS gawk-bld
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess)
+    make
+CMD_LIST
+
+FROM gawk-bld AS gawk
+RUN make DESTDIR=$LFS install
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS grep
