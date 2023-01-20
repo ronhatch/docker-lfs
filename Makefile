@@ -1,8 +1,10 @@
-build-logs/builder.log: build-logs/cleanup.log
+status/builder.ok: status/cleanup.ok
 	docker build --target=builder -t ronhatch/lfs-builder . 2>&1 | tee build-logs/builder.log
+	touch status/builder.ok
 
-build-logs/cleanup.log: tarballs/util-linux.tar.gz
+status/cleanup.ok: tarballs/util-linux.tar.gz | status
 	docker build --target=cleanup -t ronhatch/lfs-cleanup . 2>&1 | tee build-logs/cleanup.log
+	touch status/cleanup.ok
 
 tarballs/util-linux.tar.gz: build-logs/util-linux-bld.log | build-logs tarballs
 	docker run --rm -v fakeroot:/lfs ronhatch/lfs-util-linux-bld \
@@ -15,6 +17,8 @@ tarballs/util-linux.tar.gz: build-logs/util-linux-bld.log | build-logs tarballs
 
 build-logs:
 	mkdir build-logs
+status:
+	mkdir status
 tarballs:
 	mkdir tarballs
 

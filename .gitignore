@@ -1,5 +1,8 @@
 # Ignore log files
 build-logs
 
+# Ignore docker image timestamp proxy files
+status
+
 # Ignore built tarballs
 tarballs
