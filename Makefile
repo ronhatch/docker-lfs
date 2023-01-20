@@ -9,8 +9,8 @@ status/cleanup.ok: tarballs/util-linux.tar.gz | status
 tarballs/util-linux.tar.gz: build-logs/util-linux-bld.log | build-logs tarballs
 	docker run --rm -v fakeroot:/lfs ronhatch/lfs-util-linux-bld \
 	make DESTDIR=/lfs install | tee build-logs/util-linux.log
-	docker run --name util-linux -v fakeroot:/lfs -v tarballs:/mnt -w /lfs \
-	ubuntu tar czf /mnt/util-linux.tar.gz .
+	docker run --name util-linux -v fakeroot:/lfs -v tarballs:/mnt -w /lfs ubuntu \
+	tar czf /mnt/util-linux.tar.gz .
 	docker cp util-linux:/mnt/util-linux.tar.gz tarballs
 	docker rm util-linux
 	docker volume rm fakeroot tarballs
