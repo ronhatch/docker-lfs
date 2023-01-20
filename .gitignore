@@ -1,0 +1,5 @@
+# Ignore log files
+build-logs
+
+# Ignore built tarballs
+tarballs
