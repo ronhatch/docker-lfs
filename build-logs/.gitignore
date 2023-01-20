@@ -1,0 +1,5 @@
+# This directory will get our build log files, but we don't want to check them in...
+*
+
+# We'll keep this file, though, so that the directory is created on checkout.
+!.gitignore
