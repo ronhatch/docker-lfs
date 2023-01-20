@@ -604,11 +604,9 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 
-FROM util-linux-bld AS util-linux
-RUN make install
-
 # --- Cleanup: Chapter 7.13 ---
-FROM util-linux AS cleanup
+FROM texinfo AS cleanup
+ADD tarballs/util-linux.tar.gz .
 RUN <<CMD_LIST
     rm -rf $LFS_SRC /usr/share/{info,man,doc}/*
     find /usr/{lib,libexec} -name \*.la -delete
