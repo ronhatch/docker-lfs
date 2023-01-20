@@ -24,3 +24,7 @@ status:
 tarballs:
 	mkdir tarballs
 
+.PHONY: clean
+clean:
+	rm status/*.ok tarballs/*.tar.gz
+
