@@ -25,9 +25,9 @@ Images were built using:
 `docker build --target=[stage] -t ronhatch/lfs-[stage] . 2>&1 | tee build-logs/[stage].log`
 
 Some portions of the build have been automated using Make. Simply run `make` in the root directory of the repository and it will do the rest.
-On Windows if you aren't using WSL, you will need to have tee and make installed. If you use Git for Windows, you probably already have its version of tee. Try running `tee --version` to check. If needed, it can be downloaded as part of the Coreutils package from:
-https://sourceforge.net/projects/gnuwin32/files/coreutils/5.3.0/coreutils-5.3.0.exe/download
-Make can be downloaded from:
-https://sourceforge.net/projects/gnuwin32/files/make/3.81/make-3.81.exe/download
+On Windows if you aren't using WSL, you will need to have tee and make installed. If you use Git for Windows, you probably already have its version of tee. Try running `tee --version` to check. If needed, it can be downloaded as part of the Coreutils package from:  
+https://sourceforge.net/projects/gnuwin32/files/coreutils/5.3.0/coreutils-5.3.0.exe/download  
+Make can be downloaded from:  
+https://sourceforge.net/projects/gnuwin32/files/make/3.81/make-3.81.exe/download  
 Note that you will need to add [install location]\GnuWin32\bin to your PATH yourself since the installer does not do it automatically.
 
