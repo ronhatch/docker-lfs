@@ -1,3 +1,9 @@
+build-logs/builder.log: build-logs/cleanup.log
+	docker build --target=builder -t ronhatch/lfs-builder . 2>&1 | tee build-logs/builder.log
+
+build-logs/cleanup.log: tarballs/util-linux.tar.gz
+	docker build --target=cleanup -t ronhatch/lfs-cleanup . 2>&1 | tee build-logs/cleanup.log
+
 tarballs/util-linux.tar.gz: build-logs/util-linux-bld.log | build-logs tarballs
 	docker run --rm -v fakeroot:/lfs ronhatch/lfs-util-linux-bld \
         make DESTDIR=/lfs install | tee build-logs/util-linux.log
