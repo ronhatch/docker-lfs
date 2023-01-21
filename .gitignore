@@ -1,6 +1,9 @@
 # Ignore log files
 build-logs
 
+# Ignore tarball md5sums
+md5sums
+
 # Ignore docker image timestamp proxy files
 status
 
