@@ -576,11 +576,9 @@ FROM python-bld AS python
 RUN make install
 
 # --- Texinfo: Chapter 7.11 ---
-FROM python AS texinfo-src
+FROM python AS texinfo
 ADD sources/texinfo-6.8.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/texinfo-6.8
-
-FROM texinfo-src AS texinfo
 RUN <<CMD_LIST
     ./configure --prefix=/usr
      make
