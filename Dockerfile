@@ -580,17 +580,18 @@ FROM python AS texinfo-src
 ADD sources/texinfo-6.8.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/texinfo-6.8
 
-FROM texinfo-src AS texinfo-bld
+FROM texinfo-src AS texinfo
 RUN <<CMD_LIST
     ./configure --prefix=/usr
      make
 CMD_LIST
-
-FROM texinfo-bld AS texinfo
-RUN make install
+RUN cat <<-INSTALL > ../texinfo-install.sh
+	make DESTDIR=$LFS install
+INSTALL
 
 # --- Util-linux: Chapter 7.12 ---
-FROM texinfo AS util-linux
+FROM python AS util-linux
+ADD --link tarballs/texinfo.tar.gz .
 ADD sources/util-linux-2.38.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/util-linux-2.38.1
 RUN <<CMD_LIST
@@ -608,6 +609,7 @@ INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
 FROM texinfo AS cleanup
+ADD --link tarballs/texinfo.tar.gz .
 ADD --link tarballs/util-linux.tar.gz .
 RUN <<CMD_LIST
     rm -rf $LFS_SRC /usr/share/{info,man,doc}/*

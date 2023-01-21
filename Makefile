@@ -3,10 +3,11 @@ vpath %.ok     status
 vpath %.tar.gz tarballs
 
 status/builder.ok: cleanup.ok
-status/cleanup.ok: util-linux.tar.gz
-status/util-linux.ok: texinfo.log | build-logs status
+status/cleanup.ok: util-linux.tar.gz texinfo.tar.gz
+status/util-linux.ok: texinfo.tar.gz
+status/texinfo.ok: python.log | build-logs status
 
-tarballs/util-linux.tar.gz: | md5sums tarballs
+tarballs/texinfo.tar.gz: | md5sums tarballs
 
 status/%.ok:
 	docker build --target=$* -t ronhatch/lfs-$* . 2>&1 | tee build-logs/$*.log
