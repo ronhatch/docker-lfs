@@ -9,8 +9,8 @@ status/%.ok:
 	docker build --target=$* -t ronhatch/lfs-$* . 2>&1 | tee build-logs/$*.log
 	touch $@
 
-tarballs/util-linux.tar.gz: util-linux-bld.log | build-logs tarballs
-	docker run --rm -v fakeroot:/lfs ronhatch/lfs-util-linux-bld \
+tarballs/util-linux.tar.gz: util-linux.log | build-logs tarballs
+	docker run --rm -v fakeroot:/lfs ronhatch/lfs-util-linux \
 	/bin/sh /sources/util-linux-install.sh | tee build-logs/util-linux-install.log
 	docker run --rm -v fakeroot:/lfs -v $(CURDIR)/tarballs:/mnt -w /lfs ubuntu \
 	tar czf /mnt/util-linux.tar.gz .

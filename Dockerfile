@@ -590,7 +590,7 @@ FROM texinfo-bld AS texinfo
 RUN make install
 
 # --- Util-linux: Chapter 7.12 ---
-FROM texinfo AS util-linux-bld
+FROM texinfo AS util-linux
 ADD sources/util-linux-2.38.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/util-linux-2.38.1
 RUN <<CMD_LIST
