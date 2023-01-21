@@ -556,16 +556,16 @@ FROM perl-bld AS perl
 RUN make install
 
 # --- Python: Chapter 7.10 ---
-FROM perl AS python-bld
+FROM perl AS python
 ADD sources/Python-3.11.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/Python-3.11.1
 RUN <<CMD_LIST
     ./configure --prefix=/usr --enable-shared --without-ensurepip
     make
 CMD_LIST
-
-FROM python-bld AS python
-RUN make install
+RUN cat <<-INSTALL > ../python-install.sh
+	make DESTDIR=$LFS install
+INSTALL
 
 # --- Texinfo: Chapter 7.11 ---
 FROM perl AS texinfo
@@ -598,6 +598,7 @@ INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
 FROM texinfo AS cleanup
+ADD --link tarballs/python.tar.gz .
 ADD --link tarballs/texinfo.tar.gz .
 ADD --link tarballs/util-linux.tar.gz .
 RUN <<CMD_LIST
