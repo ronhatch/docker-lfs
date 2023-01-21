@@ -514,11 +514,9 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Gettext: Chapter 7.7 ---
-FROM chroot AS gettext-src
+FROM chroot AS gettext-bld
 ADD sources/gettext-0.21.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/gettext-0.21
-
-FROM gettext-src AS gettext-bld
 RUN <<CMD_LIST
     ./configure --disable-shared
     make
@@ -528,11 +526,9 @@ FROM gettext-bld AS gettext
 RUN cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
 
 # --- Bison: Chapter 7.8 ---
-FROM gettext AS bison-src
+FROM gettext AS bison-bld
 ADD sources/bison-3.8.2.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/bison-3.8.2
-
-FROM bison-src AS bison-bld
 RUN <<CMD_LIST
     ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2
     make
@@ -542,11 +538,9 @@ FROM bison-bld AS bison
 RUN make install
 
 # --- Perl: Chapter 7.9 ---
-FROM bison AS perl-src
+FROM bison AS perl-bld
 ADD sources/perl-5.36.0.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/perl-5.36.0
-
-FROM perl-src AS perl-bld
 RUN <<CMD_LIST
     sh Configure -des -Dprefix=/usr -Dvendorprefix=/usr \
         -Dprivlib=/usr/lib/perl5/5.36/core_perl \
@@ -562,11 +556,9 @@ FROM perl-bld AS perl
 RUN make install
 
 # --- Python: Chapter 7.10 ---
-FROM perl AS python-src
+FROM perl AS python-bld
 ADD sources/Python-3.11.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/Python-3.11.1
-
-FROM python-src AS python-bld
 RUN <<CMD_LIST
     ./configure --prefix=/usr --enable-shared --without-ensurepip
     make
