@@ -4,7 +4,7 @@ vpath %.tar.gz tarballs
 
 status/builder.ok: cleanup.ok
 status/cleanup.ok: util-linux.tar.gz texinfo.tar.gz
-status/util-linux.ok: texinfo.tar.gz
+status/util-linux.ok: python.log
 status/texinfo.ok: python.log | build-logs status
 
 tarballs/util-linux.tar.gz: util-linux.ok
