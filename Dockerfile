@@ -608,7 +608,7 @@ INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
 FROM texinfo AS cleanup
-ADD tarballs/util-linux.tar.gz .
+ADD --link tarballs/util-linux.tar.gz .
 RUN <<CMD_LIST
     rm -rf $LFS_SRC /usr/share/{info,man,doc}/*
     find /usr/{lib,libexec} -name \*.la -delete
