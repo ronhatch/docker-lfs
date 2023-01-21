@@ -11,7 +11,7 @@ status/%.ok:
 
 tarballs/util-linux.tar.gz: util-linux-bld.log | build-logs tarballs
 	docker run --rm -v fakeroot:/lfs ronhatch/lfs-util-linux-bld \
-	make DESTDIR=/lfs install | tee build-logs/util-linux.log
+	/bin/sh /sources/util-linux-install.sh | tee build-logs/util-linux-install.log
 	docker run --rm -v fakeroot:/lfs -v $(CURDIR)/tarballs:/mnt -w /lfs ubuntu \
 	tar czf /mnt/util-linux.tar.gz .
 	docker volume rm fakeroot

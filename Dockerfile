@@ -485,6 +485,7 @@ COPY --from=gcc2 /lfs /
 COPY scripts/passwd scripts/group /etc/
 ENV PS1='(LFS chroot) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin
+ENV LFS=/lfs
 ENV LFS_SRC=/sources
 CMD ["/bin/bash", "+h", "-c"]
 RUN <<CMD_LIST
@@ -603,6 +604,9 @@ RUN <<CMD_LIST
         --without-python runstatedir=/run
     make
 CMD_LIST
+RUN cat <<-INSTALL > ../util-linux-install.sh
+	make DESTDIR=$LFS install
+INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
 FROM texinfo AS cleanup
