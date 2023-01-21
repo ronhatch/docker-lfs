@@ -590,11 +590,9 @@ FROM texinfo-bld AS texinfo
 RUN make install
 
 # --- Util-linux: Chapter 7.12 ---
-FROM texinfo AS util-linux-src
+FROM texinfo AS util-linux-bld
 ADD sources/util-linux-2.38.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/util-linux-2.38.1
-
-FROM util-linux-src AS util-linux-bld
 RUN <<CMD_LIST
     mkdir -pv /var/lib/hwclock
     ./configure ADJTIME_PATH=/var/lib/hwclock/adjtime --libdir=/usr/lib \
