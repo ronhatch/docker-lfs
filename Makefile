@@ -5,6 +5,7 @@ vpath %.tar.gz tarballs
 status/builder.ok: cleanup.ok
 status/cleanup.ok: util-linux.tar.gz
 status/util-linux.ok: texinfo.log | build-logs status
+
 tarballs/util-linux.tar.gz: | md5sums tarballs
 
 status/%.ok:
