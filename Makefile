@@ -9,8 +9,8 @@ vpath %.tar.gz tarballs
 
 status/builder.ok: cleanup.ok
 status/cleanup.ok: util-linux.tar.gz texinfo.tar.gz
-status/util-linux.ok: python.log
-status/texinfo.ok: python.log | build-logs status
+status/util-linux.ok: chroot.log | build-logs status
+status/texinfo.ok: perl.log | build-logs status
 
 tarballs/util-linux.tar.gz: util-linux.ok
 tarballs/texinfo.tar.gz: texinfo.ok | md5sums tarballs

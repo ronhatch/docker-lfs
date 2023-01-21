@@ -568,7 +568,7 @@ FROM python-bld AS python
 RUN make install
 
 # --- Texinfo: Chapter 7.11 ---
-FROM python AS texinfo
+FROM perl AS texinfo
 ADD sources/texinfo-6.8.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/texinfo-6.8
 RUN <<CMD_LIST
@@ -580,7 +580,7 @@ RUN cat <<-INSTALL > ../texinfo-install.sh
 INSTALL
 
 # --- Util-linux: Chapter 7.12 ---
-FROM python AS util-linux
+FROM chroot AS util-linux
 ADD sources/util-linux-2.38.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/util-linux-2.38.1
 RUN <<CMD_LIST
