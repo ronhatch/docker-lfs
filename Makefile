@@ -1,3 +1,8 @@
+# NOTE: This isn't going to work under Windows CMD.
+# TODO: Fix the entire piping to a log file issue.
+SHELL = /bin/bash
+.SHELLFLAGS = -o pipefail -c
+
 vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
