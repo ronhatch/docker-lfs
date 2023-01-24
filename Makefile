@@ -13,16 +13,16 @@ chroot_img_paths := $(addprefix status/, $(chroot_imgs))
 chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
 chroot_gz_paths := $(addprefix tarballs/, $(chroot_tarballs))
 
-$(chroot_img_paths): build-logs status
-
-$(chroot_gz_paths): md5sums tarballs
-$(chroot_gz_paths): tarballs/%.tar.gz: %.ok
-
 status/builder.ok: cleanup.ok
 status/cleanup.ok: $(chroot_tarballs)
 status/util-linux.ok: python.ok
 status/texinfo.ok: python.ok
 status/python.ok: perl.log
+
+$(chroot_img_paths): build-logs status
+
+$(chroot_gz_paths): md5sums tarballs
+$(chroot_gz_paths): tarballs/%.tar.gz: %.ok
 
 status/%.ok:
 	docker build --target=$* -t ronhatch/lfs-$* . 2>&1 | tee build-logs/$*.log
