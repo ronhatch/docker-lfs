@@ -7,15 +7,22 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-status/builder.ok: cleanup.ok
-status/cleanup.ok: util-linux.tar.gz texinfo.tar.gz python.tar.gz
-status/util-linux.ok: chroot.log | build-logs status
-status/texinfo.ok: perl.log | build-logs status
-status/python.ok: perl.log | build-logs status
+chroot_pkgs = util-linux texinfo python
+chroot_imgs := $(addsuffix .ok, $(chroot_pkgs))
+chroot_img_paths := $(addprefix status/, $(chroot_imgs))
+chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
+chroot_gz_paths := $(addprefix tarballs/, $(chroot_tarballs))
 
-tarballs/util-linux.tar.gz: util-linux.ok
-tarballs/texinfo.tar.gz: texinfo.ok | md5sums tarballs
-tarballs/python.tar.gz: python.ok | md5sums tarballs
+$(chroot_img_paths): build-logs status
+
+$(chroot_gz_paths): md5sums tarballs
+$(chroot_gz_paths): tarballs/%.tar.gz: %.ok
+
+status/builder.ok: cleanup.ok
+status/cleanup.ok: $(chroot_tarballs)
+status/util-linux.ok: chroot.log
+status/texinfo.ok: perl.log
+status/python.ok: perl.log
 
 status/%.ok:
 	docker build --target=$* -t ronhatch/lfs-$* . 2>&1 | tee build-logs/$*.log
