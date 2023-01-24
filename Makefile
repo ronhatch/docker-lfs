@@ -20,8 +20,8 @@ $(chroot_gz_paths): tarballs/%.tar.gz: %.ok
 
 status/builder.ok: cleanup.ok
 status/cleanup.ok: $(chroot_tarballs)
-status/util-linux.ok: chroot.log
-status/texinfo.ok: perl.log
+status/util-linux.ok: python.ok
+status/texinfo.ok: python.ok
 status/python.ok: perl.log
 
 status/%.ok:
