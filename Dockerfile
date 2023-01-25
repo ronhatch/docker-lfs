@@ -603,7 +603,7 @@ RUN cat <<-INSTALL > ../util-linux-install.sh
 INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
-FROM texinfo AS cleanup
+FROM bison AS cleanup
 ADD --link tarballs/perl.tar.gz /
 ADD --link tarballs/python.tar.gz /
 ADD --link tarballs/texinfo.tar.gz /
