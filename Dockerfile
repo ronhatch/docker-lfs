@@ -538,7 +538,7 @@ FROM bison-bld AS bison
 RUN make install
 
 # --- Perl: Chapter 7.9 ---
-FROM bison AS perl-bld
+FROM bison AS perl
 ADD sources/perl-5.36.0.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/perl-5.36.0
 RUN <<CMD_LIST
@@ -551,12 +551,17 @@ RUN <<CMD_LIST
         -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl
     make
 CMD_LIST
-
-FROM perl-bld AS perl
-RUN make install
+RUN cat <<-INSTALL > ../perl-install.sh
+	make DESTDIR=$LFS install
+INSTALL
 
 # --- Python: Chapter 7.10 ---
-FROM perl AS python
+FROM bison AS python
+# Python probably doesn't need all of these as prerequisites, but
+#   since the build won't be exactly the same even if nothing was
+#   changed, we can't test those prerequisites easily and it seems
+#   safer to just include them in case.
+ADD --link tarballs/perl.tar.gz /
 ADD sources/Python-3.11.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/Python-3.11.1
 RUN <<CMD_LIST
@@ -568,7 +573,8 @@ RUN cat <<-INSTALL > ../python-install.sh
 INSTALL
 
 # --- Texinfo: Chapter 7.11 ---
-FROM perl AS texinfo
+FROM chroot AS texinfo
+ADD --link tarballs/perl.tar.gz /
 ADD sources/texinfo-6.8.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/texinfo-6.8
 RUN <<CMD_LIST
@@ -598,6 +604,7 @@ INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
 FROM texinfo AS cleanup
+ADD --link tarballs/perl.tar.gz /
 ADD --link tarballs/python.tar.gz /
 ADD --link tarballs/texinfo.tar.gz /
 ADD --link tarballs/util-linux.tar.gz /
