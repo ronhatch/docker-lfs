@@ -561,7 +561,7 @@ FROM bison AS python
 #   since the build won't be exactly the same even if nothing was
 #   changed, we can't test those prerequisites easily and it seems
 #   safer to just include them in case.
-ADD --link tarballs/perl.tar.gz /
+ADD tarballs/perl.tar.gz /
 ADD sources/Python-3.11.1.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/Python-3.11.1
 RUN <<CMD_LIST
@@ -574,7 +574,7 @@ INSTALL
 
 # --- Texinfo: Chapter 7.11 ---
 FROM chroot AS texinfo
-ADD --link tarballs/perl.tar.gz /
+ADD tarballs/perl.tar.gz /
 ADD sources/texinfo-6.8.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/texinfo-6.8
 RUN <<CMD_LIST
@@ -604,10 +604,10 @@ INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
 FROM bison AS cleanup
-ADD --link tarballs/perl.tar.gz /
-ADD --link tarballs/python.tar.gz /
-ADD --link tarballs/texinfo.tar.gz /
-ADD --link tarballs/util-linux.tar.gz /
+ADD tarballs/perl.tar.gz /
+ADD tarballs/python.tar.gz /
+ADD tarballs/texinfo.tar.gz /
+ADD tarballs/util-linux.tar.gz /
 RUN <<CMD_LIST
     rm -rf $LFS_SRC /usr/share/{info,man,doc}/*
     find /usr/{lib,libexec} -name \*.la -delete
