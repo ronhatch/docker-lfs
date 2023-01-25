@@ -29,6 +29,9 @@ status/%.ok:
 	docker build --target=$* -t ronhatch/lfs-$* . 2>&1 | tee build-logs/$*.log
 	touch $@
 
+build-logs/%-test.log: %.ok
+	-docker run --rm ronhatch/lfs-$* make test | tee build-logs/$*-test.log
+
 tarballs/%.tar.gz: %.ok
 	docker run --rm -v fakeroot:/lfs ronhatch/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
@@ -47,7 +50,8 @@ status:
 tarballs:
 	mkdir tarballs
 
-.PHONY: clean
+.PHONY: clean test
 clean:
 	rm status/*.ok tarballs/*.tar.gz
+test: build-logs/perl-test.log build-logs/python-test.log
 
