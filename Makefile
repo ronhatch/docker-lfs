@@ -15,11 +15,7 @@ chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
 chroot_gz_paths := $(addprefix tarballs/, $(chroot_tarballs))
 
 status/builder.ok: cleanup.ok
-status/cleanup.ok: $(chroot_tarballs)
-status/util-linux.ok: chroot.log sources/util-linux-2.38.1.tar.xz
-status/texinfo.ok: perl.tar.gz
-status/python.ok: perl.tar.gz
-status/perl.ok: bison.tar.gz gettext.tar.gz
+status/util-linux.ok: chroot.log
 status/bison.ok: chroot.log
 status/gettext.ok: chroot.log
 
@@ -27,6 +23,10 @@ $(chroot_img_paths): build-logs status
 
 $(chroot_gz_paths): md5sums tarballs
 $(chroot_gz_paths): tarballs/%.tar.gz: %.ok
+
+image-deps.make: Dockerfile scripts/deps.awk
+	gawk -f scripts/deps.awk Dockerfile > image-deps.make
+include image-deps.make
 
 status/%.ok:
 	docker build --target=$* -t ronhatch/lfs-$* . 2>&1 | tee build-logs/$*.log
@@ -43,9 +43,6 @@ tarballs/%.tar.gz: %.ok
 	docker run --rm -v fakeroot:/lfs -v $(CURDIR)/tarballs:/mnt -w /lfs ubuntu \
 	tar czf /mnt/$*.tar.gz .
 	docker volume rm fakeroot
-
-sources/util-linux-2.38.1.tar.xz:
-	$(WGET_SRC) https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
 
 build-logs:
 	mkdir build-logs

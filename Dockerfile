@@ -513,9 +513,14 @@ RUN <<CMD_LIST
     chmod -v 600 /var/log/btmp
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Gettext: Chapter 7.7 ---
 FROM chroot AS gettext
 ADD sources/gettext-0.21.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz
 WORKDIR $LFS_SRC/gettext-0.21
 RUN <<CMD_LIST
     ./configure --disable-shared
@@ -529,6 +534,7 @@ INSTALL
 # --- Bison: Chapter 7.8 ---
 FROM chroot AS bison
 ADD sources/bison-3.8.2.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz
 WORKDIR $LFS_SRC/bison-3.8.2
 RUN <<CMD_LIST
     ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2
@@ -547,6 +553,7 @@ FROM chroot AS perl
 ADD tarballs/gettext.tar.gz /
 ADD tarballs/bison.tar.gz /
 ADD sources/perl-5.36.0.tar.xz $LFS_SRC
+# https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz
 WORKDIR $LFS_SRC/perl-5.36.0
 RUN <<CMD_LIST
     sh Configure -des -Dprefix=/usr -Dvendorprefix=/usr \
@@ -572,6 +579,7 @@ ADD tarballs/gettext.tar.gz /
 ADD tarballs/bison.tar.gz /
 ADD tarballs/perl.tar.gz /
 ADD sources/Python-3.11.1.tar.xz $LFS_SRC
+# https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz
 WORKDIR $LFS_SRC/Python-3.11.1
 RUN <<CMD_LIST
     ./configure --prefix=/usr --enable-shared --without-ensurepip
@@ -585,6 +593,7 @@ INSTALL
 FROM chroot AS texinfo
 ADD tarballs/perl.tar.gz /
 ADD sources/texinfo-6.8.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/texinfo/texinfo-6.8.tar.xz
 WORKDIR $LFS_SRC/texinfo-6.8
 RUN <<CMD_LIST
     ./configure --prefix=/usr
@@ -597,6 +606,7 @@ INSTALL
 # --- Util-linux: Chapter 7.12 ---
 FROM chroot AS util-linux
 ADD sources/util-linux-2.38.1.tar.xz $LFS_SRC
+# https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
 WORKDIR $LFS_SRC/util-linux-2.38.1
 RUN <<CMD_LIST
     mkdir -pv /var/lib/hwclock

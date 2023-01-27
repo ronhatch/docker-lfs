@@ -1,6 +1,9 @@
 # Ignore log files
 build-logs
 
+# Ignore automatic dependency makefile
+image-deps.make
+
 # Ignore tarball md5sums
 md5sums
 
