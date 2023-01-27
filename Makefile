@@ -7,7 +7,7 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-chroot_pkgs := util-linux texinfo python perl bison
+chroot_pkgs := util-linux texinfo python perl bison gettext
 chroot_imgs := $(addsuffix .ok, $(chroot_pkgs))
 chroot_img_paths := $(addprefix status/, $(chroot_imgs))
 chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
@@ -18,8 +18,9 @@ status/cleanup.ok: $(chroot_tarballs)
 status/util-linux.ok: chroot.log
 status/texinfo.ok: perl.tar.gz
 status/python.ok: perl.tar.gz
-status/perl.ok: bison.tar.gz
-status/bison.ok: gettext.log
+status/perl.ok: bison.tar.gz gettext.tar.gz
+status/bison.ok: chroot.log
+status/gettext.ok: chroot.log
 
 $(chroot_img_paths): build-logs status
 

@@ -514,19 +514,20 @@ RUN <<CMD_LIST
 CMD_LIST
 
 # --- Gettext: Chapter 7.7 ---
-FROM chroot AS gettext-bld
+FROM chroot AS gettext
 ADD sources/gettext-0.21.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/gettext-0.21
 RUN <<CMD_LIST
     ./configure --disable-shared
     make
 CMD_LIST
-
-FROM gettext-bld AS gettext
-RUN cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} /usr/bin
+RUN cat <<-INSTALL > ../gettext-install.sh
+	mkdir -pv $LFS/usr/bin
+	cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} $LFS/usr/bin
+INSTALL
 
 # --- Bison: Chapter 7.8 ---
-FROM gettext AS bison
+FROM chroot AS bison
 ADD sources/bison-3.8.2.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/bison-3.8.2
 RUN <<CMD_LIST
@@ -538,11 +539,12 @@ RUN cat <<-INSTALL > ../bison-install.sh
 INSTALL
 
 # --- Perl: Chapter 7.9 ---
-FROM gettext AS perl
+FROM chroot AS perl
 # Perl probably doesn't need all of these as prerequisites, but
 #   since the build won't be exactly the same even if nothing was
 #   changed, we can't test those prerequisites easily and it seems
 #   safer to just include them in case.
+ADD tarballs/gettext.tar.gz /
 ADD tarballs/bison.tar.gz /
 ADD sources/perl-5.36.0.tar.xz $LFS_SRC
 WORKDIR $LFS_SRC/perl-5.36.0
@@ -561,11 +563,12 @@ RUN cat <<-INSTALL > ../perl-install.sh
 INSTALL
 
 # --- Python: Chapter 7.10 ---
-FROM gettext AS python
+FROM chroot AS python
 # Python probably doesn't need all of these as prerequisites, but
 #   since the build won't be exactly the same even if nothing was
 #   changed, we can't test those prerequisites easily and it seems
 #   safer to just include them in case.
+ADD tarballs/gettext.tar.gz /
 ADD tarballs/bison.tar.gz /
 ADD tarballs/perl.tar.gz /
 ADD sources/Python-3.11.1.tar.xz $LFS_SRC
@@ -610,7 +613,8 @@ RUN cat <<-INSTALL > ../util-linux-install.sh
 INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
-FROM gettext AS cleanup
+FROM chroot AS cleanup
+ADD tarballs/gettext.tar.gz /
 ADD tarballs/bison.tar.gz /
 ADD tarballs/perl.tar.gz /
 ADD tarballs/python.tar.gz /
