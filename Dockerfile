@@ -595,7 +595,8 @@ RUN <<CMD_LIST
         --docdir=/usr/share/doc/util-linux-2.38.1 --disable-chfn-chsh \
         --disable-login --disable-nologin --disable-su --disable-setpriv \
         --disable-runuser --disable-pylibmount --disable-static \
-        --without-python runstatedir=/run
+        --without-python --runstatedir=/run --bindir=/usr/bin \
+        --sbindir=/usr/sbin
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../util-linux-install.sh
