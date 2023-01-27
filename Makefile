@@ -2,6 +2,7 @@
 # TODO: Fix the entire piping to a log file issue.
 SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
+WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine wget
 
 vpath %.log    build-logs
 vpath %.ok     status
@@ -15,7 +16,7 @@ chroot_gz_paths := $(addprefix tarballs/, $(chroot_tarballs))
 
 status/builder.ok: cleanup.ok
 status/cleanup.ok: $(chroot_tarballs)
-status/util-linux.ok: chroot.log
+status/util-linux.ok: chroot.log sources/util-linux-2.38.1.tar.xz
 status/texinfo.ok: perl.tar.gz
 status/python.ok: perl.tar.gz
 status/perl.ok: bison.tar.gz gettext.tar.gz
@@ -42,6 +43,9 @@ tarballs/%.tar.gz: %.ok
 	docker run --rm -v fakeroot:/lfs -v $(CURDIR)/tarballs:/mnt -w /lfs ubuntu \
 	tar czf /mnt/$*.tar.gz .
 	docker volume rm fakeroot
+
+sources/util-linux-2.38.1.tar.xz:
+	$(WGET_SRC) https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
 
 build-logs:
 	mkdir build-logs
