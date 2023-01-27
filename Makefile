@@ -7,7 +7,7 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-chroot_pkgs := util-linux texinfo python perl bison gettext
+chroot_pkgs := gettext bison perl python texinfo util-linux
 chroot_imgs := $(addsuffix .ok, $(chroot_pkgs))
 chroot_img_paths := $(addprefix status/, $(chroot_imgs))
 chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
