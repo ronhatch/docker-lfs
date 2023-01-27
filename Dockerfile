@@ -552,7 +552,7 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../perl-install.sh
-	make DESTDIR=$LFS install
+	make DESTDIR=$LFS install.perl
 INSTALL
 
 # --- Python: Chapter 7.10 ---
