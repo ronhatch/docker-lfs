@@ -14,13 +14,10 @@ chroot_img_paths := $(addprefix status/, $(chroot_imgs))
 chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
 chroot_gz_paths := $(addprefix tarballs/, $(chroot_tarballs))
 
-status/builder.ok: cleanup.ok
-status/util-linux.ok: chroot.log
-status/bison.ok: chroot.log
-status/gettext.ok: chroot.log
+# Make sure this is our default target...
+status/builder.ok:
 
 $(chroot_img_paths): build-logs status
-
 $(chroot_gz_paths): md5sums tarballs
 $(chroot_gz_paths): tarballs/%.tar.gz: %.ok
 
