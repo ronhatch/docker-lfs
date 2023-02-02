@@ -518,7 +518,7 @@ CMD_LIST
 #    after every ADD statement for a source tarball.
 
 # --- Gettext: Chapter 7.7 ---
-FROM chroot AS gettext
+FROM chroot AS pre-gettext
 ADD sources/gettext-0.21.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/gettext/gettext-0.21.tar.xz
 WORKDIR $LFS_SRC/gettext-0.21
@@ -526,13 +526,13 @@ RUN <<CMD_LIST
     ./configure --disable-shared
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../gettext-install.sh
+RUN cat <<-INSTALL > ../pre-gettext-install.sh
 	mkdir -pv $DEST/usr/bin
 	cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} $DEST/usr/bin
 INSTALL
 
 # --- Bison: Chapter 7.8 ---
-FROM chroot AS bison
+FROM chroot AS pre-bison
 ADD sources/bison-3.8.2.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/bison/bison-3.8.2.tar.xz
 WORKDIR $LFS_SRC/bison-3.8.2
@@ -540,18 +540,18 @@ RUN <<CMD_LIST
     ./configure --prefix=/usr --docdir=/usr/share/doc/bison-3.8.2
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../bison-install.sh
+RUN cat <<-INSTALL > ../pre-bison-install.sh
 	make DESTDIR=$DEST install
 INSTALL
 
 # --- Perl: Chapter 7.9 ---
-FROM chroot AS perl
+FROM chroot AS pre-perl
 # Perl probably doesn't need all of these as prerequisites, but
 #   since the build won't be exactly the same even if nothing was
 #   changed, we can't test those prerequisites easily and it seems
 #   safer to just include them in case.
-ADD tarballs/gettext.tar.gz /
-ADD tarballs/bison.tar.gz /
+ADD tarballs/pre-gettext.tar.gz /
+ADD tarballs/pre-bison.tar.gz /
 ADD sources/perl-5.36.0.tar.xz $LFS_SRC
 # https://www.cpan.org/src/5.0/perl-5.36.0.tar.xz
 WORKDIR $LFS_SRC/perl-5.36.0
@@ -565,19 +565,19 @@ RUN <<CMD_LIST
         -Dvendorarch=/usr/lib/perl5/5.36/vendor_perl
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../perl-install.sh
+RUN cat <<-INSTALL > ../pre-perl-install.sh
 	make DESTDIR=$DEST install.perl
 INSTALL
 
 # --- Python: Chapter 7.10 ---
-FROM chroot AS python
+FROM chroot AS pre-python
 # Python probably doesn't need all of these as prerequisites, but
 #   since the build won't be exactly the same even if nothing was
 #   changed, we can't test those prerequisites easily and it seems
 #   safer to just include them in case.
-ADD tarballs/gettext.tar.gz /
-ADD tarballs/bison.tar.gz /
-ADD tarballs/perl.tar.gz /
+ADD tarballs/pre-gettext.tar.gz /
+ADD tarballs/pre-bison.tar.gz /
+ADD tarballs/pre-perl.tar.gz /
 ADD sources/Python-3.11.1.tar.xz $LFS_SRC
 # https://www.python.org/ftp/python/3.11.1/Python-3.11.1.tar.xz
 WORKDIR $LFS_SRC/Python-3.11.1
@@ -585,13 +585,13 @@ RUN <<CMD_LIST
     ./configure --prefix=/usr --enable-shared --without-ensurepip
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../python-install.sh
+RUN cat <<-INSTALL > ../pre-python-install.sh
 	make DESTDIR=$DEST install
 INSTALL
 
 # --- Texinfo: Chapter 7.11 ---
-FROM chroot AS texinfo
-ADD tarballs/perl.tar.gz /
+FROM chroot AS pre-texinfo
+ADD tarballs/pre-perl.tar.gz /
 ADD sources/texinfo-6.8.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/texinfo/texinfo-6.8.tar.xz
 WORKDIR $LFS_SRC/texinfo-6.8
@@ -599,12 +599,12 @@ RUN <<CMD_LIST
     ./configure --prefix=/usr
      make
 CMD_LIST
-RUN cat <<-INSTALL > ../texinfo-install.sh
+RUN cat <<-INSTALL > ../pre-texinfo-install.sh
 	make DESTDIR=$DEST install
 INSTALL
 
 # --- Util-linux: Chapter 7.12 ---
-FROM chroot AS util-linux
+FROM chroot AS pre-util-linux
 ADD sources/util-linux-2.38.1.tar.xz $LFS_SRC
 # https://www.kernel.org/pub/linux/utils/util-linux/v2.38/util-linux-2.38.1.tar.xz
 WORKDIR $LFS_SRC/util-linux-2.38.1
@@ -618,18 +618,18 @@ RUN <<CMD_LIST
         --sbindir=/usr/sbin
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../util-linux-install.sh
+RUN cat <<-INSTALL > ../pre-util-linux-install.sh
 	make DESTDIR=$DEST install
 INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
 FROM chroot AS cleanup
-ADD tarballs/gettext.tar.gz /
-ADD tarballs/bison.tar.gz /
-ADD tarballs/perl.tar.gz /
-ADD tarballs/python.tar.gz /
-ADD tarballs/texinfo.tar.gz /
-ADD tarballs/util-linux.tar.gz /
+ADD tarballs/pre-gettext.tar.gz /
+ADD tarballs/pre-bison.tar.gz /
+ADD tarballs/pre-perl.tar.gz /
+ADD tarballs/pre-python.tar.gz /
+ADD tarballs/pre-texinfo.tar.gz /
+ADD tarballs/pre-util-linux.tar.gz /
 RUN <<CMD_LIST
     rm -rf $LFS_SRC /usr/share/{info,man,doc}/*
     find /usr/{lib,libexec} -name \*.la -delete
