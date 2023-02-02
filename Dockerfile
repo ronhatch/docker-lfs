@@ -4,6 +4,7 @@
 # --- Prebuild environment: Chapters 1-4 ---
 FROM ubuntu:22.04 AS prebuild
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
+ENV DEST=/install
 ENV LFS=/lfs
 ENV LFS_SRC=/root/sources
 ENV LC_ALL=POSIX
@@ -442,13 +443,21 @@ RUN <<CMD_LIST
     rm -v $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.{a,la}
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- GCC 2nd pass: Chapter 6.18 ---
-FROM prebuild AS gcc2-src
+FROM prebuild AS pre-gcc2
 COPY --from=binutils2 $LFS $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 ADD sources/gmp-6.2.1.tar.xz $LFS_SRC/gcc-12.2.0
+# https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
 ADD sources/mpc-1.2.1.tar.gz $LFS_SRC/gcc-12.2.0
+# https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
 ADD sources/mpfr-4.1.0.tar.xz $LFS_SRC/gcc-12.2.0
+# https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz
 RUN <<CMD_LIST
     cd $LFS_SRC/gcc-12.2.0
     mv gmp-6.2.1 gmp
@@ -460,8 +469,6 @@ RUN <<CMD_LIST
     mkdir -v build
 CMD_LIST
 WORKDIR $LFS_SRC/gcc-12.2.0/build
-
-FROM gcc2-src AS gcc2-bld
 RUN <<CMD_LIST
     ../configure --build=$(../config.guess) --host=$LFS_TGT --target=$LFS_TGT \
         LDFLAGS_FOR_TARGET=-L$PWD/$LFS_TGT/libgcc --prefix=/usr \
@@ -471,17 +478,16 @@ RUN <<CMD_LIST
         --disable-libvtv --enable-languages=c,c++
     make
 CMD_LIST
-
-FROM gcc2-bld AS gcc2
-RUN <<CMD_LIST
-    make DESTDIR=$LFS install
-    ln -sv gcc $LFS/usr/bin/cc
-CMD_LIST
+RUN cat <<-INSTALL > ../pre-gcc2-install.sh
+	make DESTDIR=$DEST install
+	ln -sv gcc $DEST/usr/bin/cc
+INSTALL
 
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=gcc2 /lfs /
+COPY --from=binutils2 /lfs /
+ADD tarballs/pre-gcc2.tar.gz /
 COPY scripts/passwd scripts/group /etc/
 ENV PS1='(LFS chroot) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin
@@ -512,10 +518,6 @@ RUN <<CMD_LIST
     chmod -v 664 /var/log/lastlog
     chmod -v 600 /var/log/btmp
 CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
 
 # --- Gettext: Chapter 7.7 ---
 FROM chroot AS pre-gettext

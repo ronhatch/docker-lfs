@@ -10,16 +10,12 @@ https://ftp.gnu.org/gnu/diffutils/diffutils-3.8.tar.xz
 https://astron.com/pub/file/file-5.42.tar.gz
 https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
 https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz
-https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
-https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
 https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz
 https://ftp.gnu.org/gnu/gzip/gzip-1.12.tar.xz
 https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
 https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
 https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
-https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
-https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz
 https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
 https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz
 https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz
