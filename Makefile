@@ -37,9 +37,9 @@ build-logs/%-test.log: %.ok
 tarballs/%.tar.gz: %.ok
 	docker run --rm -v fakeroot:$(DEST) ronhatch/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
-	docker run --rm -v fakeroot:$(DEST) -w $(DEST) ubuntu \
+	docker run --rm -v fakeroot:$(DEST) -w $(DEST) alpine \
 	find -type f -exec md5sum '{}' \; > md5sums/$*.txt
-	docker run --rm -v fakeroot:$(DEST) -v $(CURDIR)/tarballs:/mnt -w $(DEST) ubuntu \
+	docker run --rm -v fakeroot:$(DEST) -v $(CURDIR)/tarballs:/mnt -w $(DEST) alpine \
 	tar czf /mnt/$*.tar.gz .
 	docker volume rm fakeroot
 
