@@ -33,11 +33,11 @@ build-logs/%-test.log: %.ok
 	-docker run --rm ronhatch/lfs-$* make test | tee build-logs/$*-test.log
 
 tarballs/%.tar.gz: %.ok
-	docker run --rm -v fakeroot:/lfs ronhatch/lfs-$* \
+	docker run --rm -v fakeroot:/install ronhatch/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
-	docker run --rm -v fakeroot:/lfs -w /lfs ubuntu \
+	docker run --rm -v fakeroot:/install -w /install ubuntu \
 	find -type f -exec md5sum '{}' \; > md5sums/$*.txt
-	docker run --rm -v fakeroot:/lfs -v $(CURDIR)/tarballs:/mnt -w /lfs ubuntu \
+	docker run --rm -v fakeroot:/install -v $(CURDIR)/tarballs:/mnt -w /install ubuntu \
 	tar czf /mnt/$*.tar.gz .
 	docker volume rm fakeroot
 

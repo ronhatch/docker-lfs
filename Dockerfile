@@ -485,7 +485,7 @@ COPY --from=gcc2 /lfs /
 COPY scripts/passwd scripts/group /etc/
 ENV PS1='(LFS chroot) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin
-ENV LFS=/lfs
+ENV DEST=/install
 ENV LFS_SRC=/sources
 CMD ["/bin/bash", "+h", "-c"]
 RUN <<CMD_LIST
@@ -527,8 +527,8 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../gettext-install.sh
-	mkdir -pv $LFS/usr/bin
-	cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} $LFS/usr/bin
+	mkdir -pv $DEST/usr/bin
+	cp -v gettext-tools/src/{msgfmt,msgmerge,xgettext} $DEST/usr/bin
 INSTALL
 
 # --- Bison: Chapter 7.8 ---
@@ -541,7 +541,7 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../bison-install.sh
-	make DESTDIR=$LFS install
+	make DESTDIR=$DEST install
 INSTALL
 
 # --- Perl: Chapter 7.9 ---
@@ -566,7 +566,7 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../perl-install.sh
-	make DESTDIR=$LFS install.perl
+	make DESTDIR=$DEST install.perl
 INSTALL
 
 # --- Python: Chapter 7.10 ---
@@ -586,7 +586,7 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../python-install.sh
-	make DESTDIR=$LFS install
+	make DESTDIR=$DEST install
 INSTALL
 
 # --- Texinfo: Chapter 7.11 ---
@@ -600,7 +600,7 @@ RUN <<CMD_LIST
      make
 CMD_LIST
 RUN cat <<-INSTALL > ../texinfo-install.sh
-	make DESTDIR=$LFS install
+	make DESTDIR=$DEST install
 INSTALL
 
 # --- Util-linux: Chapter 7.12 ---
@@ -619,7 +619,7 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../util-linux-install.sh
-	make DESTDIR=$LFS install
+	make DESTDIR=$DEST install
 INSTALL
 
 # --- Cleanup: Chapter 7.13 ---
