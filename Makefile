@@ -4,6 +4,7 @@ SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
 
 DEST = /install
+REPO = ronhatch
 WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine wget
 
 vpath %.log    build-logs
@@ -28,14 +29,14 @@ image-deps.make: Dockerfile scripts/deps.awk
 include image-deps.make
 
 status/%.ok:
-	docker build --target=$* -t ronhatch/lfs-$* . 2>&1 | tee build-logs/$*.log
+	docker build --target=$* -t $(REPO)/lfs-$* . 2>&1 | tee build-logs/$*.log
 	touch $@
 
 build-logs/%-test.log: %.ok
-	-docker run --rm ronhatch/lfs-$* make test | tee build-logs/$*-test.log
+	-docker run --rm $(REPO)/lfs-$* make test | tee build-logs/$*-test.log
 
 tarballs/%.tar.gz: %.ok
-	docker run --rm -v fakeroot:$(DEST) ronhatch/lfs-$* \
+	docker run --rm -v fakeroot:$(DEST) $(REPO)/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
 	docker run --rm -v fakeroot:$(DEST) -w $(DEST) alpine \
 	find -type f -exec md5sum '{}' \; > md5sums/$*.txt
