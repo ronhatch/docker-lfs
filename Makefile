@@ -2,6 +2,8 @@
 # TODO: Fix the entire piping to a log file issue.
 SHELL = /bin/bash
 .SHELLFLAGS = -o pipefail -c
+
+DEST = /install
 WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine wget
 
 vpath %.log    build-logs
@@ -33,11 +35,11 @@ build-logs/%-test.log: %.ok
 	-docker run --rm ronhatch/lfs-$* make test | tee build-logs/$*-test.log
 
 tarballs/%.tar.gz: %.ok
-	docker run --rm -v fakeroot:/install ronhatch/lfs-$* \
+	docker run --rm -v fakeroot:$(DEST) ronhatch/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
-	docker run --rm -v fakeroot:/install -w /install ubuntu \
+	docker run --rm -v fakeroot:$(DEST) -w $(DEST) ubuntu \
 	find -type f -exec md5sum '{}' \; > md5sums/$*.txt
-	docker run --rm -v fakeroot:/install -v $(CURDIR)/tarballs:/mnt -w /install ubuntu \
+	docker run --rm -v fakeroot:$(DEST) -v $(CURDIR)/tarballs:/mnt -w $(DEST) ubuntu \
 	tar czf /mnt/$*.tar.gz .
 	docker volume rm fakeroot
 
