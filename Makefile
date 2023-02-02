@@ -8,18 +8,18 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-chroot_pkgs := gettext bison perl python texinfo util-linux
-chroot_imgs := $(addsuffix .ok, $(chroot_pkgs))
-chroot_img_paths := $(addprefix status/, $(chroot_imgs))
-chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
-chroot_gz_paths := $(addprefix tarballs/, $(chroot_tarballs))
+prebuild_pkgs := gettext bison perl python texinfo util-linux
+prebuild_imgs := $(addsuffix .ok, $(prebuild_pkgs))
+prebuild_img_paths := $(addprefix status/, $(prebuild_imgs))
+prebuild_tarballs := $(addsuffix .tar.gz, $(prebuild_pkgs))
+prebuild_gz_paths := $(addprefix tarballs/, $(prebuild_tarballs))
 
 # Make sure this is our default target by listing it first...
 status/builder.ok:
 
-$(chroot_img_paths): build-logs status
-$(chroot_gz_paths): md5sums tarballs
-$(chroot_gz_paths): tarballs/%.tar.gz: %.ok
+$(prebuild_img_paths): build-logs status
+$(prebuild_gz_paths): md5sums tarballs
+$(prebuild_gz_paths): tarballs/%.tar.gz: %.ok
 
 image-deps.make: Dockerfile scripts/deps.awk
 	gawk -f scripts/deps.awk Dockerfile > image-deps.make
