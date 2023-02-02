@@ -14,7 +14,7 @@ chroot_img_paths := $(addprefix status/, $(chroot_imgs))
 chroot_tarballs := $(addsuffix .tar.gz, $(chroot_pkgs))
 chroot_gz_paths := $(addprefix tarballs/, $(chroot_tarballs))
 
-# Make sure this is our default target...
+# Make sure this is our default target by listing it first...
 status/builder.ok:
 
 $(chroot_img_paths): build-logs status
