@@ -26,10 +26,6 @@ CMD_LIST
 COPY scripts/version-check.sh /root
 WORKDIR /root
 
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
-
 # --- Binutils 1st pass: Chapter 5.2 ---
 FROM prebuild AS pre-binutils1
 ADD sources/binutils-2.39.tar.xz $LFS_SRC

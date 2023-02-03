@@ -1,7 +1,3 @@
-# Don't do anything until finding the relevant comment line.
-/# --- Start Awk prerequisite checks here ---/ { active = "true" }
-/.*/ { if (! active) next }
-
 # Create a dependency for FROM statements .
 /^FROM .* AS .*/ { pkg = $4; \
     if ($2 != "scratch" && !match($2, "alpine"))
