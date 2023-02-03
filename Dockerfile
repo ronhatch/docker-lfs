@@ -272,7 +272,7 @@ RUN <<CMD_LIST
     ./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
     make FILE_COMPILE=$(pwd)/build/src/file
 CMD_LIST
-RUN cat <<-INSTALL > ../pre-gawk-install.sh
+RUN cat <<-INSTALL > ../pre-file-install.sh
 	make DESTDIR=$DEST install
 	rm -v $DEST/usr/lib/libmagic.la
 INSTALL
@@ -289,7 +289,7 @@ RUN <<CMD_LIST
         --host=$LFS_TGT --build=$(build-aux/config.guess)
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../pre-gawk-install.sh
+RUN cat <<-INSTALL > ../pre-findutils-install.sh
 	make DESTDIR=$DEST install
 INSTALL
 
