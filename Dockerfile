@@ -196,32 +196,30 @@ RUN <<CMD_LIST
     echo "INPUT(-lncursesw)" > $LFS/usr/lib/libncurses.so
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Bash: Chapter 6.4 ---
-FROM prebuild AS bash-src
+FROM prebuild AS pre-bash
 COPY --from=ncurses $LFS $LFS
 ADD sources/bash-5.1.16.tar.gz $LFS_SRC
+# https://ftp.gnu.org/gnu/bash/bash-5.1.16.tar.gz
 WORKDIR $LFS_SRC/bash-5.1.16
-
-FROM bash-src AS bash-bld
 RUN <<CMD_LIST
     ./configure --prefix=/usr --build=$(support/config.guess) \
         --host=$LFS_TGT --without-bash-malloc
     make
 CMD_LIST
-
-FROM bash-bld AS bash
-RUN <<CMD_LIST
-    make DESTDIR=$LFS install
-    ln -sv bash $LFS/bin/sh
-CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-bash-install.sh
+	make DESTDIR=$DEST install
+	ln -sv bash $DEST/bin/sh
+INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS pre-coreutils
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD sources/coreutils-9.1.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz
 WORKDIR $LFS_SRC/coreutils-9.1
@@ -240,7 +238,8 @@ INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS pre-diffutils
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD sources/diffutils-3.8.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/diffutils/diffutils-3.8.tar.xz
@@ -255,7 +254,8 @@ INSTALL
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS pre-file
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD sources/file-5.42.tar.gz $LFS_SRC
@@ -278,7 +278,8 @@ INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -296,7 +297,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -315,7 +317,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -334,7 +337,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -354,7 +358,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -376,7 +381,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -398,7 +404,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -421,7 +428,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -445,7 +453,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -472,7 +481,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -506,7 +516,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=bash $LFS $LFS
+COPY --from=ncurses $LFS $LFS
+ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
 ADD tarballs/pre-file.tar.gz $LFS
@@ -556,7 +567,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=bash /lfs /
+COPY --from=ncurses /lfs /
+ADD tarballs/pre-bash.tar.gz /
 ADD tarballs/pre-coreutils.tar.gz /
 ADD tarballs/pre-diffutils.tar.gz /
 ADD tarballs/pre-file.tar.gz /
