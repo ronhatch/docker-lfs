@@ -4,7 +4,7 @@
 
 # Create a dependency for FROM statements .
 /^FROM .* AS .*/ { pkg = $4; \
-    if ($2 != "scratch" && !match($2, "ubuntu"))
+    if ($2 != "scratch" && !match($2, "alpine"))
         print "status/" pkg ".ok: status/" $2 ".ok" }
 # And for each ADD statement.
 /^ADD .* .*/ { print "status/" pkg ".ok: " $2 }

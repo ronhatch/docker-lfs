@@ -5,7 +5,7 @@ SHELL = /bin/bash
 
 DEST = /install
 REPO = ronhatch
-WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine wget
+WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine:3.16 wget
 
 vpath %.log    build-logs
 vpath %.ok     status
@@ -44,9 +44,9 @@ build-logs/%-test.log: %.ok
 tarballs/%.tar.gz: %.ok
 	docker run --rm -v fakeroot:$(DEST) $(REPO)/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
-	docker run --rm -v fakeroot:$(DEST) -w $(DEST) alpine \
+	docker run --rm -v fakeroot:$(DEST) -w $(DEST) alpine:3.16 \
 	find -type f -exec md5sum '{}' \; > md5sums/$*.txt
-	docker run --rm -v fakeroot:$(DEST) -v $(CURDIR)/tarballs:/mnt -w $(DEST) alpine \
+	docker run --rm -v fakeroot:$(DEST) -v $(CURDIR)/tarballs:/mnt -w $(DEST) alpine:3.16 \
 	tar czf /mnt/$*.tar.gz .
 	docker volume rm fakeroot
 

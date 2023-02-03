@@ -2,26 +2,26 @@
 # Use BuildKit, needed for the heredoc feature.
 
 # --- Prebuild environment: Chapters 1-4 ---
-FROM ubuntu:22.04 AS prebuild
+FROM alpine:3.16 AS prebuild
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
 ENV DEST=/install
 ENV LFS=/lfs
 ENV LFS_SRC=/root/sources
 ENV LC_ALL=POSIX
-ENV PATH=$LFS/tools/bin:/usr/sbin:/usr/bin
+ENV PATH=$LFS/tools/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV LFS_TGT=x86_64-lfs-linux-gnu
 ENV CONFIG_SITE=$LFS/usr/share/config.site
+RUN apk add --no-cache bash binutils bison coreutils diffutils findutils \
+    g++ gawk grep gzip m4 make patch perl python3 sed tar texinfo xz
 SHELL ["/bin/bash", "+h", "-c"]
 RUN <<CMD_LIST
     rm -f /bin/sh
-    ln -sv /usr/bin/bash /bin/sh
+    ln -sv bash /bin/sh
     mkdir -pv $LFS/{etc,lib64,tools,var} $LFS/usr/{bin,lib,sbin}
     for i in bin lib sbin; do
       ln -sv usr/$i $LFS/$is
     done
     mkdir -pv $LFS_SRC
-    apt update
-    apt -y install binutils bison gawk gcc g++ make patch perl python3 texinfo xz-utils
 CMD_LIST
 COPY scripts/version-check.sh /root
 WORKDIR /root
