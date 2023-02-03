@@ -384,28 +384,28 @@ CMD_LIST
 FROM sed-bld AS sed
 RUN make DESTDIR=$LFS install
 
-# --- Tar: Chapter 6.15 ---
-FROM prebuild AS tar-src
-COPY --from=sed $LFS $LFS
-ADD sources/tar-1.34.tar.xz $LFS_SRC
-WORKDIR $LFS_SRC/tar-1.34
-
-FROM tar-src AS tar-bld
-RUN <<CMD_LIST
-    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess)
-    make
-CMD_LIST
-
-FROM tar-bld AS tar
-RUN make DESTDIR=$LFS install
-
 # --- Start Awk prerequisite checks here ---
 #  The Awk script we are using looks for a comment with the URL
 #    after every ADD statement for a source tarball.
 
+# --- Tar: Chapter 6.15 ---
+FROM prebuild AS pre-tar
+COPY --from=sed $LFS $LFS
+ADD sources/tar-1.34.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz
+WORKDIR $LFS_SRC/tar-1.34
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess)
+    make
+CMD_LIST
+RUN cat <<-INSTALL > ../pre-tar-install.sh
+	make DESTDIR=$DEST install
+INSTALL
+
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=tar $LFS $LFS
+COPY --from=sed $LFS $LFS
+ADD tarballs/pre-tar.tar.gz $LFS
 ADD sources/xz-5.2.6.tar.xz $LFS_SRC
 # https://tukaani.org/xz/xz-5.2.6.tar.xz
 WORKDIR $LFS_SRC/xz-5.2.6
@@ -421,7 +421,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=tar $LFS $LFS
+COPY --from=sed $LFS $LFS
+ADD tarballs/pre-tar.tar.gz $LFS
 ADD tarballs/pre-xz.tar.gz $LFS
 ADD sources/binutils-2.39.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz
@@ -444,7 +445,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=tar $LFS $LFS
+COPY --from=sed $LFS $LFS
+ADD tarballs/pre-tar.tar.gz $LFS
 ADD tarballs/pre-xz.tar.gz $LFS
 ADD tarballs/pre-binutils2.tar.gz $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
@@ -483,7 +485,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=tar /lfs /
+COPY --from=sed $LFS $LFS
+ADD tarballs/pre-tar.tar.gz /
 ADD tarballs/pre-xz.tar.gz /
 ADD tarballs/pre-binutils2.tar.gz /
 ADD tarballs/pre-gcc2.tar.gz /
