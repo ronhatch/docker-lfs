@@ -129,34 +129,32 @@ RUN <<CMD_LIST
     $LFS/tools/libexec/gcc/$LFS_TGT/12.2.0/install-tools/mkheaders
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Libstdc++: Chapter 5.6 ---
-FROM prebuild AS libstdc-src
+FROM prebuild AS pre-libstdc
 COPY --from=glibc $LFS $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 RUN mkdir -v $LFS_SRC/gcc-12.2.0/build
 WORKDIR $LFS_SRC/gcc-12.2.0/build
-
-FROM libstdc-src AS libstdc-bld
 RUN <<CMD_LIST
     ../libstdc++-v3/configure --host=$LFS_TGT --build=$(../config.guess) \
         --prefix=/usr --disable-multilib --disable-nls --disable-libstdcxx-pch \
         --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/12.2.0
     make
 CMD_LIST
-
-FROM libstdc-bld AS libstdc
-RUN <<CMD_LIST
-    make DESTDIR=$LFS install
-    rm -v $LFS/usr/lib/lib{stdc++,stdc++fs,supc++}.la
-CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-libstdc-install.sh
+	make DESTDIR=$DEST install
+	rm -v $DEST/usr/lib/lib{stdc++,stdc++fs,supc++}.la
+INSTALL
 
 # --- M4: Chapter 6.2 ---
 FROM prebuild AS pre-m4
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD sources/m4-1.4.19.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
 WORKDIR $LFS_SRC/m4-1.4.19
@@ -171,7 +169,8 @@ INSTALL
 
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS pre-ncurses
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD sources/ncurses-6.3.tar.gz $LFS_SRC
 # https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
@@ -199,7 +198,8 @@ INSTALL
 
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS pre-bash
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD sources/bash-5.1.16.tar.gz $LFS_SRC
@@ -217,7 +217,8 @@ INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS pre-coreutils
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -239,7 +240,8 @@ INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS pre-diffutils
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -257,7 +259,8 @@ INSTALL
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS pre-file
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -283,7 +286,8 @@ INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -304,7 +308,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -326,7 +331,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -348,7 +354,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -371,7 +378,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -396,7 +404,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -421,7 +430,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -447,7 +457,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -474,7 +485,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -504,7 +516,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -541,7 +554,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=libstdc $LFS $LFS
+COPY --from=glibc $LFS $LFS
+ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
@@ -558,8 +572,8 @@ ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
 ADD tarballs/pre-xz.tar.gz $LFS
 ADD tarballs/pre-binutils2.tar.gz $LFS
+#     The GCC source package is required for an earlier stage.
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
-# https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 ADD sources/gmp-6.2.1.tar.xz $LFS_SRC/gcc-12.2.0
 # https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
 ADD sources/mpc-1.2.1.tar.gz $LFS_SRC/gcc-12.2.0
@@ -594,7 +608,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=libstdc /lfs /
+COPY --from=glibc /lfs /
+ADD tarballs/pre-libstdc.tar.gz /
 ADD tarballs/pre-m4.tar.gz /
 ADD tarballs/pre-ncurses.tar.gz /
 ADD tarballs/pre-bash.tar.gz /
