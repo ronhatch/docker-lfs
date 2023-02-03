@@ -252,14 +252,17 @@ CMD_LIST
 FROM diffutils-bld AS diffutils
 RUN make DESTDIR=$LFS install
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- File: Chapter 6.7 ---
-FROM prebuild AS file-src
+FROM prebuild AS pre-file
 COPY --from=diffutils $LFS $LFS
 ADD sources/file-5.42.tar.gz $LFS_SRC
+# https://astron.com/pub/file/file-5.42.tar.gz
 WORKDIR $LFS_SRC/file-5.42
 RUN mkdir -v build
-
-FROM file-src AS file-bld
 RUN <<CMD_LIST
     cd build
     ../configure --disable-bzlib --disable-libseccomp \
@@ -269,20 +272,15 @@ RUN <<CMD_LIST
     ./configure --prefix=/usr --host=$LFS_TGT --build=$(./config.guess)
     make FILE_COMPILE=$(pwd)/build/src/file
 CMD_LIST
-
-FROM file-bld AS file
-RUN <<CMD_LIST
-    make DESTDIR=$LFS install
-    rm -v $LFS/usr/lib/libmagic.la
-CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-gawk-install.sh
+	make DESTDIR=$DEST install
+	rm -v $DEST/usr/lib/libmagic.la
+INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD sources/findutils-4.9.0.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
 WORKDIR $LFS_SRC/findutils-4.9.0
@@ -297,7 +295,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD sources/gawk-5.1.1.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz
@@ -313,7 +312,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD sources/grep-3.7.tar.xz $LFS_SRC
@@ -329,7 +329,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -346,7 +347,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -365,7 +367,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -384,7 +387,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -404,7 +408,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -425,7 +430,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -449,7 +455,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -480,7 +487,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=file $LFS $LFS
+COPY --from=diffutils $LFS $LFS
+ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
@@ -527,7 +535,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=file /lfs /
+COPY --from=diffutils /lfs /
+ADD tarballs/pre-file.tar.gz /
 ADD tarballs/pre-findutils.tar.gz /
 ADD tarballs/pre-gawk.tar.gz /
 ADD tarballs/pre-grep.tar.gz /
