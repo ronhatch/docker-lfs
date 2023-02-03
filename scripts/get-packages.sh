@@ -11,7 +11,6 @@ https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
 https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz
 https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
 https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz
-https://ftp.gnu.org/gnu/gzip/gzip-1.12.tar.xz
 https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
 https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
 https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
