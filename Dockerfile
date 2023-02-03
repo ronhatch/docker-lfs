@@ -166,17 +166,20 @@ CMD_LIST
 FROM m4-bld AS m4
 RUN make DESTDIR=$LFS install
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Ncurses: Chapter 6.3 ---
-FROM prebuild AS ncurses-src
+FROM prebuild AS pre-ncurses
 COPY --from=m4 $LFS $LFS
 ADD sources/ncurses-6.3.tar.gz $LFS_SRC
+# https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
 WORKDIR $LFS_SRC/ncurses-6.3
 RUN <<CMD_LIST
     sed -i s/mawk// configure
     mkdir -v build
 CMD_LIST
-
-FROM ncurses-src AS ncurses-bld
 RUN <<CMD_LIST
     cd build
     ../configure
@@ -189,20 +192,15 @@ RUN <<CMD_LIST
         --without-ada --disable-stripping --enable-widec
     make
 CMD_LIST
-
-FROM ncurses-bld AS ncurses
-RUN <<CMD_LIST
-    make DESTDIR=$LFS TIC_PATH=$(pwd)/build/progs/tic install
-    echo "INPUT(-lncursesw)" > $LFS/usr/lib/libncurses.so
-CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-ncurses-install.sh
+	make DESTDIR=$DEST TIC_PATH=$(pwd)/build/progs/tic install
+	echo "INPUT(-lncursesw)" > $DEST/usr/lib/libncurses.so
+INSTALL
 
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS pre-bash
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD sources/bash-5.1.16.tar.gz $LFS_SRC
 # https://ftp.gnu.org/gnu/bash/bash-5.1.16.tar.gz
 WORKDIR $LFS_SRC/bash-5.1.16
@@ -218,7 +216,8 @@ INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS pre-coreutils
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD sources/coreutils-9.1.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz
@@ -238,7 +237,8 @@ INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS pre-diffutils
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD sources/diffutils-3.8.tar.xz $LFS_SRC
@@ -254,7 +254,8 @@ INSTALL
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS pre-file
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -278,7 +279,8 @@ INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -297,7 +299,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -317,7 +320,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -337,7 +341,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -358,7 +363,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -381,7 +387,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -404,7 +411,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -428,7 +436,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -453,7 +462,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -481,7 +491,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -516,7 +527,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=ncurses $LFS $LFS
+COPY --from=m4 $LFS $LFS
+ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
@@ -567,7 +579,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=ncurses /lfs /
+COPY --from=m4 /lfs /
+ADD tarballs/pre-ncurses.tar.gz /
 ADD tarballs/pre-bash.tar.gz /
 ADD tarballs/pre-coreutils.tar.gz /
 ADD tarballs/pre-diffutils.tar.gz /
