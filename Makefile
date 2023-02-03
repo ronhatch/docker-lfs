@@ -11,7 +11,7 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-prebuild_pkgs := pre-grep pre-gzip pre-make \
+prebuild_pkgs := pre-gawk pre-grep pre-gzip pre-make \
     pre-patch pre-sed pre-tar pre-xz \
     pre-binutils2 pre-gcc2 pre-gettext pre-bison \
     pre-perl pre-python pre-texinfo pre-util-linux

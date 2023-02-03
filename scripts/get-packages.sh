@@ -8,7 +8,6 @@ https://ftp.gnu.org/gnu/coreutils/coreutils-9.1.tar.xz
 https://ftp.gnu.org/gnu/diffutils/diffutils-3.8.tar.xz
 https://astron.com/pub/file/file-5.42.tar.gz
 https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
-https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz
 https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
 https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
 https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
