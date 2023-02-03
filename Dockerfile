@@ -47,13 +47,21 @@ CMD_LIST
 FROM binutils1-bld AS binutils1
 RUN make install
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- GCC 1st pass: Chapter 5.3 ---
-FROM prebuild AS gcc1-src
+FROM prebuild AS pre-gcc1
 COPY --from=binutils1 $LFS $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 ADD sources/gmp-6.2.1.tar.xz $LFS_SRC/gcc-12.2.0
+# https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
 ADD sources/mpc-1.2.1.tar.gz $LFS_SRC/gcc-12.2.0
+# https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
 ADD sources/mpfr-4.1.0.tar.xz $LFS_SRC/gcc-12.2.0
+# https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz
 RUN <<CMD_LIST
     cd $LFS_SRC/gcc-12.2.0
     mv gmp-6.2.1 gmp
@@ -63,8 +71,6 @@ RUN <<CMD_LIST
     mkdir -v build
 CMD_LIST
 WORKDIR $LFS_SRC/gcc-12.2.0/build
-
-FROM gcc1-src AS gcc1-bld
 RUN <<CMD_LIST
     ../configure --target=$LFS_TGT --prefix=$LFS/tools --with-glibc-version=2.36 \
         --with-sysroot=$LFS --with-newlib --without-headers --disable-nls \
@@ -74,22 +80,20 @@ RUN <<CMD_LIST
         --disable-libstdcxx --enable-languages=c,c++
     make
 CMD_LIST
-
-FROM gcc1-bld AS gcc1
-RUN <<CMD_LIST
-    make install
-    cd ..
-    cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
-        `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
-CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+# TODO: Figure out $LFS/tools vs. $DEST and correct install options.
+#   Current solution is an ugly temporary hack.
+RUN cat <<-INSTALL > ../pre-gcc1-install.sh
+	make install
+	cd ..
+	cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
+	    `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
+	cp -r $LFS/tools $DEST
+INSTALL
 
 # --- Linux API headers: Chapter 5.4 ---
 FROM prebuild AS pre-headers
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD sources/linux-6.0.11.tar.xz $LFS_SRC
 # https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
 WORKDIR $LFS_SRC/linux-6.0.11
@@ -104,7 +108,8 @@ INSTALL
 
 # --- Glibc: Chapter 5.5 ---
 FROM prebuild AS pre-glibc
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD sources/glibc-2.36.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
@@ -133,11 +138,12 @@ INSTALL
 
 # --- Libstdc++: Chapter 5.6 ---
 FROM prebuild AS pre-libstdc
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
+#     The GCC source package is required for an earlier stage.
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
-# https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 RUN mkdir -v $LFS_SRC/gcc-12.2.0/build
 WORKDIR $LFS_SRC/gcc-12.2.0/build
 RUN <<CMD_LIST
@@ -153,7 +159,8 @@ INSTALL
 
 # --- M4: Chapter 6.2 ---
 FROM prebuild AS pre-m4
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -171,7 +178,8 @@ INSTALL
 
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS pre-ncurses
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -202,7 +210,8 @@ INSTALL
 
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS pre-bash
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -223,7 +232,8 @@ INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS pre-coreutils
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -248,7 +258,8 @@ INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS pre-diffutils
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -269,7 +280,8 @@ INSTALL
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS pre-file
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -298,7 +310,8 @@ INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -322,7 +335,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -347,7 +361,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -372,7 +387,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -398,7 +414,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -426,7 +443,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -454,7 +472,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -483,7 +502,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -513,7 +533,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -546,7 +567,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -586,7 +608,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=gcc1 $LFS $LFS
+COPY --from=binutils1 $LFS $LFS
+ADD tarballs/pre-gcc1.tar.gz $LFS/tools
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -606,14 +629,11 @@ ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
 ADD tarballs/pre-xz.tar.gz $LFS
 ADD tarballs/pre-binutils2.tar.gz $LFS
-#     The GCC source package is required for an earlier stage.
+#     The GCC source packages are required for an earlier stage.
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
 ADD sources/gmp-6.2.1.tar.xz $LFS_SRC/gcc-12.2.0
-# https://ftp.gnu.org/gnu/gmp/gmp-6.2.1.tar.xz
 ADD sources/mpc-1.2.1.tar.gz $LFS_SRC/gcc-12.2.0
-# https://ftp.gnu.org/gnu/mpc/mpc-1.2.1.tar.gz
 ADD sources/mpfr-4.1.0.tar.xz $LFS_SRC/gcc-12.2.0
-# https://ftp.gnu.org/gnu/mpfr/mpfr-4.1.0.tar.xz
 RUN <<CMD_LIST
     cd $LFS_SRC/gcc-12.2.0
     mv gmp-6.2.1 gmp
@@ -642,7 +662,7 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=gcc1 /lfs /
+COPY --from=binutils1 /lfs /
 ADD tarballs/pre-headers.tar.gz /
 ADD tarballs/pre-glibc.tar.gz /
 ADD tarballs/pre-libstdc.tar.gz /

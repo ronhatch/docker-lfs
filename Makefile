@@ -11,7 +11,7 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-prebuild_pkgs := pre-headers pre-glibc \
+prebuild_pkgs := pre-gcc1 pre-headers pre-glibc \
     pre-libstdc pre-m4 pre-ncurses pre-bash \
     pre-coreutils pre-diffutils pre-file pre-findutils \
     pre-gawk pre-grep pre-gzip pre-make \
