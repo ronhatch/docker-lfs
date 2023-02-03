@@ -418,38 +418,36 @@ RUN <<CMD_LIST
     rm -v $LFS/usr/lib/liblzma.la
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Binutils 2nd pass: Chapter 6.17 ---
-FROM prebuild AS binutils2-src
+FROM prebuild AS pre-binutils2
 COPY --from=xz $LFS $LFS
 ADD sources/binutils-2.39.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz
 RUN <<CMD_LIST
     cd $LFS_SRC/binutils-2.39
     sed '6009s/$add_dir//' -i ltmain.sh
     mkdir -v build
 CMD_LIST
 WORKDIR $LFS_SRC/binutils-2.39/build
-
-FROM binutils2-src AS binutils2-bld
 RUN <<CMD_LIST
     ../configure --prefix=/usr --build=$(../config.guess) --host=$LFS_TGT \
         --disable-nls --enable-shared --enable-gprofng=no \
         --disable-werror --enable-64-bit-bfd
     make
 CMD_LIST
-
-FROM binutils2-bld AS binutils2
-RUN <<CMD_LIST
-    make DESTDIR=$LFS install
-    rm -v $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.{a,la}
-CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-binutils2-install.sh
+	make DESTDIR=$DEST install
+	rm -v $DEST/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.{a,la}
+INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=binutils2 $LFS $LFS
+COPY --from=xz $LFS $LFS
+ADD tarballs/pre-binutils2.tar.gz $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 ADD sources/gmp-6.2.1.tar.xz $LFS_SRC/gcc-12.2.0
@@ -486,7 +484,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=binutils2 /lfs /
+COPY --from=xz /lfs /
+ADD tarballs/pre-binutils2.tar.gz /
 ADD tarballs/pre-gcc2.tar.gz /
 COPY scripts/passwd scripts/group /etc/
 ENV PS1='(LFS chroot) \u:\w\$ '
