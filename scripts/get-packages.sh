@@ -14,7 +14,6 @@ https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz
 https://ftp.gnu.org/gnu/gzip/gzip-1.12.tar.xz
 https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
 https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
-https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
 https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
 https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch
 FILE_LIST

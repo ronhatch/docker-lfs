@@ -338,29 +338,29 @@ CMD_LIST
 FROM gzip-bld AS gzip
 RUN make DESTDIR=$LFS install
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Make: Chapter 6.12 ---
-FROM prebuild AS make-src
+FROM prebuild AS pre-make
 COPY --from=gzip $LFS $LFS
 ADD sources/make-4.3.tar.gz $LFS_SRC
+# https://ftp.gnu.org/gnu/make/make-4.3.tar.gz
 WORKDIR $LFS_SRC/make-4.3
-
-FROM make-src AS make-bld
 RUN <<CMD_LIST
     ./configure --prefix=/usr --without-guile --host=$LFS_TGT \
         --build=$(build-aux/config.guess)
     make
 CMD_LIST
-
-FROM make-bld AS make
-RUN make DESTDIR=$LFS install
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-make-install.sh
+	make DESTDIR=$DEST install
+INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=make $LFS $LFS
+COPY --from=gzip $LFS $LFS
+ADD tarballs/pre-make.tar.gz $LFS
 ADD sources/patch-2.7.6.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz
 WORKDIR $LFS_SRC/patch-2.7.6
@@ -374,7 +374,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=make $LFS $LFS
+COPY --from=gzip $LFS $LFS
+ADD tarballs/pre-make.tar.gz $LFS
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD sources/sed-4.8.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz
@@ -389,7 +390,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=make $LFS $LFS
+COPY --from=gzip $LFS $LFS
+ADD tarballs/pre-make.tar.gz $LFS
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD sources/tar-1.34.tar.xz $LFS_SRC
@@ -405,7 +407,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=make $LFS $LFS
+COPY --from=gzip $LFS $LFS
+ADD tarballs/pre-make.tar.gz $LFS
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
@@ -424,7 +427,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=make $LFS $LFS
+COPY --from=gzip $LFS $LFS
+ADD tarballs/pre-make.tar.gz $LFS
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
@@ -450,7 +454,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=make $LFS $LFS
+COPY --from=gzip $LFS $LFS
+ADD tarballs/pre-make.tar.gz $LFS
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
@@ -492,7 +497,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=make /lfs /
+COPY --from=gzip /lfs /
+ADD tarballs/pre-make.tar.gz /
 ADD tarballs/pre-patch.tar.gz /
 ADD tarballs/pre-sed.tar.gz /
 ADD tarballs/pre-tar.tar.gz /
