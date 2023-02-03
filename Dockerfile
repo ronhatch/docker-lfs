@@ -369,28 +369,28 @@ CMD_LIST
 FROM patch-bld AS patch
 RUN make DESTDIR=$LFS install
 
-# --- Sed: Chapter 6.14 ---
-FROM prebuild AS sed-src
-COPY --from=patch $LFS $LFS
-ADD sources/sed-4.8.tar.xz $LFS_SRC
-WORKDIR $LFS_SRC/sed-4.8
-
-FROM sed-src AS sed-bld
-RUN <<CMD_LIST
-    ./configure --prefix=/usr --host=$LFS_TGT
-    make
-CMD_LIST
-
-FROM sed-bld AS sed
-RUN make DESTDIR=$LFS install
-
 # --- Start Awk prerequisite checks here ---
 #  The Awk script we are using looks for a comment with the URL
 #    after every ADD statement for a source tarball.
 
+# --- Sed: Chapter 6.14 ---
+FROM prebuild AS pre-sed
+COPY --from=patch $LFS $LFS
+ADD sources/sed-4.8.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz
+WORKDIR $LFS_SRC/sed-4.8
+RUN <<CMD_LIST
+    ./configure --prefix=/usr --host=$LFS_TGT
+    make
+CMD_LIST
+RUN cat <<-INSTALL > ../pre-sed-install.sh
+	make DESTDIR=$DEST install
+INSTALL
+
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=sed $LFS $LFS
+COPY --from=patch $LFS $LFS
+ADD tarballs/pre-sed.tar.gz $LFS
 ADD sources/tar-1.34.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz
 WORKDIR $LFS_SRC/tar-1.34
@@ -404,7 +404,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=sed $LFS $LFS
+COPY --from=patch $LFS $LFS
+ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
 ADD sources/xz-5.2.6.tar.xz $LFS_SRC
 # https://tukaani.org/xz/xz-5.2.6.tar.xz
@@ -421,7 +422,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=sed $LFS $LFS
+COPY --from=patch $LFS $LFS
+ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
 ADD tarballs/pre-xz.tar.gz $LFS
 ADD sources/binutils-2.39.tar.xz $LFS_SRC
@@ -445,7 +447,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=sed $LFS $LFS
+COPY --from=patch $LFS $LFS
+ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
 ADD tarballs/pre-xz.tar.gz $LFS
 ADD tarballs/pre-binutils2.tar.gz $LFS
@@ -485,7 +488,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=sed $LFS $LFS
+COPY --from=patch /lfs /
+ADD tarballs/pre-sed.tar.gz /
 ADD tarballs/pre-tar.tar.gz /
 ADD tarballs/pre-xz.tar.gz /
 ADD tarballs/pre-binutils2.tar.gz /
