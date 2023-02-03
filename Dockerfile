@@ -276,29 +276,29 @@ RUN <<CMD_LIST
     rm -v $LFS/usr/lib/libmagic.la
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Findutils: Chapter 6.8 ---
-FROM prebuild AS findutils-src
+FROM prebuild AS pre-findutils
 COPY --from=file $LFS $LFS
 ADD sources/findutils-4.9.0.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
 WORKDIR $LFS_SRC/findutils-4.9.0
-
-FROM findutils-src AS findutils-bld
 RUN <<CMD_LIST
     ./configure --prefix=/usr --localstatedir=/var/lib/locate \
         --host=$LFS_TGT --build=$(build-aux/config.guess)
     make
 CMD_LIST
-
-FROM findutils-bld AS findutils
-RUN make DESTDIR=$LFS install
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-gawk-install.sh
+	make DESTDIR=$DEST install
+INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD sources/gawk-5.1.1.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/gawk/gawk-5.1.1.tar.xz
 WORKDIR $LFS_SRC/gawk-5.1.1
@@ -313,7 +313,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD sources/grep-3.7.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/grep/grep-3.7.tar.xz
@@ -328,7 +329,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD sources/gzip-1.12.tar.xz $LFS_SRC
@@ -344,7 +346,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
@@ -362,7 +365,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
@@ -380,7 +384,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
@@ -399,7 +404,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
@@ -419,7 +425,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
@@ -442,7 +449,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
@@ -472,7 +480,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=findutils $LFS $LFS
+COPY --from=file $LFS $LFS
+ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
@@ -518,7 +527,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=findutils /lfs /
+COPY --from=file /lfs /
+ADD tarballs/pre-findutils.tar.gz /
 ADD tarballs/pre-gawk.tar.gz /
 ADD tarballs/pre-grep.tar.gz /
 ADD tarballs/pre-gzip.tar.gz /
