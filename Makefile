@@ -11,7 +11,7 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-prebuild_pkgs := pre-diffutils pre-file pre-findutils \
+prebuild_pkgs := pre-coreutils pre-diffutils pre-file pre-findutils \
     pre-gawk pre-grep pre-gzip pre-make \
     pre-patch pre-sed pre-tar pre-xz \
     pre-binutils2 pre-gcc2 pre-gettext pre-bison \
