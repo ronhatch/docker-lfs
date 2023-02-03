@@ -399,32 +399,30 @@ CMD_LIST
 FROM tar-bld AS tar
 RUN make DESTDIR=$LFS install
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Xz: Chapter 6.16 ---
-FROM prebuild AS xz-src
+FROM prebuild AS pre-xz
 COPY --from=tar $LFS $LFS
 ADD sources/xz-5.2.6.tar.xz $LFS_SRC
+# https://tukaani.org/xz/xz-5.2.6.tar.xz
 WORKDIR $LFS_SRC/xz-5.2.6
-
-FROM xz-src AS xz-bld
 RUN <<CMD_LIST
     ./configure --prefix=/usr --host=$LFS_TGT --build=$(build-aux/config.guess) \
         --disable-static --docdir=/usr/share/doc/xz-5.2.6
     make
 CMD_LIST
-
-FROM xz-bld AS xz
-RUN <<CMD_LIST
-    make DESTDIR=$LFS install
-    rm -v $LFS/usr/lib/liblzma.la
-CMD_LIST
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-xz-install.sh
+	make DESTDIR=$DEST install
+	rm -v $DEST/usr/lib/liblzma.la
+INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=xz $LFS $LFS
+COPY --from=tar $LFS $LFS
+ADD tarballs/pre-xz.tar.gz $LFS
 ADD sources/binutils-2.39.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/binutils/binutils-2.39.tar.xz
 RUN <<CMD_LIST
@@ -446,7 +444,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=xz $LFS $LFS
+COPY --from=tar $LFS $LFS
+ADD tarballs/pre-xz.tar.gz $LFS
 ADD tarballs/pre-binutils2.tar.gz $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
@@ -484,7 +483,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=xz /lfs /
+COPY --from=tar /lfs /
+ADD tarballs/pre-xz.tar.gz /
 ADD tarballs/pre-binutils2.tar.gz /
 ADD tarballs/pre-gcc2.tar.gz /
 COPY scripts/passwd scripts/group /etc/

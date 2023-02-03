@@ -11,7 +11,8 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
-prebuild_pkgs := pre-binutils2 pre-gcc2 pre-gettext pre-bison \
+prebuild_pkgs := pre-xz \
+    pre-binutils2 pre-gcc2 pre-gettext pre-bison \
     pre-perl pre-python pre-texinfo pre-util-linux
 prebuild_imgs := $(addsuffix .ok, $(prebuild_pkgs))
 prebuild_img_paths := $(addprefix status/, $(prebuild_imgs))

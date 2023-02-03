@@ -19,6 +19,5 @@ https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
 https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz
 https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz
 https://ftp.gnu.org/gnu/tar/tar-1.34.tar.xz
-https://tukaani.org/xz/xz-5.2.6.tar.xz
 https://www.linuxfromscratch.org/patches/lfs/11.2/glibc-2.36-fhs-1.patch
 FILE_LIST
