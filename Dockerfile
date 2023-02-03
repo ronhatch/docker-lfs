@@ -150,29 +150,29 @@ RUN <<CMD_LIST
     rm -v $LFS/usr/lib/lib{stdc++,stdc++fs,supc++}.la
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- M4: Chapter 6.2 ---
-FROM prebuild AS m4-src
+FROM prebuild AS pre-m4
 COPY --from=libstdc $LFS $LFS
 ADD sources/m4-1.4.19.tar.xz $LFS_SRC
+# https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
 WORKDIR $LFS_SRC/m4-1.4.19
-
-FROM m4-src AS m4-bld
 RUN <<CMD_LIST
     ./configure --prefix=/usr --host=$LFS_TGT \
         --build=$(build-aux/config.guess)
     make
 CMD_LIST
-
-FROM m4-bld AS m4
-RUN make DESTDIR=$LFS install
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-m4-install.sh
+	make DESTDIR=$DEST install
+INSTALL
 
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS pre-ncurses
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD sources/ncurses-6.3.tar.gz $LFS_SRC
 # https://invisible-mirror.net/archives/ncurses/ncurses-6.3.tar.gz
 WORKDIR $LFS_SRC/ncurses-6.3
@@ -199,7 +199,8 @@ INSTALL
 
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS pre-bash
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD sources/bash-5.1.16.tar.gz $LFS_SRC
 # https://ftp.gnu.org/gnu/bash/bash-5.1.16.tar.gz
@@ -216,7 +217,8 @@ INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS pre-coreutils
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD sources/coreutils-9.1.tar.xz $LFS_SRC
@@ -237,7 +239,8 @@ INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS pre-diffutils
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -254,7 +257,8 @@ INSTALL
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS pre-file
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -279,7 +283,8 @@ INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -299,7 +304,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -320,7 +326,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -341,7 +348,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -363,7 +371,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -387,7 +396,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -411,7 +421,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -436,7 +447,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -462,7 +474,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -491,7 +504,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -527,7 +541,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=m4 $LFS $LFS
+COPY --from=libstdc $LFS $LFS
+ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
@@ -579,7 +594,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=m4 /lfs /
+COPY --from=libstdc /lfs /
+ADD tarballs/pre-m4.tar.gz /
 ADD tarballs/pre-ncurses.tar.gz /
 ADD tarballs/pre-bash.tar.gz /
 ADD tarballs/pre-coreutils.tar.gz /
