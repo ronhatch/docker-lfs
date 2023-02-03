@@ -6,7 +6,7 @@ FROM alpine:3.16 AS prebuild
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
 ENV DEST=/install
 ENV LFS=/lfs
-ENV LFS_SRC=/root/sources
+ENV LFS_SRC=/sources
 ENV LC_ALL=POSIX
 ENV PATH=$LFS/tools/bin:/usr/sbin:/usr/bin:/sbin:/bin
 ENV LFS_TGT=x86_64-lfs-linux-gnu
@@ -40,7 +40,7 @@ RUN <<CMD_LIST
 CMD_LIST
 # TODO: Figure out $LFS/tools vs. $DEST and correct install options.
 #   Current solution is an ugly temporary hack.
-RUN cat <<-INSTALL > ../pre-binutils1-install.sh
+RUN cat <<-INSTALL > ../../pre-binutils1-install.sh
 	make install
 	cp -r $LFS/tools $DEST
 INSTALL
@@ -76,7 +76,7 @@ RUN <<CMD_LIST
 CMD_LIST
 # TODO: Figure out $LFS/tools vs. $DEST and correct install options.
 #   Current solution is an ugly temporary hack.
-RUN cat <<-INSTALL > ../pre-gcc1-install.sh
+RUN cat <<-INSTALL > ../../pre-gcc1-install.sh
 	make install
 	cd ..
 	cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
@@ -122,7 +122,7 @@ RUN <<CMD_LIST
         --with-headers=$LFS/usr/include libc_cv_slibdir=/usr/lib
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../pre-glibc-install.sh
+RUN cat <<-INSTALL > ../../pre-glibc-install.sh
 	make DESTDIR=$DEST install
 	sed '/RTLDLIST=/s@/usr@@g' -i $DEST/usr/bin/ldd
 	$DEST/tools/libexec/gcc/$LFS_TGT/12.2.0/install-tools/mkheaders
@@ -143,7 +143,7 @@ RUN <<CMD_LIST
         --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/12.2.0
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../pre-libstdc-install.sh
+RUN cat <<-INSTALL > ../../pre-libstdc-install.sh
 	make DESTDIR=$DEST install
 	rm -v $DEST/usr/lib/lib{stdc++,stdc++fs,supc++}.la
 INSTALL
@@ -576,7 +576,7 @@ RUN <<CMD_LIST
         --disable-werror --enable-64-bit-bfd
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../pre-binutils2-install.sh
+RUN cat <<-INSTALL > ../../pre-binutils2-install.sh
 	make DESTDIR=$DEST install
 	rm -v $DEST/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes}.{a,la}
 INSTALL
@@ -628,7 +628,7 @@ RUN <<CMD_LIST
         --disable-libvtv --enable-languages=c,c++
     make
 CMD_LIST
-RUN cat <<-INSTALL > ../pre-gcc2-install.sh
+RUN cat <<-INSTALL > ../../pre-gcc2-install.sh
 	make DESTDIR=$DEST install
 	ln -sv gcc $DEST/usr/bin/cc
 INSTALL
