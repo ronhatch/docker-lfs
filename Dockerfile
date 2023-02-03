@@ -38,16 +38,13 @@ RUN <<CMD_LIST
         --enable-gprofng=no --disable-werror
     make
 CMD_LIST
-# TODO: Figure out $LFS/tools vs. $DEST and correct install options.
-#   Current solution is an ugly temporary hack.
 RUN cat <<-INSTALL > ../../pre-binutils1-install.sh
-	make install
-	cp -r $LFS/tools $DEST
+	make DESTDIR=$DEST install
 INSTALL
 
 # --- GCC 1st pass: Chapter 5.3 ---
 FROM prebuild AS pre-gcc1
-ADD tarballs/pre-binutils1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
 ADD sources/gmp-6.2.1.tar.xz $LFS_SRC/gcc-12.2.0
