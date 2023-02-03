@@ -78,7 +78,7 @@ RUN cat <<-INSTALL > ../../pre-gcc1-install.sh
 	cd ..
 	cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
 	    `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
-	cp -r $LFS/tools $DEST
+	cp -r $LFS/tools/* $DEST
 INSTALL
 
 # --- Linux API headers: Chapter 5.4 ---
