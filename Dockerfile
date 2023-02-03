@@ -83,29 +83,29 @@ RUN <<CMD_LIST
         `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
 CMD_LIST
 
+# --- Start Awk prerequisite checks here ---
+#  The Awk script we are using looks for a comment with the URL
+#    after every ADD statement for a source tarball.
+
 # --- Linux API headers: Chapter 5.4 ---
-FROM prebuild AS headers-src
+FROM prebuild AS pre-headers
 COPY --from=gcc1 $LFS $LFS
 ADD sources/linux-6.0.11.tar.xz $LFS_SRC
+# https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
 WORKDIR $LFS_SRC/linux-6.0.11
-
-FROM headers-src AS headers-bld
 RUN <<CMD_LIST
     make mrproper
     make headers
     find usr/include -type f ! -name '*.h' -delete
 CMD_LIST
-
-FROM headers-bld AS headers
-RUN cp -rv usr/include $LFS/usr
-
-# --- Start Awk prerequisite checks here ---
-#  The Awk script we are using looks for a comment with the URL
-#    after every ADD statement for a source tarball.
+RUN cat <<-INSTALL > ../pre-headers-install.sh
+	cp -rv usr/include $DEST/usr
+INSTALL
 
 # --- Glibc: Chapter 5.5 ---
 FROM prebuild AS pre-glibc
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD sources/glibc-2.36.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
 ADD sources/glibc-2.36-fhs-1.patch $LFS_SRC
@@ -133,7 +133,8 @@ INSTALL
 
 # --- Libstdc++: Chapter 5.6 ---
 FROM prebuild AS pre-libstdc
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/gcc/gcc-12.2.0/gcc-12.2.0.tar.xz
@@ -152,7 +153,8 @@ INSTALL
 
 # --- M4: Chapter 6.2 ---
 FROM prebuild AS pre-m4
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD sources/m4-1.4.19.tar.xz $LFS_SRC
@@ -169,7 +171,8 @@ INSTALL
 
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS pre-ncurses
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -199,7 +202,8 @@ INSTALL
 
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS pre-bash
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -219,7 +223,8 @@ INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS pre-coreutils
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -243,7 +248,8 @@ INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS pre-diffutils
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -263,7 +269,8 @@ INSTALL
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS pre-file
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -291,7 +298,8 @@ INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -314,7 +322,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -338,7 +347,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -362,7 +372,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -387,7 +398,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -414,7 +426,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -441,7 +454,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -469,7 +483,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -498,7 +513,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -530,7 +546,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -569,7 +586,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-COPY --from=headers $LFS $LFS
+COPY --from=gcc1 $LFS $LFS
+ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
@@ -624,7 +642,8 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
-COPY --from=headers /lfs /
+COPY --from=gcc1 /lfs /
+ADD tarballs/pre-headers.tar.gz /
 ADD tarballs/pre-glibc.tar.gz /
 ADD tarballs/pre-libstdc.tar.gz /
 ADD tarballs/pre-m4.tar.gz /

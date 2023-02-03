@@ -14,9 +14,6 @@ Running an interactive shell in the pre-build environment can be done using:
 
 ## Building
 
-Source tarballs are not included in this Git repository. They can be downloaded by running the following command (must be in the root directory of the repository):  
-`docker run -v $(pwd):/mnt ubuntu:22.04 /mnt/scripts/get-packages.sh`
-
 On Windows, unless you are using a Linux-style command line such as WSL, you will need to replace `$(pwd)` as follows:
 - In PowerShell, use `${PWD}`
 - In Command Shell (Cmd.exe), use `%cd%`
