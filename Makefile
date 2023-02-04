@@ -26,8 +26,8 @@ prebuild_gz_paths := $(addprefix tarballs/, $(prebuild_tarballs))
 # Make sure this is our default target by listing it first...
 status/builder.ok:
 
-$(prebuild_img_paths): build-logs status
-$(prebuild_gz_paths): md5sums tarballs
+$(prebuild_img_paths): | build-logs status
+$(prebuild_gz_paths): | md5sums tarballs
 $(prebuild_gz_paths): tarballs/%.tar.gz: %.ok
 
 image-deps.make: Dockerfile scripts/deps.awk
