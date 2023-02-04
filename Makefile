@@ -35,13 +35,16 @@ image-deps.make: Dockerfile scripts/deps.awk
 include image-deps.make
 
 status/%.ok:
+	$(info Building $* stage because of: $?)
 	docker build --target=$* -t $(REPO)/lfs-$* . 2>&1 | tee build-logs/$*.log
 	touch $@
 
 build-logs/%-test.log: %.ok
+	$(info Running tests for $* stage)
 	-docker run --rm $(REPO)/lfs-$* make test | tee build-logs/$*-test.log
 
 tarballs/%.tar.gz: %.ok
+	$(info Installing/gzipping $* stage because of: $?)
 	docker run --rm -v fakeroot:$(DEST) $(REPO)/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
 	docker run --rm -v fakeroot:$(DEST) -w $(DEST) alpine:3.16 \
