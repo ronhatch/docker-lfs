@@ -83,9 +83,9 @@ INSTALL
 FROM prebuild AS pre-headers
 ADD tarballs/pre-binutils1.tar.gz /
 ADD tarballs/pre-gcc1.tar.gz /
-ADD sources/linux-6.0.11.tar.xz $LFS_SRC
-# https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
-WORKDIR $LFS_SRC/linux-6.0.11
+ADD sources/linux-6.1.6.tar.xz $LFS_SRC
+# https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.1.6.tar.xz
+WORKDIR $LFS_SRC/linux-6.1.6
 RUN <<CMD_LIST
     make mrproper
     make headers
