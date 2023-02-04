@@ -11,6 +11,9 @@ vpath %.log    build-logs
 vpath %.ok     status
 vpath %.tar.gz tarballs
 
+test_pkgs := pre-perl pre-python
+test_logs := $(patsubst %, build-logs/%-test.log, $(test_pkgs))
+
 prebuild_pkgs := pre-binutils1 pre-gcc1 pre-headers pre-glibc \
     pre-libstdc pre-m4 pre-ncurses pre-bash \
     pre-coreutils pre-diffutils pre-file pre-findutils \
@@ -65,5 +68,5 @@ tarballs:
 .PHONY: clean test
 clean:
 	rm status/*.ok tarballs/*.tar.gz
-test: build-logs/perl-test.log build-logs/python-test.log
+test: $(test_logs)
 
