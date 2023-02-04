@@ -215,7 +215,7 @@ RUN <<CMD_LIST
 CMD_LIST
 RUN cat <<-INSTALL > ../pre-bash-install.sh
 	make DESTDIR=$DEST install
-	ln -sv bash $DEST/bin/sh
+	ln -sv bash $DEST/usr/bin/sh
 INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
