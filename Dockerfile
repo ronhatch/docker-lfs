@@ -123,20 +123,22 @@ CMD_LIST
 RUN cat <<-INSTALL > ../../pre-glibc-install.sh
 	make DESTDIR=$DEST install
 	sed '/RTLDLIST=/s@/usr@@g' -i $DEST/usr/bin/ldd
-	$DEST/tools/libexec/gcc/$LFS_TGT/12.2.0/install-tools/mkheaders
 INSTALL
 
-# --- 1st Bundle: Used to reduce clutter for later stages ---
+# --- 1st Bundle: Mainly used to reduce clutter for later stages ---
+#     We finish the Glibc install instructions here, since it modifies
+#     the GCC install and must be done in-place.
 #     Also used for the compile chain sanity check from chapter 5.5.
 FROM prebuild AS bundle1
 ADD tarballs/pre-binutils1.tar.gz /
 ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
-RUN cat <<-TEST > /root/sanity-check.sh
-	echo 'int main(){}' | $LFS_TGT-gcc -xc -
-	readelf -l a.out | grep ld-linux
-TEST
+RUN <<CMD_LIST
+	$LFS/tools/libexec/gcc/$LFS_TGT/12.2.0/install-tools/mkheaders
+	echo "echo 'int main(){}' | $LFS_TGT-gcc -xc -" > /root/sanity-check.sh
+	echo "readelf -l a.out | grep ld-linux" >> /root/sanity-check.sh
+CMD_LIST
 
 # --- Libstdc++: Chapter 5.6 ---
 FROM bundle1 AS pre-libstdc
