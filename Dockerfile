@@ -92,6 +92,7 @@ RUN <<CMD_LIST
     find usr/include -type f ! -name '*.h' -delete
 CMD_LIST
 RUN cat <<-INSTALL > ../pre-headers-install.sh
+	mkdir -pv $DEST/usr
 	cp -rv usr/include $DEST/usr
 INSTALL
 
