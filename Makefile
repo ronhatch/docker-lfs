@@ -1,10 +1,10 @@
 # NOTE: This isn't going to work under Windows CMD.
 # TODO: Fix the entire piping to a log file issue.
-SHELL = /bin/bash
-.SHELLFLAGS = -o pipefail -c
+SHELL := /bin/bash
+.SHELLFLAGS := -o pipefail -c
 
-DEST = /install
-REPO = ronhatch
+DEST := /install
+REPO := ronhatch
 WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine:3.16 wget
 
 vpath %.log    build-logs
