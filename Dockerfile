@@ -71,19 +71,18 @@ RUN <<CMD_LIST
         --disable-libstdcxx --enable-languages=c,c++
     make
 CMD_LIST
-# TODO: Figure out $LFS/tools vs. $DEST and correct install options.
-#   Current solution is an ugly temporary hack.
 RUN cat <<-INSTALL > ../../pre-gcc1-install.sh
-	make install
+	make DESTDIR=$DEST install
 	cd ..
 	cat gcc/limitx.h gcc/glimits.h gcc/limity.h > \
-	    `dirname $($LFS_TGT-gcc -print-libgcc-file-name)`/install-tools/include/limits.h
-	cp -r $LFS/tools/* $DEST
+	    \`dirname \$($DEST$LFS/tools/bin/$LFS_TGT-gcc -print-libgcc-file-name) \
+	    \`/install-tools/include/limits.h
 INSTALL
 
 # --- Linux API headers: Chapter 5.4 ---
 FROM prebuild AS pre-headers
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD sources/linux-6.0.11.tar.xz $LFS_SRC
 # https://www.kernel.org/pub/linux/kernel/v6.x/linux-6.0.11.tar.xz
 WORKDIR $LFS_SRC/linux-6.0.11
@@ -98,7 +97,8 @@ INSTALL
 
 # --- Glibc: Chapter 5.5 ---
 FROM prebuild AS pre-glibc
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD sources/glibc-2.36.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/glibc/glibc-2.36.tar.xz
@@ -127,7 +127,8 @@ INSTALL
 
 # --- Libstdc++: Chapter 5.6 ---
 FROM prebuild AS pre-libstdc
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 #     The GCC source package is required for an earlier stage.
@@ -147,7 +148,8 @@ INSTALL
 
 # --- M4: Chapter 6.2 ---
 FROM prebuild AS pre-m4
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -165,7 +167,8 @@ INSTALL
 
 # --- Ncurses: Chapter 6.3 ---
 FROM prebuild AS pre-ncurses
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -196,7 +199,8 @@ INSTALL
 
 # --- Bash: Chapter 6.4 ---
 FROM prebuild AS pre-bash
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -217,7 +221,8 @@ INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
 FROM prebuild AS pre-coreutils
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -242,7 +247,8 @@ INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
 FROM prebuild AS pre-diffutils
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -263,7 +269,8 @@ INSTALL
 
 # --- File: Chapter 6.7 ---
 FROM prebuild AS pre-file
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -292,7 +299,8 @@ INSTALL
 
 # --- Findutils: Chapter 6.8 ---
 FROM prebuild AS pre-findutils
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -316,7 +324,8 @@ INSTALL
 
 # --- Gawk: Chapter 6.9 ---
 FROM prebuild AS pre-gawk
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -341,7 +350,8 @@ INSTALL
 
 # --- Grep: Chapter 6.10 ---
 FROM prebuild AS pre-grep
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -366,7 +376,8 @@ INSTALL
 
 # --- Gzip: Chapter 6.11 ---
 FROM prebuild AS pre-gzip
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -392,7 +403,8 @@ INSTALL
 
 # --- Make: Chapter 6.12 ---
 FROM prebuild AS pre-make
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -420,7 +432,8 @@ INSTALL
 
 # --- Patch: Chapter 6.13 ---
 FROM prebuild AS pre-patch
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -448,7 +461,8 @@ INSTALL
 
 # --- Sed: Chapter 6.14 ---
 FROM prebuild AS pre-sed
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -477,7 +491,8 @@ INSTALL
 
 # --- Tar: Chapter 6.15 ---
 FROM prebuild AS pre-tar
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -507,7 +522,8 @@ INSTALL
 
 # --- Xz: Chapter 6.16 ---
 FROM prebuild AS pre-xz
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -540,7 +556,8 @@ INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
 FROM prebuild AS pre-binutils2
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
@@ -580,7 +597,8 @@ INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
 FROM prebuild AS pre-gcc2
-ADD tarballs/pre-gcc1.tar.gz $LFS/tools
+ADD tarballs/pre-binutils1.tar.gz /
+ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 ADD tarballs/pre-libstdc.tar.gz $LFS
