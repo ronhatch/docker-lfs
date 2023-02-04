@@ -133,6 +133,14 @@ ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
 
+# --- Compile chain sanity check: End of chapter 5.5 ---
+#     Not needed for any later stages, so won't be built automatically by make.
+FROM bundle1 AS sanity
+RUN cat <<-TEST > /root/sanity-check.sh
+	echo 'int main(){}' | $LFS_TGT-gcc -xc -
+	readelf -l a.out | grep ld-linux
+TEST
+
 # --- Libstdc++: Chapter 5.6 ---
 FROM bundle1 AS pre-libstdc
 #     The GCC source package is required for an earlier stage.
