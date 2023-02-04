@@ -126,12 +126,15 @@ RUN cat <<-INSTALL > ../../pre-glibc-install.sh
 	$DEST/tools/libexec/gcc/$LFS_TGT/12.2.0/install-tools/mkheaders
 INSTALL
 
-# --- Libstdc++: Chapter 5.6 ---
-FROM prebuild AS pre-libstdc
+# --- 1st Bundle: Used to reduce clutter for later stages ---
+FROM prebuild AS bundle1
 ADD tarballs/pre-binutils1.tar.gz /
 ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
+
+# --- Libstdc++: Chapter 5.6 ---
+FROM bundle1 AS pre-libstdc
 #     The GCC source package is required for an earlier stage.
 ADD sources/gcc-12.2.0.tar.xz $LFS_SRC
 RUN mkdir -v $LFS_SRC/gcc-12.2.0/build
@@ -148,11 +151,7 @@ RUN cat <<-INSTALL > ../../pre-libstdc-install.sh
 INSTALL
 
 # --- M4: Chapter 6.2 ---
-FROM prebuild AS pre-m4
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
+FROM bundle1 AS pre-m4
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD sources/m4-1.4.19.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/m4/m4-1.4.19.tar.xz
@@ -167,11 +166,7 @@ RUN cat <<-INSTALL > ../pre-m4-install.sh
 INSTALL
 
 # --- Ncurses: Chapter 6.3 ---
-FROM prebuild AS pre-ncurses
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
+FROM bundle1 AS pre-ncurses
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD sources/ncurses-6.3.tar.gz $LFS_SRC
@@ -199,11 +194,7 @@ RUN cat <<-INSTALL > ../pre-ncurses-install.sh
 INSTALL
 
 # --- Bash: Chapter 6.4 ---
-FROM prebuild AS pre-bash
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
+FROM bundle1 AS pre-bash
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
@@ -221,11 +212,7 @@ RUN cat <<-INSTALL > ../pre-bash-install.sh
 INSTALL
 
 # --- Coreutils: Chapter 6.5 ---
-FROM prebuild AS pre-coreutils
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
+FROM bundle1 AS pre-coreutils
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
@@ -247,11 +234,7 @@ RUN cat <<-INSTALL > ../pre-coreutils-install.sh
 INSTALL
 
 # --- Diffutils: Chapter 6.6 ---
-FROM prebuild AS pre-diffutils
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
+FROM bundle1 AS pre-diffutils
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
@@ -268,18 +251,17 @@ RUN cat <<-INSTALL > ../pre-diffutils-install.sh
 	make DESTDIR=$DEST install
 INSTALL
 
-# --- File: Chapter 6.7 ---
-FROM prebuild AS pre-file
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
+# --- 2nd Bundle: Used to reduce clutter for later stages ---
+FROM bundle1 AS bundle2
 ADD tarballs/pre-libstdc.tar.gz $LFS
 ADD tarballs/pre-m4.tar.gz $LFS
 ADD tarballs/pre-ncurses.tar.gz $LFS
 ADD tarballs/pre-bash.tar.gz $LFS
 ADD tarballs/pre-coreutils.tar.gz $LFS
 ADD tarballs/pre-diffutils.tar.gz $LFS
+
+# --- File: Chapter 6.7 ---
+FROM bundle2 AS pre-file
 ADD sources/file-5.42.tar.gz $LFS_SRC
 # https://astron.com/pub/file/file-5.42.tar.gz
 WORKDIR $LFS_SRC/file-5.42
@@ -299,17 +281,7 @@ RUN cat <<-INSTALL > ../pre-file-install.sh
 INSTALL
 
 # --- Findutils: Chapter 6.8 ---
-FROM prebuild AS pre-findutils
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
+FROM bundle2 AS pre-findutils
 ADD tarballs/pre-file.tar.gz $LFS
 ADD sources/findutils-4.9.0.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/findutils/findutils-4.9.0.tar.xz
@@ -324,17 +296,7 @@ RUN cat <<-INSTALL > ../pre-findutils-install.sh
 INSTALL
 
 # --- Gawk: Chapter 6.9 ---
-FROM prebuild AS pre-gawk
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
+FROM bundle2 AS pre-gawk
 ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD sources/gawk-5.1.1.tar.xz $LFS_SRC
@@ -350,17 +312,7 @@ RUN cat <<-INSTALL > ../pre-gawk-install.sh
 INSTALL
 
 # --- Grep: Chapter 6.10 ---
-FROM prebuild AS pre-grep
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
+FROM bundle2 AS pre-grep
 ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
@@ -376,17 +328,7 @@ RUN cat <<-INSTALL > ../pre-grep-install.sh
 INSTALL
 
 # --- Gzip: Chapter 6.11 ---
-FROM prebuild AS pre-gzip
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
+FROM bundle2 AS pre-gzip
 ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
@@ -403,17 +345,7 @@ RUN cat <<-INSTALL > ../pre-gzip-install.sh
 INSTALL
 
 # --- Make: Chapter 6.12 ---
-FROM prebuild AS pre-make
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
+FROM bundle2 AS pre-make
 ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
@@ -431,24 +363,17 @@ RUN cat <<-INSTALL > ../pre-make-install.sh
 	make DESTDIR=$DEST install
 INSTALL
 
-# --- Patch: Chapter 6.13 ---
-FROM prebuild AS pre-patch
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
+# --- 3rd Bundle: Used to reduce clutter for later stages ---
+FROM bundle2 AS bundle3
 ADD tarballs/pre-file.tar.gz $LFS
 ADD tarballs/pre-findutils.tar.gz $LFS
 ADD tarballs/pre-gawk.tar.gz $LFS
 ADD tarballs/pre-grep.tar.gz $LFS
 ADD tarballs/pre-gzip.tar.gz $LFS
 ADD tarballs/pre-make.tar.gz $LFS
+
+# --- Patch: Chapter 6.13 ---
+FROM bundle3 AS pre-patch
 ADD sources/patch-2.7.6.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/patch/patch-2.7.6.tar.xz
 WORKDIR $LFS_SRC/patch-2.7.6
@@ -461,23 +386,7 @@ RUN cat <<-INSTALL > ../pre-patch-install.sh
 INSTALL
 
 # --- Sed: Chapter 6.14 ---
-FROM prebuild AS pre-sed
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
-ADD tarballs/pre-file.tar.gz $LFS
-ADD tarballs/pre-findutils.tar.gz $LFS
-ADD tarballs/pre-gawk.tar.gz $LFS
-ADD tarballs/pre-grep.tar.gz $LFS
-ADD tarballs/pre-gzip.tar.gz $LFS
-ADD tarballs/pre-make.tar.gz $LFS
+FROM bundle3 AS pre-sed
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD sources/sed-4.8.tar.xz $LFS_SRC
 # https://ftp.gnu.org/gnu/sed/sed-4.8.tar.xz
@@ -491,23 +400,7 @@ RUN cat <<-INSTALL > ../pre-sed-install.sh
 INSTALL
 
 # --- Tar: Chapter 6.15 ---
-FROM prebuild AS pre-tar
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
-ADD tarballs/pre-file.tar.gz $LFS
-ADD tarballs/pre-findutils.tar.gz $LFS
-ADD tarballs/pre-gawk.tar.gz $LFS
-ADD tarballs/pre-grep.tar.gz $LFS
-ADD tarballs/pre-gzip.tar.gz $LFS
-ADD tarballs/pre-make.tar.gz $LFS
+FROM bundle3 AS pre-tar
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD sources/tar-1.34.tar.xz $LFS_SRC
@@ -522,23 +415,7 @@ RUN cat <<-INSTALL > ../pre-tar-install.sh
 INSTALL
 
 # --- Xz: Chapter 6.16 ---
-FROM prebuild AS pre-xz
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
-ADD tarballs/pre-file.tar.gz $LFS
-ADD tarballs/pre-findutils.tar.gz $LFS
-ADD tarballs/pre-gawk.tar.gz $LFS
-ADD tarballs/pre-grep.tar.gz $LFS
-ADD tarballs/pre-gzip.tar.gz $LFS
-ADD tarballs/pre-make.tar.gz $LFS
+FROM bundle3 AS pre-xz
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
@@ -556,23 +433,7 @@ RUN cat <<-INSTALL > ../pre-xz-install.sh
 INSTALL
 
 # --- Binutils 2nd pass: Chapter 6.17 ---
-FROM prebuild AS pre-binutils2
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
-ADD tarballs/pre-file.tar.gz $LFS
-ADD tarballs/pre-findutils.tar.gz $LFS
-ADD tarballs/pre-gawk.tar.gz $LFS
-ADD tarballs/pre-grep.tar.gz $LFS
-ADD tarballs/pre-gzip.tar.gz $LFS
-ADD tarballs/pre-make.tar.gz $LFS
+FROM bundle3 AS pre-binutils2
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
@@ -597,23 +458,7 @@ RUN cat <<-INSTALL > ../../pre-binutils2-install.sh
 INSTALL
 
 # --- GCC 2nd pass: Chapter 6.18 ---
-FROM prebuild AS pre-gcc2
-ADD tarballs/pre-binutils1.tar.gz /
-ADD tarballs/pre-gcc1.tar.gz /
-ADD tarballs/pre-headers.tar.gz $LFS
-ADD tarballs/pre-glibc.tar.gz $LFS
-ADD tarballs/pre-libstdc.tar.gz $LFS
-ADD tarballs/pre-m4.tar.gz $LFS
-ADD tarballs/pre-ncurses.tar.gz $LFS
-ADD tarballs/pre-bash.tar.gz $LFS
-ADD tarballs/pre-coreutils.tar.gz $LFS
-ADD tarballs/pre-diffutils.tar.gz $LFS
-ADD tarballs/pre-file.tar.gz $LFS
-ADD tarballs/pre-findutils.tar.gz $LFS
-ADD tarballs/pre-gawk.tar.gz $LFS
-ADD tarballs/pre-grep.tar.gz $LFS
-ADD tarballs/pre-gzip.tar.gz $LFS
-ADD tarballs/pre-make.tar.gz $LFS
+FROM bundle3 AS pre-gcc2
 ADD tarballs/pre-patch.tar.gz $LFS
 ADD tarballs/pre-sed.tar.gz $LFS
 ADD tarballs/pre-tar.tar.gz $LFS
