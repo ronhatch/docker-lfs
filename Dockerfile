@@ -127,15 +127,12 @@ RUN cat <<-INSTALL > ../../pre-glibc-install.sh
 INSTALL
 
 # --- 1st Bundle: Used to reduce clutter for later stages ---
+#     Also used for the compile chain sanity check from chapter 5.5.
 FROM prebuild AS bundle1
 ADD tarballs/pre-binutils1.tar.gz /
 ADD tarballs/pre-gcc1.tar.gz /
 ADD tarballs/pre-headers.tar.gz $LFS
 ADD tarballs/pre-glibc.tar.gz $LFS
-
-# --- Compile chain sanity check: End of chapter 5.5 ---
-#     Not needed for any later stages, so won't be built automatically by make.
-FROM bundle1 AS sanity
 RUN cat <<-TEST > /root/sanity-check.sh
 	echo 'int main(){}' | $LFS_TGT-gcc -xc -
 	readelf -l a.out | grep ld-linux
