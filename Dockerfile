@@ -684,6 +684,7 @@ ENV PS1='(LFS builder) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin
 CMD ["/bin/bash", "+h", "-c"]
 
+# --- Man-pages: Chapter 8.3 ---
 FROM builder AS man-pages
 ADD sources/man-pages-5.13.tar.xz $LFS_SRC
 # https://www.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
