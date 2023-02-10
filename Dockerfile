@@ -693,3 +693,13 @@ RUN cat <<-INSTALL > ../man-pages-install.sh
 	make prefix=$DEST/usr install
 INSTALL
 
+# --- Iana-etc: Chapter 8.4 ---
+FROM builder AS iana-etc
+ADD sources/iana-etc-20220812.tar.gz $LFS_SRC
+# https://github.com/Mic92/iana-etc/releases/download/20220812/iana-etc-20220812.tar.gz
+WORKDIR $LFS_SRC/iana-etc-20220812
+RUN cat <<-INSTALL > ../iana-etc-install.sh
+	mkdir -pv $DEST/etc
+	cp services protocols $DEST/etc
+INSTALL
+

@@ -29,7 +29,7 @@ prebuild_img_paths := $(addprefix status/, $(prebuild_imgs))
 prebuild_tarballs := $(addsuffix .tar.gz, $(prebuild_pkgs))
 prebuild_gz_paths := $(addprefix tarballs/, $(prebuild_tarballs))
 
-main_pkgs := man-pages
+main_pkgs := man-pages iana-etc
 main_imgs := $(addsuffix .ok, $(main_pkgs))
 main_img_paths := $(addprefix status/, $(main_imgs))
 main_tarballs := $(addsuffix .tar.gz, $(main_pkgs))
