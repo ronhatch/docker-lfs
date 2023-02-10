@@ -91,6 +91,6 @@ tarballs:
 
 .PHONY: clean test
 clean:
-	rm status/*.ok tarballs/*.tar.gz
+	-rm -f build-logs/*.log md5sums/*.txt packages/*.tar.gz status/*.ok tarballs/*.tar.gz
 test: $(test_logs)
 
