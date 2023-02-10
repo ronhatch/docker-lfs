@@ -29,16 +29,23 @@ prebuild_img_paths := $(addprefix status/, $(prebuild_imgs))
 prebuild_tarballs := $(addsuffix .tar.gz, $(prebuild_pkgs))
 prebuild_gz_paths := $(addprefix tarballs/, $(prebuild_tarballs))
 
+main_pkgs := man-pages
+main_imgs := $(addsuffix .ok, $(main_pkgs))
+main_img_paths := $(addprefix status/, $(main_imgs))
+main_tarballs := $(addsuffix .tar.gz, $(main_pkgs))
+main_gz_paths := $(addprefix tarballs/, $(main_tarballs))
+
 other_stages := prebuild bundle1 bundle2 bundle3 \
     chroot cleanup builder
 other_imgs := $(addsuffix .ok, $(other_stages))
 other_img_paths := $(addprefix status/, $(other_imgs))
 
-all_img_paths := $(prebuild_img_paths) $(other_img_paths)
+all_img_paths := $(prebuild_img_paths) $(main_img_paths) $(other_img_paths)
+all_gz_paths := $(prebuild_gz_paths) $(main_gz_paths)
 
 $(all_img_paths): | build-logs status
-$(prebuild_gz_paths): | md5sums tarballs
-$(prebuild_gz_paths): tarballs/%.tar.gz: %.ok
+$(all_gz_paths): | md5sums tarballs
+$(all_gz_paths): tarballs/%.tar.gz: %.ok
 
 image-deps.make: Dockerfile scripts/deps.awk
 	gawk -f scripts/deps.awk Dockerfile > image-deps.make

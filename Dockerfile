@@ -678,6 +678,17 @@ CMD_LIST
 FROM scratch AS builder
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
 COPY --from=cleanup / /
+ENV DEST=/install
+ENV LFS_SRC=/sources
 ENV PS1='(LFS builder) \u:\w\$ '
 ENV PATH=/usr/sbin:/usr/bin
 CMD ["/bin/bash", "+h", "-c"]
+
+FROM builder AS man-pages
+ADD sources/man-pages-5.13.tar.xz $LFS_SRC
+# https://www.kernel.org/pub/linux/docs/man-pages/man-pages-5.13.tar.xz
+WORKDIR $LFS_SRC/man-pages-5.13
+RUN cat <<-INSTALL > ../man-pages-install.sh
+	make prefix=$DEST/usr install
+INSTALL
+
