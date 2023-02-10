@@ -10,9 +10,6 @@ WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine:3.16 wget
 test_pkgs := pre-perl pre-python
 test_logs := $(patsubst %, build-logs/%-test.log, $(test_pkgs))
 
-# Make sure this is our default target by listing it first...
-status/builder.ok:
-
 prebuild_pkgs := pre-binutils1 pre-gcc1 pre-headers pre-glibc \
     pre-libstdc pre-m4 pre-ncurses pre-bash \
     pre-coreutils pre-diffutils pre-file pre-findutils \
@@ -38,6 +35,9 @@ other_img_paths := $(addprefix status/, $(other_imgs))
 
 all_img_paths := $(prebuild_img_paths) $(main_img_paths) $(other_img_paths)
 all_gz_paths := $(prebuild_gz_paths) $(main_gz_paths)
+
+# Make sure this is our default target by listing it first...
+all: $(main_gz_paths)
 
 $(all_img_paths): | build-logs status
 $(prebuild_gz_paths): | md5sums tarballs
@@ -89,7 +89,7 @@ status:
 tarballs:
 	mkdir tarballs
 
-.PHONY: clean test
+.PHONY: all clean test
 clean:
 	-rm -f build-logs/*.log md5sums/*.txt packages/*.tar.gz status/*.ok tarballs/*.tar.gz
 test: $(test_logs)
