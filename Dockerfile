@@ -505,6 +505,7 @@ INSTALL
 # --- Chroot environment: Chapter 7, Sections 1-6 ---
 FROM scratch AS chroot
 LABEL maintainer="Ron Hatch <ronhatch@earthlink.net>"
+COPY --from=prebuild /lfs /
 ADD tarballs/pre-headers.tar.gz /
 ADD tarballs/pre-glibc.tar.gz /
 ADD tarballs/pre-libstdc.tar.gz /
