@@ -7,6 +7,9 @@ image-deps.make
 # Ignore tarball md5sums
 md5sums
 
+# Ignore built packages
+packages
+
 # Ignore docker image timestamp proxy files
 status
 
