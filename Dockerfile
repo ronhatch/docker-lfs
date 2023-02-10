@@ -121,6 +121,7 @@ RUN <<CMD_LIST
     make
 CMD_LIST
 RUN cat <<-INSTALL > ../../pre-glibc-install.sh
+	cp -a $LFS/lib64 $DEST
 	make DESTDIR=$DEST install
 	sed '/RTLDLIST=/s@/usr@@g' -i $DEST/usr/bin/ldd
 INSTALL
