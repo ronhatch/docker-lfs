@@ -7,10 +7,6 @@ DEST := /install
 REPO := ronhatch
 WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine:3.16 wget
 
-vpath %.log    build-logs
-vpath %.ok     status
-vpath %.tar.gz tarballs
-
 test_pkgs := pre-perl pre-python
 test_logs := $(patsubst %, build-logs/%-test.log, $(test_pkgs))
 
@@ -45,7 +41,7 @@ all_gz_paths := $(prebuild_gz_paths) $(main_gz_paths)
 
 $(all_img_paths): | build-logs status
 $(all_gz_paths): | md5sums tarballs
-$(all_gz_paths): tarballs/%.tar.gz: %.ok
+$(all_gz_paths): tarballs/%.tar.gz: status/%.ok
 
 image-deps.make: Dockerfile scripts/deps.awk
 	gawk -f scripts/deps.awk Dockerfile > image-deps.make
@@ -56,11 +52,11 @@ status/%.ok:
 	docker build --target=$* -t $(REPO)/lfs-$* . 2>&1 | tee build-logs/$*.log
 	touch $@
 
-build-logs/%-test.log: %.ok
+build-logs/%-test.log: status/%.ok
 	$(info Running tests for $* stage)
 	-docker run --rm $(REPO)/lfs-$* make test | tee build-logs/$*-test.log
 
-tarballs/%.tar.gz: %.ok
+tarballs/%.tar.gz: status/%.ok
 	$(info Installing/gzipping $* stage because of: $?)
 	docker run --rm -v fakeroot:$(DEST) $(REPO)/lfs-$* \
 	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
