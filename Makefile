@@ -14,6 +14,9 @@ vpath %.tar.gz tarballs
 test_pkgs := pre-perl pre-python
 test_logs := $(patsubst %, build-logs/%-test.log, $(test_pkgs))
 
+# Make sure this is our default target by listing it first...
+status/builder.ok:
+
 prebuild_pkgs := pre-binutils1 pre-gcc1 pre-headers pre-glibc \
     pre-libstdc pre-m4 pre-ncurses pre-bash \
     pre-coreutils pre-diffutils pre-file pre-findutils \
@@ -25,9 +28,6 @@ prebuild_imgs := $(addsuffix .ok, $(prebuild_pkgs))
 prebuild_img_paths := $(addprefix status/, $(prebuild_imgs))
 prebuild_tarballs := $(addsuffix .tar.gz, $(prebuild_pkgs))
 prebuild_gz_paths := $(addprefix tarballs/, $(prebuild_tarballs))
-
-# Make sure this is our default target by listing it first...
-status/builder.ok:
 
 $(prebuild_img_paths): | build-logs status
 $(prebuild_gz_paths): | md5sums tarballs
