@@ -29,7 +29,14 @@ prebuild_img_paths := $(addprefix status/, $(prebuild_imgs))
 prebuild_tarballs := $(addsuffix .tar.gz, $(prebuild_pkgs))
 prebuild_gz_paths := $(addprefix tarballs/, $(prebuild_tarballs))
 
-$(prebuild_img_paths): | build-logs status
+other_stages := prebuild bundle1 bundle2 bundle3 \
+    chroot cleanup builder
+other_imgs := $(addsuffix .ok, $(other_stages))
+other_img_paths := $(addprefix status/, $(other_imgs))
+
+all_img_paths := $(prebuild_img_paths) $(other_img_paths)
+
+$(all_img_paths): | build-logs status
 $(prebuild_gz_paths): | md5sums tarballs
 $(prebuild_gz_paths): tarballs/%.tar.gz: %.ok
 
