@@ -9,6 +9,9 @@ WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine:3.16 wget
 
 test_pkgs := pre-perl pre-python
 test_logs := $(patsubst %, build-logs/%-test.log, $(test_pkgs))
+check_pkgs := pre-gettext pre-bison pre-texinfo
+check_logs := $(patsubst %, build-logs/%-check.log, $(check_pkgs))
+all_tests := $(test_logs) $(check_logs)
 
 prebuild_pkgs := pre-binutils1 pre-gcc1 pre-headers pre-glibc \
     pre-libstdc pre-m4 pre-ncurses pre-bash \
@@ -54,6 +57,10 @@ status/%.ok:
 	docker build --target=$* -t $(REPO)/lfs-$* . 2>&1 | tee build-logs/$*.log
 	touch $@
 
+build-logs/%-check.log: status/%.ok
+	$(info Running checks for $* stage)
+	-docker run --rm $(REPO)/lfs-$* make check | tee build-logs/$*-check.log
+
 build-logs/%-test.log: status/%.ok
 	$(info Running tests for $* stage)
 	-docker run --rm $(REPO)/lfs-$* make test | tee build-logs/$*-test.log
@@ -89,8 +96,9 @@ status:
 tarballs:
 	mkdir tarballs
 
-.PHONY: all clean test
+.PHONY: all check clean test
+check: test
 clean:
 	-rm -f build-logs/*.log md5sums/*.txt packages/*.tar.gz status/*.ok tarballs/*.tar.gz
-test: $(test_logs)
+test: $(all_tests)
 
