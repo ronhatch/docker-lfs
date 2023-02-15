@@ -703,3 +703,33 @@ RUN cat <<-INSTALL > ../iana-etc-install.sh
 	cp services protocols $DEST/etc
 INSTALL
 
+# --- Glibc: Chapter 8.5 ---
+FROM builder AS glibc
+ADD packages/man-pages.tar.gz /
+ADD packages/iana-etc.tar.gz /
+ADD sources/glibc-2.36.tar.xz $LFS_SRC
+ADD sources/glibc-2.36-fhs-1.patch $LFS_SRC
+#     The Glibc source package and FHS patch are required for an earlier stage.
+ADD sources/glibc-2.36-security_fix-1.patch $LFS_SRC
+# https://linuxfromscratch.org/patches/downloads/glibc/glibc-2.36-security_fix-1.patch
+RUN <<CMD_LIST
+    cd $LFS_SRC/glibc-2.36
+    patch -Np1 -i ../glibc-2.36-fhs-1.patch
+    patch -Np1 -i ../glibc-2.36-security_fix-1.patch
+    mkdir -v build
+CMD_LIST
+WORKDIR $LFS_SRC/glibc-2.36/build
+ADD sources/tzdata2022c.tar.gz $LFS_SRC/glibc-2.36/build
+# https://www.iana.org/time-zones/repository/releases/tzdata2022c.tar.gz
+RUN <<CMD_LIST
+    echo "rootsbindir=/usr/sbin" > configparms
+    ../configure --prefix=/usr --disable-werror \
+        --enable-kernel=3.2 --enable-stack-protector=strong \
+        --with-headers=/usr/include libc_cv_slibdir=/usr/lib
+    make
+CMD_LIST
+# Because of the long list of localedef commands, this install script is
+#   loaded in from an external file instead of using the normal heredoc.
+COPY scripts/glibc-install.sh $LFS_SRC
+COPY scripts/nsswitch.conf $LFS_SRC
+

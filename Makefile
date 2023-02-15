@@ -9,7 +9,7 @@ WGET_SRC = docker run --rm -v $(CURDIR)/sources:/mnt -w /mnt alpine:3.16 wget
 
 test_pkgs := pre-perl pre-python
 test_logs := $(patsubst %, build-logs/%-test.log, $(test_pkgs))
-check_pkgs := pre-gettext pre-bison pre-texinfo
+check_pkgs := pre-gettext pre-bison pre-texinfo glibc
 check_logs := $(patsubst %, build-logs/%-check.log, $(check_pkgs))
 all_tests := $(test_logs) $(check_logs)
 
@@ -25,7 +25,7 @@ prebuild_img_paths := $(addprefix status/, $(prebuild_imgs))
 prebuild_tarballs := $(addsuffix .tar.gz, $(prebuild_pkgs))
 prebuild_gz_paths := $(addprefix tarballs/, $(prebuild_tarballs))
 
-main_pkgs := man-pages iana-etc
+main_pkgs := man-pages iana-etc glibc
 main_imgs := $(addsuffix .ok, $(main_pkgs))
 main_img_paths := $(addprefix status/, $(main_imgs))
 main_tarballs := $(addsuffix .tar.gz, $(main_pkgs))
