@@ -59,16 +59,16 @@ status/%.ok:
 
 build-logs/%-check.log: status/%.ok
 	$(info Running checks for $* stage)
-	-docker run --rm $(REPO)/lfs-$* make check | tee build-logs/$*-check.log
+	-docker run --rm $(REPO)/lfs-$* make check 2>&1 | tee build-logs/$*-check.log
 
 build-logs/%-test.log: status/%.ok
 	$(info Running tests for $* stage)
-	-docker run --rm $(REPO)/lfs-$* make test | tee build-logs/$*-test.log
+	-docker run --rm $(REPO)/lfs-$* make test 2>&1 | tee build-logs/$*-test.log
 
 packages/%.tar.gz: status/%.ok
 	$(info Installing/gzipping $* stage because of: $?)
 	docker run --rm -v fakeroot:$(DEST) $(REPO)/lfs-$* \
-	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
+	/bin/sh /sources/$*-install.sh 2>&1 | tee build-logs/$*-install.log
 	docker run --rm -v fakeroot:$(DEST) -w $(DEST) alpine:3.16 \
 	find -type f -exec md5sum '{}' \; > md5sums/$*.txt
 	docker run --rm -v fakeroot:$(DEST) -v $(CURDIR)/packages:/mnt -w $(DEST) alpine:3.16 \
@@ -78,7 +78,7 @@ packages/%.tar.gz: status/%.ok
 tarballs/%.tar.gz: status/%.ok
 	$(info Installing/gzipping $* stage because of: $?)
 	docker run --rm -v fakeroot:$(DEST) $(REPO)/lfs-$* \
-	/bin/sh /sources/$*-install.sh | tee build-logs/$*-install.log
+	/bin/sh /sources/$*-install.sh 2>&1 | tee build-logs/$*-install.log
 	docker run --rm -v fakeroot:$(DEST) -w $(DEST) alpine:3.16 \
 	find -type f -exec md5sum '{}' \; > md5sums/$*.txt
 	docker run --rm -v fakeroot:$(DEST) -v $(CURDIR)/tarballs:/mnt -w $(DEST) alpine:3.16 \
